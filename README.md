@@ -22,7 +22,7 @@ carp-parent 为 [carp](https://github.com/flowerfine/carp) 项目提供统一的
 
 ### 基于继承关系的Maven父依赖
 
-```shell
+```xml
 <parent>
     <groupId>cn.sliew</groupId>
     <artifactId>carp-spring-boot-parent</artifactId>
