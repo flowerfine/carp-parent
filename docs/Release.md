@@ -2,9 +2,10 @@
 
 发版规则：
 
-* 只对 main 和 `v*` 有效。一般只在 tag 的时候，才回携带 `v` 前缀，所以一般只对 main 和 tag 做发版
-* main 分支：一般只发布 SNPASHOT 版本
+* 只对 main 和 `v*` 有效。一般只在 tag 的时候，才会携带 `v` 前缀，所以只对 main 和 tag 做发版
+* main 分支：发布 SNPASHOT 版本
 * tag：从 main 分支 checkout 发版分支，修改发版分支版本为 RELEASE 版本，创建 tag，push tag 触发发版
+* 发版完成后，需及时更新 dev 分支至下个迭代版本
 
 ## 版本号
 
@@ -55,8 +56,8 @@ git push origin --tags
 
 在 github 的 `Settings` -> `Secrets and variables` -> `Actions` -> `Repository secrets` 添加 maven 发布密钥：
 
-* SONATYPE_USER。查看[sonatype](https://s01.oss.sonatype.org/#welcome) 登陆用户名，参考：[sonatype](https://issues.sonatype.org/secure/Signup!default.jspa)
-* SONATYPE_PASSWORD。查看[sonatype](https://s01.oss.sonatype.org/#welcome) 登陆密码，参考：[sonatype](https://issues.sonatype.org/secure/Signup!default.jspa)
+* SONATYPE_USER。查看 [sonatype](https://s01.oss.sonatype.org/#welcome) 登陆用户名，参考：[sonatype](https://issues.sonatype.org/secure/Signup!default.jspa)
+* SONATYPE_PASSWORD。查看 [sonatype](https://s01.oss.sonatype.org/#welcome) 登陆密码，参考：[sonatype](https://issues.sonatype.org/secure/Signup!default.jspa)
 * GPG_PASSWORD。gpg 密码。创建 gpg 时需设置用户名、密码和邮箱。
 * GPG_SECRET。使用 `gpg --list-secret-keys` 查看 gpg 私钥，在用 `gpg -a --export-secret-keys KEY_ID` 导出密钥，添加至 github。
 
