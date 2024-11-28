@@ -49,9 +49,9 @@
         <hutool.version>5.8.30</hutool.version>
         <commons.lang3.version>3.12.0</commons.lang3.version>
         <commons.beanutils.version>1.9.4</commons.beanutils.version>
-        <commons.text.version>1.9</commons.text.version>
-        <commons.compress.version>1.19</commons.compress.version>
-        <commons.io.version>2.11.0</commons.io.version>
+        <commons.text.version>1.10.0</commons.text.version>
+        <commons.compress.version>1.26.0</commons.compress.version>
+        <commons.io.version>2.14.0</commons.io.version>
         <guava.version>33.2.1-jre</guava.version>
         <milky.version>1.0.13</milky.version>
 
@@ -59,7 +59,7 @@
         <mybatis.plus.version>3.5.7</mybatis.plus.version>
         <velocity.engine.version>2.2</velocity.engine.version>
         <mysql.version>8.3.0</mysql.version>
-        <postgresql.version>42.3.3</postgresql.version>
+        <postgresql.version>42.3.9</postgresql.version>
         <h2.version>2.3.230</h2.version>
 
         <sa-token.version>1.38.0</sa-token.version>
