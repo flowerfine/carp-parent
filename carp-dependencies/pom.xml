@@ -66,6 +66,7 @@
         <knife4j.version>4.5.0</knife4j.version>
         <hadoop.version>3.3.4</hadoop.version>
         <pekko.version>1.1.2</pekko.version>
+        <pekko-persistence.version>1.1.0</pekko-persistence.version>
         <minio.version>8.3.8</minio.version>
         <redisson.version>3.27.2</redisson.version>
         <cola.version>4.3.2</cola.version>
@@ -333,7 +334,7 @@
             <dependency>
                 <groupId>org.apache.pekko</groupId>
                 <artifactId>pekko-persistence-jdbc_${scala.binary.version}</artifactId>
-                <version>${pekko.version}</version>
+                <version>${pekko-persistence.version}</version>
             </dependency>
 
             <dependency>
