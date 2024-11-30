@@ -41,10 +41,10 @@ jobs:
           server-username: OSSRH_USERNAME
           server-password: OSSRH_PASSWORD
           gpg-private-key: ${{ secrets.GPG_SECRET }}
-          gpg-passphrase: GPG_PASSWORD
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
       - name: Publish to Sonatype Nexus
-        run: ./mvnw -B -U -T 4C clean deploy -Dfast -DskipTests -Poss-release -Dgpg.passphrase=${{ secrets.GPG_PASSWORD }}
+        run: ./mvnw -B -U -T 4C clean deploy -Dfast -DskipTests -Poss-release
         env:
           OSSRH_USERNAME: ${{ secrets.SONATYPE_USER }}
           OSSRH_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSWORD }}
