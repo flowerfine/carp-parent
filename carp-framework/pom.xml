@@ -34,6 +34,8 @@
         <module>carp-framework-common</module>
         <module>carp-framework-dag</module>
         <module>carp-framework-exception</module>
+        <module>carp-framework-license</module>
+        <module>carp-framework-log</module>
         <module>carp-framework-mongo</module>
         <module>carp-framework-mybatis</module>
         <module>carp-framework-pekko</module>
@@ -41,7 +43,6 @@
         <module>carp-framework-spring</module>
         <module>carp-framework-task</module>
         <module>carp-framework-web</module>
-        <module>carp-framework-license</module>
     </modules>
 
     <dependencies>
