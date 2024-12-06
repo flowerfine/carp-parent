@@ -42,8 +42,8 @@
 
         <spring.cloud.version>2023.0.1</spring.cloud.version>
         <spring.boot.version>3.3.0</spring.boot.version>
-        <org.mapstruct.extensions.spring.version>0.1.1</org.mapstruct.extensions.spring.version>
-        <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+        <mapstruct-extensions-spring.version>0.1.1</mapstruct-extensions-spring.version>
+        <mapstruct.version>1.4.2.Final</mapstruct.version>
         <mapstruct.lombok.binding.version>0.2.0</mapstruct.lombok.binding.version>
         <lombok.version>1.18.32</lombok.version>
         <hutool.version>5.8.30</hutool.version>
@@ -201,12 +201,12 @@
             <dependency>
                 <groupId>org.mapstruct.extensions.spring</groupId>
                 <artifactId>mapstruct-spring-annotations</artifactId>
-                <version>${org.mapstruct.extensions.spring.version}</version>
+                <version>${mapstruct-extensions-spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct</artifactId>
-                <version>${org.mapstruct.version}</version>
+                <version>${mapstruct.version}</version>
             </dependency>
 
             <dependency>
