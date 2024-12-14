@@ -82,7 +82,7 @@
         <pf4j-spring.version>0.9.0</pf4j-spring.version>
         <kubernetes-client.version>6.9.2</kubernetes-client.version>
         <javers.version>7.6.1</javers.version>
-        <gravitino.version>0.5.1</gravitino.version>
+        <gravitino.version>0.7.0-incubating</gravitino.version>
         <easyexcel.version>3.3.2</easyexcel.version>
         <bkdevops.version>0.0.9</bkdevops.version>
         <asm.version>9.7</asm.version>
@@ -325,6 +325,11 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
                 <version>${druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.gravitino</groupId>
+                <artifactId>client-java-runtime</artifactId>
+                <version>${gravitino.version}</version>
             </dependency>
 
             <dependency>
