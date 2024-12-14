@@ -64,6 +64,8 @@
         <h2.version>2.3.230</h2.version>
         <clickhouse-jdbc.version>0.3.2</clickhouse-jdbc.version>
         <druid.version>1.2.24</druid.version>
+        <jooq.version>3.19.16</jooq.version>
+        <gravitino.version>0.7.0-incubating</gravitino.version>
 
         <sa-token.version>1.38.0</sa-token.version>
         <knife4j.version>4.5.0</knife4j.version>
@@ -82,7 +84,6 @@
         <pf4j-spring.version>0.9.0</pf4j-spring.version>
         <kubernetes-client.version>6.9.2</kubernetes-client.version>
         <javers.version>7.6.1</javers.version>
-        <gravitino.version>0.7.0-incubating</gravitino.version>
         <easyexcel.version>3.3.2</easyexcel.version>
         <bkdevops.version>0.0.9</bkdevops.version>
         <asm.version>9.7</asm.version>
@@ -325,6 +326,11 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
                 <version>${druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq</artifactId>
+                <version>${jooq.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.gravitino</groupId>
