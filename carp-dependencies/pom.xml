@@ -63,6 +63,7 @@
         <postgresql.version>42.3.9</postgresql.version>
         <h2.version>2.3.230</h2.version>
         <clickhouse-jdbc.version>0.3.2</clickhouse-jdbc.version>
+        <druid.version>1.2.24</druid.version>
 
         <sa-token.version>1.38.0</sa-token.version>
         <knife4j.version>4.5.0</knife4j.version>
@@ -320,7 +321,11 @@
                 <artifactId>clickhouse-jdbc</artifactId>
                 <version>${clickhouse-jdbc.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>cn.dev33</groupId>
