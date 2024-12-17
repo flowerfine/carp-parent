@@ -18,14 +18,13 @@
 package cn.sliew.carp.framework.common.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
-import javax.annotation.Nonnull;
 
 @Data
 public class IdParam {
 
     @Schema(description = "id")
-    @Nonnull
+    @NotNull
     private Long id;
 }

@@ -18,15 +18,15 @@
 package cn.sliew.carp.framework.common.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 @Data
 public class IdListParam {
 
     @Schema(description = "ids")
-    @Nonnull
+    @NotNull
     private List<Long> ids;
 }
