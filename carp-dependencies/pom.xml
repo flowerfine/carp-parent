@@ -57,7 +57,7 @@
         <milky.version>1.0.13</milky.version>
 
         <mybatis.spring.version>3.0.3</mybatis.spring.version>
-        <mybatis.plus.version>3.5.7</mybatis.plus.version>
+        <mybatis.plus.version>3.5.9</mybatis.plus.version>
         <velocity.engine.version>2.2</velocity.engine.version>
         <mysql.version>8.3.0</mysql.version>
         <postgresql.version>42.3.9</postgresql.version>
@@ -73,16 +73,17 @@
         <pekko.version>1.1.2</pekko.version>
         <pekko-persistence.version>1.1.0</pekko-persistence.version>
         <minio.version>8.3.8</minio.version>
+        <kubernetes-client.version>6.9.2</kubernetes-client.version>
         <redisson.version>3.27.2</redisson.version>
         <cola.version>4.3.2</cola.version>
         <jgrapht.version>1.5.2</jgrapht.version>
         <zjsonpatch.version>0.4.14</zjsonpatch.version>
         <semver.version>0.9.0</semver.version>
-        <auto-service.version>1.1.1</auto-service.version>
         <logbook.version>3.10.0</logbook.version>
+        <auto-service.version>1.1.1</auto-service.version>
         <pf4j.version>3.12.1</pf4j.version>
         <pf4j-spring.version>0.9.0</pf4j-spring.version>
-        <kubernetes-client.version>6.9.2</kubernetes-client.version>
+        <exp.version>1.0.6</exp.version>
         <javers.version>7.6.1</javers.version>
         <easyexcel.version>3.3.2</easyexcel.version>
         <bkdevops.version>0.0.9</bkdevops.version>
@@ -285,6 +286,11 @@
                         <artifactId>mybatis-spring</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-jsqlparser</artifactId>
+                <version>${mybatis.plus.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
@@ -494,6 +500,18 @@
                 <artifactId>pf4j-spring</artifactId>
                 <version>${pf4j.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.mqttsnet.thinglinks</groupId>
+                <artifactId>open-exp-adapter-springboot3-starter</artifactId>
+                <version>${exp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mqttsnet.thinglinks</groupId>
+                <artifactId>open-exp-plugin-depend</artifactId>
+                <version>${exp.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>io.fabric8</groupId>
