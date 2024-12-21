@@ -53,10 +53,9 @@
         <commons.compress.version>1.26.0</commons.compress.version>
         <commons.io.version>2.14.0</commons.io.version>
         <commons.cli.version>1.9.0</commons.cli.version>
-        <guava.version>33.2.1-jre</guava.version>
+        <guava.version>33.4.0-jre</guava.version>
         <milky.version>1.0.13</milky.version>
 
-        <mybatis.spring.version>3.0.3</mybatis.spring.version>
         <mybatis.plus.version>3.5.9</mybatis.plus.version>
         <velocity.engine.version>2.2</velocity.engine.version>
         <mysql.version>8.3.0</mysql.version>
@@ -270,22 +269,10 @@
                 <version>${milky.version}</version>
             </dependency>
 
-            <!-- mybatis-plus 依赖的 mybatis-spring 版本过低，与 springboot 3.2.0 版本不兼容 -->
-            <dependency>
-                <groupId>org.mybatis</groupId>
-                <artifactId>mybatis-spring</artifactId>
-                <version>${mybatis.spring.version}</version>
-            </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
                 <version>${mybatis.plus.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.mybatis</groupId>
-                        <artifactId>mybatis-spring</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
