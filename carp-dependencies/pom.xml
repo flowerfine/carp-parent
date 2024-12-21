@@ -490,7 +490,7 @@
 
             <dependency>
                 <groupId>com.mqttsnet.thinglinks</groupId>
-                <artifactId>open-exp-adapter-springboot3-starter</artifactId>
+                <artifactId>exp-plugin-manager-springboot-starter</artifactId>
                 <version>${exp.version}</version>
             </dependency>
             <dependency>
