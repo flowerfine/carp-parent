@@ -18,6 +18,7 @@
 package cn.sliew.carp.framework.web.interceptor;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import cn.sliew.carp.framework.common.security.CarpSecurityContext;
 import cn.sliew.carp.framework.common.security.OnlineUserInfo;
 import cn.sliew.carp.framework.log.model.LogRecord;
@@ -33,12 +34,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.mvc.condition.RequestConditionHolder;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping;
 import org.zalando.logbook.*;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -89,15 +92,32 @@ public class LogbookWebLogSink implements Sink {
             userInfo.setNickName(onlineUserInfo.getNickName());
         }
         record.setUser(userInfo);
+
+        HandlerMethod handlerMethod = null;
         RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
         if (Objects.nonNull(requestAttributes)) {
             if (requestAttributes instanceof ServletRequestAttributes) {
                 ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
                 HttpServletRequest httpServletRequest = servletRequestAttributes.getRequest();
+                Optional<Object> optional = Optional.ofNullable(httpServletRequest).map(object -> {
+                    try {
+                        RequestMappingInfoHandlerMapping handlerMapping = SpringUtil.getBean("requestMappingHandlerMapping", RequestMappingInfoHandlerMapping.class);
+                        return handlerMapping.getHandler(httpServletRequest);
+                    } catch (Exception e) {
+                        log.error(e.getMessage(), e);
+                        return null;
+                    }
+                }).map(chain -> chain.getHandler());
+                if (optional.isPresent()) {
+                    Object handler = optional.get();
+                    if (handler instanceof HandlerMethod) {
+                        handlerMethod = (HandlerMethod) handler;
+                    }
+                }
             }
         }
 
-        log.info("{}, {}", JacksonUtil.toJsonString(record), requestAttributes);
+        log.info("{}, {}, {}", JacksonUtil.toJsonString(record), requestAttributes, handlerMethod);
     }
 
 }
