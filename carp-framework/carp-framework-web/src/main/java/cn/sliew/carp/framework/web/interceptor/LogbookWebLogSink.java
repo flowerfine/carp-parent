@@ -94,11 +94,10 @@ public class LogbookWebLogSink implements Sink {
             if (requestAttributes instanceof ServletRequestAttributes) {
                 ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
                 HttpServletRequest httpServletRequest = servletRequestAttributes.getRequest();
-
             }
         }
 
-        log.info("{}", JacksonUtil.toJsonString(record));
+        log.info("{}, {}", JacksonUtil.toJsonString(record), requestAttributes);
     }
 
 }
