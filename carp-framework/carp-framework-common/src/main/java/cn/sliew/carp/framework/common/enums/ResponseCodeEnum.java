@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.framework.common.enums;
 
+import cn.hutool.http.HttpStatus;
 import lombok.Getter;
 
 @Getter
@@ -24,6 +25,7 @@ public enum ResponseCodeEnum {
 
     SUCCESS("204", "response.success"),
 
+    ERROR_BAD_REQUEST(String.valueOf(HttpStatus.HTTP_BAD_REQUEST), "Bad Request"),
     ERROR_NO_PRIVILEGE("403", "response.error.no.privilege"),
     ERROR_UNAUTHORIZED("401", "response.error.unauthorized"),
 

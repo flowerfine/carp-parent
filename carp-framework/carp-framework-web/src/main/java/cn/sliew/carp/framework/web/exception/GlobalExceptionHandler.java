@@ -23,6 +23,7 @@ import cn.sliew.carp.framework.web.exception.convertor.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.BadRequestException;
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,10 +54,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         REGISTRY.put(SliewException.class, new SliewExceptionConvertor());
 
         REGISTRY.put(ConversionFailedException.class, new ConversionFailedExceptionConvertor());
+        REGISTRY.put(BadRequestException.class, new BadRequestExceptionConvertor());
         REGISTRY.put(BindException.class, new BindExceptionConvertor());
     }
 
-    @ExceptionHandler(Throwable.class)
+    @ExceptionHandler({Throwable.class, Exception.class, SliewException.class, ConversionFailedException.class, BadRequestException.class, BindException.class})
     public ResponseEntity<ResponseVO> exception(Throwable exception,
                                                 HttpServletRequest request,
                                                 HttpServletResponse response) {
