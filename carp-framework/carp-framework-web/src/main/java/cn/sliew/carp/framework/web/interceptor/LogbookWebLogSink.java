@@ -18,18 +18,27 @@
 package cn.sliew.carp.framework.web.interceptor;
 
 import cn.hutool.core.date.DateUtil;
+import cn.sliew.carp.framework.common.security.CarpSecurityContext;
+import cn.sliew.carp.framework.common.security.OnlineUserInfo;
 import cn.sliew.carp.framework.log.model.LogRecord;
 import cn.sliew.carp.framework.log.model.LogRequest;
 import cn.sliew.carp.framework.log.model.LogResponse;
+import cn.sliew.carp.framework.log.model.UserInfo;
 import cn.sliew.carp.framework.log.service.CarpSystemLogActionService;
 import cn.sliew.milky.common.util.JacksonUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.mvc.condition.RequestConditionHolder;
 import org.zalando.logbook.*;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Objects;
 
 @Slf4j
 @Component
@@ -71,6 +80,24 @@ public class LogbookWebLogSink implements Sink {
         logResponse.setStatus(response.getStatus());
         logResponse.setBody(response.getBodyAsString());
         record.setResponse(logResponse);
+
+        UserInfo userInfo = new UserInfo();
+        OnlineUserInfo onlineUserInfo = CarpSecurityContext.get();
+        if (Objects.nonNull(onlineUserInfo)) {
+            userInfo.setUserId(onlineUserInfo.getUserId().toString());
+            userInfo.setUserName(onlineUserInfo.getUserName());
+            userInfo.setNickName(onlineUserInfo.getNickName());
+        }
+        record.setUser(userInfo);
+        RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
+        if (Objects.nonNull(requestAttributes)) {
+            if (requestAttributes instanceof ServletRequestAttributes) {
+                ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
+                HttpServletRequest httpServletRequest = servletRequestAttributes.getRequest();
+
+            }
+        }
+
         log.info("{}", JacksonUtil.toJsonString(record));
     }
 
