@@ -42,7 +42,9 @@ public class AsyncWebLogInterceptor implements AsyncHandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        threadState.set(Instant.now());
+        if (enableLog(request)) {
+            threadState.set(Instant.now());
+        }
         return true;
     }
 
@@ -64,26 +66,31 @@ public class AsyncWebLogInterceptor implements AsyncHandlerInterceptor {
         }
     }
 
+    private boolean enableLog(HttpServletRequest request) {
+        return !RequestParamUtil.ignorePath(request.getRequestURI()) && log.isDebugEnabled();
+    }
+
     private void logQuery(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        Duration duration = Duration.between(threadState.get(), Instant.now());
-        if (!RequestParamUtil.ignorePath(request.getRequestURI()) && log.isDebugEnabled()) {
-            String params = RequestParamUtil.formatRequestParams(request);
-            OnlineUserInfo onlineUserInfo = CarpSecurityContext.get();
-            String userName = "unknown";
-            if (Objects.nonNull(onlineUserInfo)) {
-                userName = onlineUserInfo.getUserName();
-            }
-            String module = "unknown";
-            String desc = "unknow";
-            if (Objects.nonNull(handler) && handler instanceof HandlerMethod) {
-                HandlerMethod handlerMethod = (HandlerMethod) handler;
-                Pair<String, String> pair = RequestParamUtil.findModuleAndDesc(handlerMethod);
-                module = pair.getLeft();
-                desc = pair.getRight();
-            }
-            log.debug("{} {} {} {} {} {} {}", userName, module, desc,
-                    DurationFormatUtils.formatDurationHMS(duration.toMillis()),
-                    request.getMethod(), request.getRequestURI(), params);
+        if (enableLog(request) == false) {
+            return;
         }
+        Duration duration = Duration.between(threadState.get(), Instant.now());
+        String params = RequestParamUtil.formatRequestParams(request);
+        OnlineUserInfo onlineUserInfo = CarpSecurityContext.get();
+        String userName = "unknown";
+        if (Objects.nonNull(onlineUserInfo)) {
+            userName = onlineUserInfo.getUserName();
+        }
+        String module = "unknown";
+        String desc = "unknow";
+        if (Objects.nonNull(handler) && handler instanceof HandlerMethod) {
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
+            Pair<String, String> pair = RequestParamUtil.findModuleAndDesc(handlerMethod);
+            module = pair.getLeft();
+            desc = pair.getRight();
+        }
+        log.debug("{} {} {} {} {} {} {}", userName, module, desc,
+                DurationFormatUtils.formatDurationHMS(duration.toMillis()),
+                request.getMethod(), request.getRequestURI(), params);
     }
 }
