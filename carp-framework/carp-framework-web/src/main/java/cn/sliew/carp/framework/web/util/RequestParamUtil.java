@@ -17,13 +17,23 @@
  */
 package cn.sliew.carp.framework.web.util;
 
+import cn.hutool.extra.spring.SpringUtil;
+import cn.sliew.carp.framework.log.annotation.WebLog;
+import cn.sliew.carp.framework.log.enums.LogEntity;
 import cn.sliew.milky.common.util.JacksonUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.WebUtils;
 
@@ -33,15 +43,10 @@ import java.net.URISyntaxException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Component
+@Slf4j
 public class RequestParamUtil {
 
     private static String contextPath;
-
-    public RequestParamUtil(@Value("${server.servlet.context-path}") String contextPath) {
-        RequestParamUtil.contextPath = contextPath;
-        RequestParamUtil.IGNORE_PATH = getIgnorePaths();
-    }
 
     private static final String IGNORE_CONTENT_TYPE = "multipart/form-data";
     private static List<String> DEFAULT_IGNORE_PATH = Arrays.asList(
@@ -127,7 +132,7 @@ public class RequestParamUtil {
     }
 
     public static boolean ignorePath(String uri) {
-        return IGNORE_PATH.stream()
+        return getIgnorePaths().stream()
                 .filter(pattern -> ANT_PATH_MATCHER.match(pattern, uri))
                 .findAny()
                 .isPresent();
@@ -138,13 +143,83 @@ public class RequestParamUtil {
     }
 
     public static List<String> getIgnorePaths() {
-        if (CollectionUtils.isEmpty(IGNORE_PATH) && StringUtils.hasText(contextPath)) {
-            IGNORE_PATH = getDefaultIgnorePaths().stream().map(path -> "/" + contextPath + path).collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(IGNORE_PATH) && StringUtils.hasText(getContextPath())) {
+            IGNORE_PATH = getDefaultIgnorePaths().stream().map(path -> "/" + getContextPath() + path).collect(Collectors.toList());
         }
         return IGNORE_PATH;
     }
 
     public static List<String> getDefaultIgnorePaths() {
         return DEFAULT_IGNORE_PATH;
+    }
+
+    public static String getContextPath() {
+        if (StringUtils.hasText(contextPath)) {
+            return contextPath;
+        }
+        contextPath = SpringUtil.getProperty("server.servlet.context-path");
+        return contextPath;
+    }
+
+    public static HandlerMethod getHandlerMethod() {
+        RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
+        if (Objects.nonNull(requestAttributes)) {
+            if (requestAttributes instanceof ServletRequestAttributes) {
+                ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
+                HttpServletRequest httpServletRequest = servletRequestAttributes.getRequest();
+                Optional<Object> optional = Optional.ofNullable(httpServletRequest).map(object -> {
+                    try {
+                        RequestMappingInfoHandlerMapping handlerMapping = SpringUtil.getBean("requestMappingHandlerMapping", RequestMappingInfoHandlerMapping.class);
+                        return handlerMapping.getHandler(httpServletRequest);
+                    } catch (Exception e) {
+                        log.error(e.getMessage(), e);
+                        return null;
+                    }
+                }).map(chain -> chain.getHandler());
+                if (optional.isPresent()) {
+                    Object handler = optional.get();
+                    if (handler instanceof HandlerMethod) {
+                        return (HandlerMethod) handler;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public static Set<LogEntity> findLogEntry(HandlerMethod handlerMethod) {
+        WebLog methodWebLog = handlerMethod.getMethodAnnotation(WebLog.class);
+        WebLog classWebLog = handlerMethod.getBeanType().getDeclaredAnnotation(WebLog.class);
+        return LogEntity.getIncludes(methodWebLog, classWebLog);
+    }
+
+    public static Pair<String, String> findModuleAndDesc(HandlerMethod handlerMethod) {
+        WebLog methodWebLog = handlerMethod.getMethodAnnotation(WebLog.class);
+        WebLog classWebLog = handlerMethod.getBeanType().getDeclaredAnnotation(WebLog.class);
+        String module = null;
+        String desc = null;
+        if (Objects.nonNull(methodWebLog)) {
+            module = methodWebLog.module();
+            desc = methodWebLog.desc();
+        }
+        if (Objects.nonNull(classWebLog)) {
+            if (StringUtils.hasText(module) == false) {
+                module = classWebLog.module();
+            }
+            if (StringUtils.hasText(desc) == false) {
+                desc = classWebLog.desc();
+            }
+        }
+
+        // 使用 swagger 注解补偿
+        if (StringUtils.hasText(module) == false) {
+            Tag tag = handlerMethod.getBeanType().getDeclaredAnnotation(Tag.class);
+            module = tag.name();
+        }
+        if (StringUtils.hasText(desc) == false) {
+            Operation operation = handlerMethod.getMethodAnnotation(Operation.class);
+            desc = StringUtils.hasText(operation.summary()) ? operation.summary() : operation.description();
+        }
+        return Pair.of(module, desc);
     }
 }

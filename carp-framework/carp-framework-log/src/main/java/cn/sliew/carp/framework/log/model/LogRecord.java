@@ -19,12 +19,13 @@ package cn.sliew.carp.framework.log.model;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
 public class LogRecord {
 
+    private String module;
+    private String desc;
     private UserInfo user;
     private LogRequest request;
     private LogResponse response;

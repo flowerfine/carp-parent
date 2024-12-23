@@ -19,13 +19,13 @@ package cn.sliew.carp.framework.web.interceptor;
 
 import cn.sliew.carp.framework.common.security.CarpSecurityContext;
 import cn.sliew.carp.framework.common.security.OnlineUserInfo;
-import cn.sliew.carp.framework.log.annotation.WebLog;
 import cn.sliew.carp.framework.web.util.RequestParamUtil;
 import com.alibaba.ttl.TransmittableThreadLocal;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.util.ContentCachingResponseWrapper;
@@ -66,7 +66,7 @@ public class AsyncWebLogInterceptor implements AsyncHandlerInterceptor {
 
     private void logQuery(HttpServletRequest request, HttpServletResponse response, Object handler) {
         Duration duration = Duration.between(threadState.get(), Instant.now());
-        if (!RequestParamUtil.ignorePath(request.getRequestURI()) && log.isInfoEnabled()) {
+        if (!RequestParamUtil.ignorePath(request.getRequestURI()) && log.isDebugEnabled()) {
             String params = RequestParamUtil.formatRequestParams(request);
             OnlineUserInfo onlineUserInfo = CarpSecurityContext.get();
             String userName = "unknown";
@@ -77,14 +77,11 @@ public class AsyncWebLogInterceptor implements AsyncHandlerInterceptor {
             String desc = "unknow";
             if (Objects.nonNull(handler) && handler instanceof HandlerMethod) {
                 HandlerMethod handlerMethod = (HandlerMethod) handler;
-                WebLog webLog = handlerMethod.getMethodAnnotation(WebLog.class);
-                if (Objects.nonNull(webLog)) {
-                    module = webLog.module();
-                    desc = webLog.desc();
-                }
-                // todo WebLog 不存在，获取 swagger 的注解信息
+                Pair<String, String> pair = RequestParamUtil.findModuleAndDesc(handlerMethod);
+                module = pair.getLeft();
+                desc = pair.getRight();
             }
-            log.info("{} {} {} {} {} {} {}", userName, module, desc,
+            log.debug("{} {} {} {} {} {} {}", userName, module, desc,
                     DurationFormatUtils.formatDurationHMS(duration.toMillis()),
                     request.getMethod(), request.getRequestURI(), params);
         }

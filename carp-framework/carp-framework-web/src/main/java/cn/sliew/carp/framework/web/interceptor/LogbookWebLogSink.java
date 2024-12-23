@@ -18,30 +18,28 @@
 package cn.sliew.carp.framework.web.interceptor;
 
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.extra.spring.SpringUtil;
 import cn.sliew.carp.framework.common.security.CarpSecurityContext;
 import cn.sliew.carp.framework.common.security.OnlineUserInfo;
+import cn.sliew.carp.framework.log.enums.LogEntity;
 import cn.sliew.carp.framework.log.model.LogRecord;
 import cn.sliew.carp.framework.log.model.LogRequest;
 import cn.sliew.carp.framework.log.model.LogResponse;
 import cn.sliew.carp.framework.log.model.UserInfo;
 import cn.sliew.carp.framework.log.service.CarpSystemLogActionService;
+import cn.sliew.carp.framework.web.util.RequestParamUtil;
 import cn.sliew.milky.common.util.JacksonUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping;
 import org.zalando.logbook.*;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.Objects;
-import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @Component
@@ -65,24 +63,19 @@ public class LogbookWebLogSink implements Sink {
     }
 
     public void printLog(final Correlation correlation, final HttpRequest request, final HttpResponse response) throws IOException {
+        HandlerMethod handlerMethod = RequestParamUtil.getHandlerMethod();
+        if (Objects.isNull(handlerMethod)) {
+            return;
+        }
+
         LogRecord record = new LogRecord();
+        Pair<String, String> pair = RequestParamUtil.findModuleAndDesc(handlerMethod);
+        record.setModule(pair.getLeft());
+        record.setDesc(pair.getRight());
+
         record.setStartTime(Date.from(correlation.getStart()));
         record.setEndTime(Date.from(correlation.getEnd()));
         record.setDuration(DateUtil.betweenMs(record.getStartTime(), record.getEndTime()));
-
-        LogRequest logRequest = new LogRequest();
-        logRequest.setMethod(request.getMethod());
-        logRequest.setPath(request.getPath());
-        logRequest.setParam(request.getQuery());
-        logRequest.setBody(request.getBodyAsString());
-        logRequest.setHeaders(request.getHeaders());
-        logRequest.setIp(request.getHost());
-        record.setRequest(logRequest);
-
-        LogResponse logResponse = new LogResponse();
-        logResponse.setStatus(response.getStatus());
-        logResponse.setBody(response.getBodyAsString());
-        record.setResponse(logResponse);
 
         UserInfo userInfo = new UserInfo();
         OnlineUserInfo onlineUserInfo = CarpSecurityContext.get();
@@ -93,31 +86,32 @@ public class LogbookWebLogSink implements Sink {
         }
         record.setUser(userInfo);
 
-        HandlerMethod handlerMethod = null;
-        RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
-        if (Objects.nonNull(requestAttributes)) {
-            if (requestAttributes instanceof ServletRequestAttributes) {
-                ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
-                HttpServletRequest httpServletRequest = servletRequestAttributes.getRequest();
-                Optional<Object> optional = Optional.ofNullable(httpServletRequest).map(object -> {
-                    try {
-                        RequestMappingInfoHandlerMapping handlerMapping = SpringUtil.getBean("requestMappingHandlerMapping", RequestMappingInfoHandlerMapping.class);
-                        return handlerMapping.getHandler(httpServletRequest);
-                    } catch (Exception e) {
-                        log.error(e.getMessage(), e);
-                        return null;
-                    }
-                }).map(chain -> chain.getHandler());
-                if (optional.isPresent()) {
-                    Object handler = optional.get();
-                    if (handler instanceof HandlerMethod) {
-                        handlerMethod = (HandlerMethod) handler;
-                    }
-                }
+        LogRequest logRequest = new LogRequest();
+        record.setRequest(logRequest);
+        logRequest.setMethod(request.getMethod());
+        logRequest.setPath(request.getPath());
+        logRequest.setIp(request.getHost());
+
+        LogResponse logResponse = new LogResponse();
+        record.setResponse(logResponse);
+        logResponse.setStatus(response.getStatus());
+        Set<LogEntity> logEntities = RequestParamUtil.findLogEntry(handlerMethod);
+        if (CollectionUtils.isEmpty(logEntities) == false) {
+            if (logEntities.contains(LogEntity.HTTP_REQUEST_HEADERS)) {
+                logRequest.setHeaders(request.getHeaders());
+            }
+            if (logEntities.contains(LogEntity.HTTP_RESPONSE_BODY)) {
+                logRequest.setBody(request.getBodyAsString());
+            }
+            if (logEntities.contains(LogEntity.HTTP_REQUEST_PARAM)) {
+                logRequest.setParam(request.getQuery());
+            }
+            if (logEntities.contains(LogEntity.HTTP_RESPONSE_BODY)) {
+                logResponse.setBody(response.getBodyAsString());
             }
         }
 
-        log.info("{}, {}, {}", JacksonUtil.toJsonString(record), requestAttributes, handlerMethod);
+        log.info("{}", JacksonUtil.toJsonString(record));
     }
 
 }
