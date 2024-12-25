@@ -214,11 +214,13 @@ public class RequestParamUtil {
         // 使用 swagger 注解补偿
         if (StringUtils.hasText(module) == false) {
             Tag tag = handlerMethod.getBeanType().getDeclaredAnnotation(Tag.class);
-            module = tag.name();
+            module = Optional.ofNullable(tag).map(Tag::name).orElse(null);
         }
         if (StringUtils.hasText(desc) == false) {
             Operation operation = handlerMethod.getMethodAnnotation(Operation.class);
-            desc = StringUtils.hasText(operation.summary()) ? operation.summary() : operation.description();
+            if (Objects.nonNull(operation)) {
+                desc = StringUtils.hasText(operation.summary()) ? operation.summary() : operation.description();
+            }
         }
         return Pair.of(module, desc);
     }
