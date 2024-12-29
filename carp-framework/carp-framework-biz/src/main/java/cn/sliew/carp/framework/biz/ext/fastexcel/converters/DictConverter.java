@@ -31,7 +31,7 @@ import java.util.Optional;
 
 public class DictConverter implements Converter<DictInstance> {
 
-    private DictRegistry dictRegistry = EnumDictRegistry.INSTANCE;
+    private DictRegistry dictRegistry = CarpEnumDictRegistry.INSTANCE;
 
     @Override
     public Class<?> supportJavaTypeKey() {

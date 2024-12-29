@@ -18,7 +18,7 @@
 package cn.sliew.carp.framework.license;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
-import cn.sliew.carp.framework.common.dict.license.LicenseType;
+import cn.sliew.carp.framework.common.dict.license.CarpLicenseType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -30,7 +30,7 @@ public class CarpLicenseAutoConfiguration {
     @Bean
     public CarpLicense carpLicense() {
         CarpLicense license = new CarpLicense();
-        license.setType(LicenseType.TRIAL);
+        license.setType(CarpLicenseType.TRIAL);
         license.setExpireTime(LocalDateTimeUtil.offset(LocalDateTimeUtil.now(), 1, ChronoUnit.DAYS));
         return license;
     }

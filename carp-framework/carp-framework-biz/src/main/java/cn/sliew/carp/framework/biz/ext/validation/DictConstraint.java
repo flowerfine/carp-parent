@@ -18,7 +18,7 @@
 package cn.sliew.carp.framework.biz.ext.validation;
 
 import cn.sliew.carp.framework.common.dict.DictDefinition;
-import cn.sliew.carp.framework.common.dict.EnumDictRegistry;
+import cn.sliew.carp.framework.common.dict.CarpEnumDictRegistry;
 import jakarta.validation.Constraint;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -58,12 +58,12 @@ public @interface DictConstraint {
                 return false;
             }
 
-            Optional<DictDefinition> optional = EnumDictRegistry.INSTANCE.getDictDefinition(constraint.dict());
+            Optional<DictDefinition> optional = CarpEnumDictRegistry.INSTANCE.getDictDefinition(constraint.dict());
             if (optional.isEmpty()) {
                 context.buildConstraintViolationWithTemplate("[Dict] is invalid").addConstraintViolation();
                 return false;
             }
-            if (EnumDictRegistry.INSTANCE.exists(optional.get(), value) == false) {
+            if (CarpEnumDictRegistry.INSTANCE.exists(optional.get(), value) == false) {
                 context.buildConstraintViolationWithTemplate("[Dict Instance] is invalid").addConstraintViolation();
                 return false;
             }

@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.framework.task;
 
-import cn.sliew.carp.framework.common.dict.task.TaskStatus;
+import cn.sliew.carp.framework.common.dict.task.CarpTaskStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,7 +31,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class TaskResult {
 
-    private TaskStatus status;
+    private CarpTaskStatus status;
     private String message;
 
     private Map<String, Object> outputs;

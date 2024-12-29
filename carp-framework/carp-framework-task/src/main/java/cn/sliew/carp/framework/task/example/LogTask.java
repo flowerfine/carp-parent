@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.framework.task.example;
 
-import cn.sliew.carp.framework.common.dict.task.TaskStatus;
+import cn.sliew.carp.framework.common.dict.task.CarpTaskStatus;
 import cn.sliew.carp.framework.task.Task;
 import cn.sliew.carp.framework.task.TaskContext;
 import cn.sliew.carp.framework.task.TaskException;
@@ -43,7 +43,7 @@ public class LogTask implements Task {
     @Override
     public TaskResult cancel() throws TaskException {
         return TaskResult.builder()
-                .status(TaskStatus.FAILURE)
+                .status(CarpTaskStatus.FAILURE)
                 .message("canceld")
                 .build();
     }
@@ -51,7 +51,7 @@ public class LogTask implements Task {
     @Override
     public TaskResult onTimeout() throws TaskException {
         return TaskResult.builder()
-                .status(TaskStatus.FAILURE)
+                .status(CarpTaskStatus.FAILURE)
                 .message("timeout")
                 .build();
     }

@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.framework.license;
 
-import cn.sliew.carp.framework.common.dict.license.LicenseType;
+import cn.sliew.carp.framework.common.dict.license.CarpLicenseType;
 import lombok.Data;
 
 import java.time.Duration;
@@ -27,7 +27,7 @@ import java.util.Objects;
 @Data
 public class CarpLicense {
 
-    private LicenseType type;
+    private CarpLicenseType type;
     private LocalDateTime expireTime;
 
     public boolean isValid() {
@@ -38,11 +38,11 @@ public class CarpLicense {
     }
 
     public boolean isPro() {
-        return isValid() && (type == LicenseType.PRO || type == LicenseType.ENTERPRISE);
+        return isValid() && (type == CarpLicenseType.PRO || type == CarpLicenseType.ENTERPRISE);
     }
 
     public boolean isEnterprise() {
-        return isValid() && type == LicenseType.ENTERPRISE;
+        return isValid() && type == CarpLicenseType.ENTERPRISE;
     }
 
 }
