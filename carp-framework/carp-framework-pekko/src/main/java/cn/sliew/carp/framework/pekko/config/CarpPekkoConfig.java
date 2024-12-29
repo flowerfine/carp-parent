@@ -44,8 +44,8 @@ public class CarpPekkoConfig {
         }, actorSystem.executionContext());
 
         // 启用 spring 创建 classic actor
-        org.apache.pekko.actor.ActorSystem classicActorSystem = Adapter.toClassic(actorSystem);
-        CarpPekkoSpringExtension.SPRING_EXTENSION_PROVIDER.get(classicActorSystem).initialize(applicationContext);
+//        org.apache.pekko.actor.ActorSystem classicActorSystem = Adapter.toClassic(actorSystem);
+        CarpPekkoSpringExtension.SPRING_EXTENSION_PROVIDER.get(actorSystem).initialize(applicationContext);
 
         // https://github.com/apache/pekko-persistence-jdbc/blob/main/core/src/main/resources/schema/mysql/mysql-create-schema.sql
 //        CompletionStage<Done> createPersistenceSchemaFuture = SchemaUtils.createIfNotExists(actorSystem);

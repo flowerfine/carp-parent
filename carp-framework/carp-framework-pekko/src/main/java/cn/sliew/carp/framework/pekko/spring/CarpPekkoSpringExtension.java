@@ -31,7 +31,7 @@ public class CarpPekkoSpringExtension
 
     @Override
     public SpringExt createExtension(ExtendedActorSystem system) {
-        return null;
+        return new SpringExt();
     }
 
     public static class SpringExt implements Extension {
