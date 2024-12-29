@@ -20,6 +20,7 @@ package cn.sliew.carp.framework.pekko.config;
 import cn.sliew.carp.framework.pekko.spring.CarpPekkoSpringExtension;
 import org.apache.pekko.actor.typed.ActorSystem;
 import org.apache.pekko.actor.typed.SpawnProtocol;
+import org.apache.pekko.actor.typed.javadsl.Adapter;
 import org.apache.pekko.actor.typed.javadsl.Behaviors;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -43,7 +44,8 @@ public class CarpPekkoConfig {
         }, actorSystem.executionContext());
 
         // 启用 spring 创建 classic actor
-        CarpPekkoSpringExtension.SPRING_EXTENSION_PROVIDER.get(actorSystem).initialize(applicationContext);
+        org.apache.pekko.actor.ActorSystem classicActorSystem = Adapter.toClassic(actorSystem);
+        CarpPekkoSpringExtension.SPRING_EXTENSION_PROVIDER.get(classicActorSystem).initialize(applicationContext);
 
         // https://github.com/apache/pekko-persistence-jdbc/blob/main/core/src/main/resources/schema/mysql/mysql-create-schema.sql
 //        CompletionStage<Done> createPersistenceSchemaFuture = SchemaUtils.createIfNotExists(actorSystem);
