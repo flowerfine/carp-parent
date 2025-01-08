@@ -39,6 +39,11 @@ public class MetricsThreadPoolExecutor extends ThreadPoolTaskExecutor {
 
     private List<Tag> tags;
 
+    public MetricsThreadPoolExecutor(MeterRegistry meterRegistry, List<Tag> tags) {
+        this.meterRegistry = meterRegistry;
+        this.tags = tags;
+    }
+
     @Override
     public void initialize() {
         super.initialize();

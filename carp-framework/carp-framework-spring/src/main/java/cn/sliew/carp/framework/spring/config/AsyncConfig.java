@@ -17,11 +17,42 @@
  */
 package cn.sliew.carp.framework.spring.config;
 
+import cn.sliew.carp.framework.spring.concurrent.MetricsThreadPoolExecutor;
+import cn.sliew.carp.framework.spring.event.DelegatingApplicationEventMulticaster;
+import io.micrometer.core.instrument.MeterRegistry;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.ApplicationEventMulticaster;
+import org.springframework.context.event.SimpleApplicationEventMulticaster;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
+import java.util.Collections;
 
 @Configuration
 public class AsyncConfig implements AsyncConfigurer {
 
+    private static final String NAME = "carpApplicationEventTaskExecutor";
 
+    @Bean(name = NAME)
+    public ThreadPoolTaskExecutor carpApplicationEventTaskExecutor(MeterRegistry registry) {
+        ThreadPoolTaskExecutor threadPool = new MetricsThreadPoolExecutor(registry, Collections.emptyList());
+        threadPool.setThreadNamePrefix("spring-events-async-thread-");
+        int processors = Runtime.getRuntime().availableProcessors();
+        threadPool.setCorePoolSize(processors);
+        threadPool.setMaxPoolSize(processors * 3);
+        return threadPool;
+    }
+
+    @Bean
+    public ApplicationEventMulticaster applicationEventMulticaster(
+            @Qualifier(NAME) ThreadPoolTaskExecutor taskExecutor) {
+        // TODO rz - Add error handlers
+        SimpleApplicationEventMulticaster async = new SimpleApplicationEventMulticaster();
+        async.setTaskExecutor(taskExecutor);
+        SimpleApplicationEventMulticaster sync = new SimpleApplicationEventMulticaster();
+
+        return new DelegatingApplicationEventMulticaster(sync, async);
+    }
 }
