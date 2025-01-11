@@ -25,6 +25,7 @@ import cn.sliew.carp.framework.log.service.convert.CarpSystemLogActionConvert;
 import cn.sliew.carp.framework.log.service.dto.CarpSystemLogActionDTO;
 import cn.sliew.carp.framework.log.service.param.CarpSystemLogActionPageParam;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
+import cn.sliew.carp.framework.mybatis.util.PageUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -40,7 +41,7 @@ public class CarpSystemLogActionServiceImpl extends ServiceImpl<CarpSystemLogAct
 
     @Override
     public PageResult<CarpSystemLogActionDTO> page(CarpSystemLogActionPageParam param) {
-        Page<CarpSystemLogAction> page = new Page<>(param.getCurrent(), param.getPageSize());
+        Page<CarpSystemLogAction> page = PageUtil.buildPageParam(param);
         LambdaQueryWrapper<CarpSystemLogAction> queryChainWrapper = Wrappers.lambdaQuery(CarpSystemLogAction.class)
                 .gt(CarpSystemLogAction::getStartTime, param.getStartTime())
                 .eq(StringUtils.hasText(param.getModule()), CarpSystemLogAction::getModule, param.getModule())
