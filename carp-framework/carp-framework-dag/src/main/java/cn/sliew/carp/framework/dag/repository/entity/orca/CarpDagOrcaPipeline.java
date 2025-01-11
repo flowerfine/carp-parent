@@ -36,6 +36,12 @@ public class CarpDagOrcaPipeline extends BaseAuditDO {
     @TableField("namespace")
     private String namespace;
 
+    @TableField("`type`")
+    private String type;
+
+    @TableField("config_id")
+    private String configId;
+
     @TableField("`name`")
     private String name;
 

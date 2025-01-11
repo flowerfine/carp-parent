@@ -59,6 +59,8 @@ public class CarpDagOrcaPipelineServiceImpl implements CarpDagOrcaPipelineServic
         Page<CarpDagOrcaPipeline> page = PageUtil.buildPageParam(param);
         LambdaQueryWrapper<CarpDagOrcaPipeline> queryChainWrapper = Wrappers.lambdaQuery(CarpDagOrcaPipeline.class)
                 .eq(CarpDagOrcaPipeline::getNamespace, param.getNamespace())
+                .eq(StringUtils.hasText(param.getType()), CarpDagOrcaPipeline::getType, param.getType())
+                .eq(StringUtils.hasText(param.getConfigId()), CarpDagOrcaPipeline::getConfigId, param.getConfigId())
                 .like(StringUtils.hasText(param.getName()), CarpDagOrcaPipeline::getName, param.getName())
                 .eq(StringUtils.hasText(param.getStatus()), CarpDagOrcaPipeline::getStatus, param.getStatus());
 
@@ -72,6 +74,8 @@ public class CarpDagOrcaPipelineServiceImpl implements CarpDagOrcaPipelineServic
     public List<CarpDagOrcaPipelineDTO> listAll(CarpDagOrcaPipelinePageParam param) {
         LambdaQueryWrapper<CarpDagOrcaPipeline> queryChainWrapper = Wrappers.lambdaQuery(CarpDagOrcaPipeline.class)
                 .eq(CarpDagOrcaPipeline::getNamespace, param.getNamespace())
+                .eq(StringUtils.hasText(param.getType()), CarpDagOrcaPipeline::getType, param.getType())
+                .eq(StringUtils.hasText(param.getConfigId()), CarpDagOrcaPipeline::getConfigId, param.getConfigId())
                 .like(StringUtils.hasText(param.getName()), CarpDagOrcaPipeline::getName, param.getName())
                 .eq(StringUtils.hasText(param.getStatus()), CarpDagOrcaPipeline::getStatus, param.getStatus());
 

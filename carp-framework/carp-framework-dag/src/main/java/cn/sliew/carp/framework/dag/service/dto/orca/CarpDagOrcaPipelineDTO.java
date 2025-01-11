@@ -37,6 +37,12 @@ public class CarpDagOrcaPipelineDTO extends BaseDTO {
     @Schema(description = "namespace")
     private String namespace;
 
+    @Schema(description = "type")
+    private String type;
+
+    @Schema(description = "pipeline config id. only for pipeline")
+    private String configId;
+
     @Schema(description = "name")
     private String name;
 

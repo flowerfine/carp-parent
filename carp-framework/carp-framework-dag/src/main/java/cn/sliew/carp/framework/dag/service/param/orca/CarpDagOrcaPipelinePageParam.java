@@ -29,6 +29,12 @@ public class CarpDagOrcaPipelinePageParam extends PageParam {
     @Schema(description = "namespace")
     private String namespace;
 
+    @Schema(description = "type")
+    private String type;
+
+    @Schema(description = "pipeline config id")
+    private String configId;
+
     @Schema(description = "name")
     private String name;
 

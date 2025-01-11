@@ -31,6 +31,13 @@ public class CarpDagOrcaPipelineAddParam {
     private String namespace;
 
     @NotBlank
+    @Schema(description = "type")
+    private String type;
+
+    @Schema(description = "pipeline config id. only for pipeline")
+    private String configId;
+
+    @NotBlank
     @Schema(description = "name")
     private String name;
 

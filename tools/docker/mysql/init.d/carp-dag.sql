@@ -396,6 +396,8 @@ create table `carp_dag_orca_pipeline`
 (
     `id`          bigint       not null auto_increment comment '自增主键',
     `namespace`   varchar(255) not null,
+    `type`        varchar(32)  not null comment 'pipeline or orchestration.',
+    `config_id`   varchar(32) comment 'config id. only for pipeline',
     `name`        varchar(255) not null,
     `status`      enum('NOT_STARTED','BUFFERED','RUNNING','PAUSED','SUSPENDED','SUCCEEDED','FAILED_CONTINUE','TERMINAL','CANCELED','REDIRECT','STOPPED','SKIPPED') not null default 'NOT_STARTED',
     `build_time`  bigint       not null,
