@@ -20,6 +20,7 @@ on:
   push:
     paths-ignore: ['docs/**', '**/*.md']
     tags-ignore: ['*']
+    branches: ['*']
   pull_request:
     paths-ignore: [ 'docs/**', '**/*.md']
   schedule:
