@@ -41,6 +41,8 @@ public interface CarpDagOrcaPipelineService {
 
     boolean deleteBatch(Collection<Long> ids);
 
+    CarpDagOrcaPipelineStageDTO getStage(Long stageId);
+
     Long addStage(CarpDagOrcaPipelineStageAddParam dto);
 
     boolean updateStage(CarpDagOrcaPipelineStageUpdateParam dto);

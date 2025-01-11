@@ -24,7 +24,9 @@ import cn.sliew.carp.framework.dag.repository.mapper.orca.CarpDagOrcaPipelineMap
 import cn.sliew.carp.framework.dag.repository.mapper.orca.CarpDagOrcaPipelineStageMapper;
 import cn.sliew.carp.framework.dag.service.CarpDagOrcaPipelineService;
 import cn.sliew.carp.framework.dag.service.convert.orca.CarpDagOrcaPipelineConvert;
+import cn.sliew.carp.framework.dag.service.convert.orca.CarpDagOrcaPipelineStageConvert;
 import cn.sliew.carp.framework.dag.service.dto.orca.CarpDagOrcaPipelineDTO;
+import cn.sliew.carp.framework.dag.service.dto.orca.CarpDagOrcaPipelineStageDTO;
 import cn.sliew.carp.framework.dag.service.param.orca.*;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.framework.mybatis.util.PageUtil;
@@ -122,6 +124,13 @@ public class CarpDagOrcaPipelineServiceImpl implements CarpDagOrcaPipelineServic
         carpDagOrcaPipelineMapper.deleteByIds(ids);
         deleteStageByPipelines(ids);
         return true;
+    }
+
+    @Override
+    public CarpDagOrcaPipelineStageDTO getStage(Long stageId) {
+        CarpDagOrcaPipelineStage entity = carpDagOrcaPipelineStageMapper.selectById(stageId);
+        checkNotNull(entity, "carp dag orca pipeline stage not exists for id: " + stageId);
+        return CarpDagOrcaPipelineStageConvert.INSTANCE.toDto(entity);
     }
 
     @Override
