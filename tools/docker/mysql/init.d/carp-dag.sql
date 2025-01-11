@@ -395,6 +395,7 @@ drop table if exists `carp_dag_orca_pipeline`;
 create table `carp_dag_orca_pipeline`
 (
     `id`          bigint       not null auto_increment comment '自增主键',
+    `uuid`        varchar(32)  not null,
     `namespace`   varchar(255) not null,
     `type`        varchar(32)  not null comment 'pipeline or orchestration.',
     `config_id`   varchar(32) comment 'config id. only for pipeline',
@@ -411,20 +412,23 @@ create table `carp_dag_orca_pipeline`
     `editor`      varchar(32) comment 'editor',
     `update_time` datetime     not null default current_timestamp on update current_timestamp comment 'update time',
     primary key (`id`),
+    unique key `uniq_uuid` (`uuid`),
     key           `idx_namespace` (`namespace`)
 ) engine = innodb comment 'dag orca pipeline';
 
 drop table if exists `carp_dag_orca_pipeline_stage`;
 create table `carp_dag_orca_pipeline_stage`
 (
-    `id`          bigint   not null auto_increment comment '自增主键',
-    `pipeline_id` bigint   not null,
+    `id`          bigint      not null auto_increment comment '自增主键',
+    `uuid`        varchar(32) not null,
+    `pipeline_id` bigint      not null,
     `status`      enum('NOT_STARTED','BUFFERED','RUNNING','PAUSED','SUSPENDED','SUCCEEDED','FAILED_CONTINUE','TERMINAL','CANCELED','REDIRECT','STOPPED','SKIPPED') not null default 'NOT_STARTED',
-    `body`        longtext not null,
+    `body`        longtext    not null,
     `creator`     varchar(32) comment 'creator',
-    `create_time` datetime not null default current_timestamp comment 'create time',
+    `create_time` datetime    not null default current_timestamp comment 'create time',
     `editor`      varchar(32) comment 'editor',
-    `update_time` datetime not null default current_timestamp on update current_timestamp comment 'update time',
+    `update_time` datetime    not null default current_timestamp on update current_timestamp comment 'update time',
     primary key (`id`),
+    unique key `uniq_uuid` (`uuid`),
     KEY           `idx_status` (`pipeline_id`,`status`)
 ) engine = innodb comment 'dag orca pipeline stage';

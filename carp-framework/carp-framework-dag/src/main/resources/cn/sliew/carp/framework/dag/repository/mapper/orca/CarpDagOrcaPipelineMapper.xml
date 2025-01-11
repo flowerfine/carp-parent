@@ -25,6 +25,7 @@
         <result column="create_time" property="createTime"/>
         <result column="editor" property="editor"/>
         <result column="update_time" property="updateTime"/>
+        <result column="uuid" property="uuid"/>
         <result column="namespace" property="namespace"/>
         <result column="type" property="type"/>
         <result column="config_id" property="configId"/>
@@ -50,6 +51,6 @@
         create_time,
         editor,
         update_time,
-        namespace, `type`, config_id, `name`, `status`, build_time, start_time, end_time, canceled, body, remark
+        uuid, namespace, `type`, config_id, `name`, `status`, build_time, start_time, end_time, canceled, body, remark
     </sql>
 </mapper>

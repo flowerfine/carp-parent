@@ -33,6 +33,9 @@ public class CarpDagOrcaPipeline extends BaseAuditDO {
 
     private static final long serialVersionUID = 1L;
 
+    @TableField("uuid")
+    private String uuid;
+
     @TableField("namespace")
     private String namespace;
 

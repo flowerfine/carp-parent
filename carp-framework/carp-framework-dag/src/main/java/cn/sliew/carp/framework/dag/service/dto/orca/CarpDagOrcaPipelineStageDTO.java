@@ -31,6 +31,9 @@ public class CarpDagOrcaPipelineStageDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1L;
 
+    @Schema(description = "uuid")
+    private String uuid;
+
     @Schema(description = "pipeline_id")
     private Long pipelineId;
 

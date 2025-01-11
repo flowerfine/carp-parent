@@ -27,6 +27,10 @@ import lombok.Data;
 public class CarpDagOrcaPipelineAddParam {
 
     @NotBlank
+    @Schema(description = "uuid")
+    private String uuid;
+
+    @NotBlank
     @Schema(description = "namespace")
     private String namespace;
 

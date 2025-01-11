@@ -26,6 +26,10 @@ import lombok.Data;
 @Data
 public class CarpDagOrcaPipelineStageAddParam {
 
+    @NotBlank
+    @Schema(description = "uuid")
+    private String uuid;
+
     @NotNull
     @Schema(description = "pipeline_id")
     private Long pipelineId;

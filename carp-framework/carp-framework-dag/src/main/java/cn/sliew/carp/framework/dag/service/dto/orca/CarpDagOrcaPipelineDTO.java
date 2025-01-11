@@ -18,6 +18,7 @@
 package cn.sliew.carp.framework.dag.service.dto.orca;
 
 import cn.sliew.carp.framework.common.model.BaseDTO;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -33,6 +34,9 @@ import java.util.List;
 public class CarpDagOrcaPipelineDTO extends BaseDTO {
 
     private static final long serialVersionUID = 1L;
+
+    @Schema(description = "uuid")
+    private String uuid;
 
     @Schema(description = "namespace")
     private String namespace;

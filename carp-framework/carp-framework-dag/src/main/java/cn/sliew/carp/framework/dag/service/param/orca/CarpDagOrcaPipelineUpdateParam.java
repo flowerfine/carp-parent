@@ -31,6 +31,10 @@ public class CarpDagOrcaPipelineUpdateParam {
     private Long id;
 
     @NotBlank
+    @Schema(description = "uuid")
+    private String uuid;
+
+    @NotBlank
     @Schema(description = "namespace")
     private String namespace;
 
