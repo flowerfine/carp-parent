@@ -93,9 +93,9 @@ public class CarpDagOrcaPipelineServiceImpl implements CarpDagOrcaPipelineServic
     }
 
     @Override
-    public Long add(CarpDagOrcaPipelineAddParam dto) {
+    public Long add(CarpDagOrcaPipelineAddParam param) {
         CarpDagOrcaPipeline entity = new CarpDagOrcaPipeline();
-        BeanUtils.copyProperties(dto, entity);
+        BeanUtils.copyProperties(param, entity);
         entity.setStatus("NOT_STARTED");
         entity.setBuildTime(System.currentTimeMillis());
         entity.setCanceled(false);
@@ -104,9 +104,9 @@ public class CarpDagOrcaPipelineServiceImpl implements CarpDagOrcaPipelineServic
     }
 
     @Override
-    public boolean update(CarpDagOrcaPipelineUpdateParam dto) {
+    public boolean update(CarpDagOrcaPipelineUpdateParam param) {
         CarpDagOrcaPipeline entity = new CarpDagOrcaPipeline();
-        BeanUtils.copyProperties(dto, entity);
+        BeanUtils.copyProperties(param, entity);
         return SqlHelper.retBool(carpDagOrcaPipelineMapper.updateById(entity));
     }
 
@@ -134,17 +134,17 @@ public class CarpDagOrcaPipelineServiceImpl implements CarpDagOrcaPipelineServic
     }
 
     @Override
-    public Long addStage(CarpDagOrcaPipelineStageAddParam dto) {
+    public Long addStage(CarpDagOrcaPipelineStageAddParam param) {
         CarpDagOrcaPipelineStage entity = new CarpDagOrcaPipelineStage();
-        BeanUtils.copyProperties(dto, entity);
+        BeanUtils.copyProperties(param, entity);
         carpDagOrcaPipelineStageMapper.insert(entity);
         return entity.getId();
     }
 
     @Override
-    public boolean updateStage(CarpDagOrcaPipelineStageUpdateParam dto) {
+    public boolean updateStage(CarpDagOrcaPipelineStageUpdateParam param) {
         CarpDagOrcaPipelineStage entity = new CarpDagOrcaPipelineStage();
-        BeanUtils.copyProperties(dto, entity);
+        BeanUtils.copyProperties(param, entity);
         return SqlHelper.retBool(carpDagOrcaPipelineStageMapper.updateById(entity));
     }
 

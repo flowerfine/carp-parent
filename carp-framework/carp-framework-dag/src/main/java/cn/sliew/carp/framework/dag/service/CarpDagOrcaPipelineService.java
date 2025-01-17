@@ -33,9 +33,9 @@ public interface CarpDagOrcaPipelineService {
 
     CarpDagOrcaPipelineDTO get(Long id);
 
-    Long add(CarpDagOrcaPipelineAddParam dto);
+    Long add(CarpDagOrcaPipelineAddParam param);
 
-    boolean update(CarpDagOrcaPipelineUpdateParam dto);
+    boolean update(CarpDagOrcaPipelineUpdateParam param);
 
     boolean delete(Long id);
 
@@ -43,9 +43,9 @@ public interface CarpDagOrcaPipelineService {
 
     CarpDagOrcaPipelineStageDTO getStage(Long stageId);
 
-    Long addStage(CarpDagOrcaPipelineStageAddParam dto);
+    Long addStage(CarpDagOrcaPipelineStageAddParam param);
 
-    boolean updateStage(CarpDagOrcaPipelineStageUpdateParam dto);
+    boolean updateStage(CarpDagOrcaPipelineStageUpdateParam param);
 
     boolean deleteStage(Long stageId);
 
