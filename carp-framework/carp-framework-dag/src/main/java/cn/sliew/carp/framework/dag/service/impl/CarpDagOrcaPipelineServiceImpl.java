@@ -44,6 +44,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -96,6 +97,9 @@ public class CarpDagOrcaPipelineServiceImpl implements CarpDagOrcaPipelineServic
     public Long add(CarpDagOrcaPipelineAddParam param) {
         CarpDagOrcaPipeline entity = new CarpDagOrcaPipeline();
         BeanUtils.copyProperties(param, entity);
+        if (Objects.nonNull(param.getBody())) {
+            entity.setBody(param.getBody().toString());
+        }
         entity.setStatus("NOT_STARTED");
         entity.setBuildTime(System.currentTimeMillis());
         entity.setCanceled(false);
@@ -107,6 +111,9 @@ public class CarpDagOrcaPipelineServiceImpl implements CarpDagOrcaPipelineServic
     public boolean update(CarpDagOrcaPipelineUpdateParam param) {
         CarpDagOrcaPipeline entity = new CarpDagOrcaPipeline();
         BeanUtils.copyProperties(param, entity);
+        if (Objects.nonNull(param.getBody())) {
+            entity.setBody(param.getBody().toString());
+        }
         return SqlHelper.retBool(carpDagOrcaPipelineMapper.updateById(entity));
     }
 
