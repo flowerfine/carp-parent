@@ -37,6 +37,9 @@ public class DagStepDTO extends BaseDTO {
     @Schema(description = "instance id")
     private String uuid;
 
+    @Schema(description = "body")
+    private JsonNode body;
+
     @Schema(description = "输入参数")
     private JsonNode inputs;
 

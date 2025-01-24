@@ -72,7 +72,7 @@ insert into `carp_dag_config`(`id`, `type`, `name`, `uuid`, `dag_meta`, `dag_att
                               `version`, `remark`, `creator`, `editor`)
 values (13, 'Pipeline', 'orca-pipeline-example', '01JJAWSARAN37VEXDQ0MKZ7PD3',
         '{\"namespace\":\"default\",\"type\":\"PIPELINE\",\"origin\":null}',
-        '{\"limitConcurrent\":true,\"maxConcurrentExecutions\":1,\"keepWaitingPipelines\":false,\"notifications\":[],\"templateVariables\":{},\"spelEvaluator\":null}',
+        '{\"limitConcurrent\":true,\"maxConcurrentExecutions\":1,\"keepWaitingPipelines\":false,\"notifications\":[],\"templateVariables\":{},\"spelEvaluator\":null,\"trigger\":{}}',
         null, null, 0, null, 'sys', 'sys');
 
 drop table if exists carp_dag_config_history;
@@ -367,6 +367,7 @@ create table carp_dag_instance
     id            bigint      not null auto_increment comment '自增主键',
     dag_config_id bigint      not null comment 'DAG配置id',
     uuid          varchar(36) not null comment 'instance id',
+    body          text,
     inputs        text comment '输入参数',
     outputs       text comment '输出参数',
     status        varchar(8) comment '状态',
@@ -387,6 +388,7 @@ create table carp_dag_step
     dag_instance_id    bigint      not null comment 'DAG id',
     dag_config_step_id bigint      not null comment '步骤id',
     uuid               varchar(36) not null comment 'instance id',
+    body               text,
     inputs             text comment '输入参数',
     outputs            text comment '输出参数',
     status             varchar(8) comment '状态',

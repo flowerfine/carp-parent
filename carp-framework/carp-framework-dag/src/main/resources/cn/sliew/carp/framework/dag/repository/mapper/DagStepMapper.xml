@@ -29,6 +29,7 @@
         <result column="dag_instance_id" property="dagInstanceId" />
         <result column="dag_config_step_id" property="dagConfigStepId" />
         <result column="uuid" property="uuid" />
+        <result column="body" property="body" />
         <result column="inputs" property="inputs" />
         <result column="outputs" property="outputs" />
         <result column="status" property="status" />
@@ -48,7 +49,7 @@
         create_time,
         editor,
         update_time,
-        dag_instance_id, dag_config_step_id, uuid, inputs, outputs, `status`, start_time, end_time
+        dag_instance_id, dag_config_step_id, uuid, body, inputs, outputs, `status`, start_time, end_time
     </sql>
 
 

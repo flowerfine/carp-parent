@@ -36,6 +36,9 @@ public class DagInstance extends BaseAuditDO {
     @TableField("uuid")
     private String uuid;
 
+    @TableField("body")
+    private String body;
+
     @TableField("inputs")
     private String inputs;
 

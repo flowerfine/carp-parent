@@ -39,6 +39,9 @@ public interface DagInstanceConvert extends BaseConvert<DagInstance, DagInstance
         if (dto.getDagConfig() != null) {
             entity.setDagConfigId(dto.getDagConfig().getId());
         }
+        if (dto.getBody() != null) {
+            entity.setBody(dto.getBody().toString());
+        }
         if (dto.getInputs() != null) {
             entity.setInputs(dto.getInputs().toString());
         }
@@ -55,6 +58,9 @@ public interface DagInstanceConvert extends BaseConvert<DagInstance, DagInstance
         DagConfigComplexDTO dagConfig = new DagConfigComplexDTO();
         dagConfig.setId(entity.getDagConfigId());
         dto.setDagConfig(dagConfig);
+        if (StringUtils.hasText(entity.getBody())) {
+            dto.setBody(JacksonUtil.toJsonNode(entity.getBody()));
+        }
         if (StringUtils.hasText(entity.getInputs())) {
             dto.setInputs(JacksonUtil.toJsonNode(entity.getInputs()));
         }
