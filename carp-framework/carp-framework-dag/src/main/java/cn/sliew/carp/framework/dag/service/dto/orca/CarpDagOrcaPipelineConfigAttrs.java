@@ -15,19 +15,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.pekko.spring;
+package cn.sliew.carp.framework.dag.service.dto.orca;
 
-import org.apache.pekko.actor.ActorRef;
-import org.apache.pekko.actor.ActorSystem;
-import org.apache.pekko.actor.Props;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import lombok.Data;
 
-public enum CarpPekkoSpringUtil {
-    ;
+import java.util.List;
+import java.util.Map;
 
-    public static ActorRef createActorRef(ActorSystem actorSystem, String actorBeanName, Object... args) {
-        Props props = CarpPekkoSpringExtension.SPRING_EXTENSION_PROVIDER.get(actorSystem)
-                .props(actorBeanName, args);
-        return actorSystem.actorOf(props, actorBeanName);
-    }
+@Data
+public class CarpDagOrcaPipelineConfigAttrs {
 
+    private boolean limitConcurrent = false;
+    private int maxConcurrentExecutions = 0;
+    private boolean keepWaitingPipelines = false;
+    private List<Map<String, Object>> notifications = Lists.newArrayList();
+    private String spelEvaluator;
+    private Map<String, Object> templateVariables = Maps.newHashMap();
 }

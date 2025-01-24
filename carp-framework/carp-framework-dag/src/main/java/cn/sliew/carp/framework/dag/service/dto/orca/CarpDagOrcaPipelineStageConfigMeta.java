@@ -15,19 +15,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.pekko.spring;
+package cn.sliew.carp.framework.dag.service.dto.orca;
 
-import org.apache.pekko.actor.ActorRef;
-import org.apache.pekko.actor.ActorSystem;
-import org.apache.pekko.actor.Props;
+import cn.sliew.carp.framework.common.model.BaseDTO;
+import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
-public enum CarpPekkoSpringUtil {
-    ;
+@Data
+public class CarpDagOrcaPipelineStageConfigMeta extends BaseDTO {
 
-    public static ActorRef createActorRef(ActorSystem actorSystem, String actorBeanName, Object... args) {
-        Props props = CarpPekkoSpringExtension.SPRING_EXTENSION_PROVIDER.get(actorSystem)
-                .props(actorBeanName, args);
-        return actorSystem.actorOf(props, actorBeanName);
-    }
+    @Schema(description = "uuid")
+    private String uuid;
 
+    @Schema(description = "pipeline_id")
+    private Long pipelineId;
+
+    @Schema(description = "status")
+    private String status;
+
+    @Schema(description = "body")
+    private JsonNode body;
 }

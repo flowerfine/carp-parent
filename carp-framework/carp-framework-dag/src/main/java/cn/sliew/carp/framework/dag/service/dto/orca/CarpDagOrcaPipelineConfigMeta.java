@@ -15,19 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.pekko.spring;
+package cn.sliew.carp.framework.dag.service.dto.orca;
 
-import org.apache.pekko.actor.ActorRef;
-import org.apache.pekko.actor.ActorSystem;
-import org.apache.pekko.actor.Props;
+import lombok.Data;
 
-public enum CarpPekkoSpringUtil {
-    ;
+@Data
+public class CarpDagOrcaPipelineConfigMeta {
 
-    public static ActorRef createActorRef(ActorSystem actorSystem, String actorBeanName, Object... args) {
-        Props props = CarpPekkoSpringExtension.SPRING_EXTENSION_PROVIDER.get(actorSystem)
-                .props(actorBeanName, args);
-        return actorSystem.actorOf(props, actorBeanName);
-    }
-
+    private String namespace;
+    private String type;
+    private String origin;
 }

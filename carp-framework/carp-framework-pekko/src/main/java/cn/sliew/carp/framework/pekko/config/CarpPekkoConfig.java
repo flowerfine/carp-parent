@@ -20,7 +20,6 @@ package cn.sliew.carp.framework.pekko.config;
 import cn.sliew.carp.framework.pekko.spring.CarpPekkoSpringExtension;
 import org.apache.pekko.actor.typed.ActorSystem;
 import org.apache.pekko.actor.typed.SpawnProtocol;
-import org.apache.pekko.actor.typed.javadsl.Adapter;
 import org.apache.pekko.actor.typed.javadsl.Behaviors;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
