@@ -68,6 +68,12 @@ insert into `carp_dag_config`(`id`, `type`, `name`, `uuid`, `dag_meta`, `dag_att
                               `version`, `remark`, `creator`, `editor`)
 values (12, 'SeaTunnel', 'mysql_binlog_cdc_iceberg', 'qygebf7fdfc91e5f49ceadea025b0d6139a4', null, null, null, null, 0,
         null, 'sys', 'sys');
+insert into `carp_dag_config`(`id`, `type`, `name`, `uuid`, `dag_meta`, `dag_attrs`, `intput_options`, `output_options`,
+                              `version`, `remark`, `creator`, `editor`)
+values (13, 'Pipeline', 'orca-pipeline-example', '01JJAWSARAN37VEXDQ0MKZ7PD3',
+        '{\"namespace\":\"default\",\"type\":\"PIPELINE\",\"origin\":null}',
+        '{\"limitConcurrent\":true,\"maxConcurrentExecutions\":1,\"keepWaitingPipelines\":false,\"notifications\":[],\"templateVariables\":{},\"spelEvaluator\":null}',
+        null, null, 0, null, 'sys', 'sys');
 
 drop table if exists carp_dag_config_history;
 create table carp_dag_config_history
@@ -261,6 +267,21 @@ values (27, 12, '763e5f0a-fea0-400b-a5d0-42f72fed63f9', 'Iceberg Sink', 420, 210
         '{\"name\":\"Iceberg\",\"type\":\"sink\",\"engine\":\"seatunnel\"}',
         '{\"stepTitle\":\"Iceberg Sink\",\"catalog_name\":\"ods\",\"namespace\":\"data_service\",\"table\":\"sample_data_e_commerce\",\"type\":\"hadoop\",\"warehouse\":\"s3a:///tmp/seatunnel/iceberg/scaleph/\",\"schema_save_mode\":\"CREATE_SCHEMA_WHEN_NOT_EXIST\",\"data_save_mode\":\"APPEND_DATA\",\"iceberg.catalog.config\":\"{\\\"type\\\":\\\"hadoop\\\",\\\"warehouse\\\":\\\"s3a:///tmp/seatunnel/iceberg/scaleph/\\\"}\",\"hadoop.config\":\"{}\",\"iceberg.table.write-props\":\"{}\",\"iceberg.table.auto-create-props\":\"{}\"}',
         'sys', 'sys');
+insert into `carp_dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`,
+                                    `style`, `step_meta`, `step_attrs`, `creator`, `editor`)
+values (28, 13, '01JJASC5NXJZXVNXV4H49V0590', 'Log', 420, 80, null, null,
+        '{\"type\":\"log\",\"syntheticStageOwner\":null,\"additionalMetricTags\":{}}',
+        '{\"stepTitle\":\"log\",\"context\":{\"url\":\"url-data\",\"payload\":\"payload-data\"}}', 'sys', 'sys');
+insert into `carp_dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`,
+                                    `style`, `step_meta`, `step_attrs`, `creator`, `editor`)
+values (29, 13, '01JJASQN1A3AX87TCZ3PYKGY6M', 'Wait', 420, 210, null, null,
+        '{\"type\":\"wait\",\"syntheticStageOwner\":null,\"additionalMetricTags\":{}}',
+        '{\"stepTitle\":\"wait\",\"context\":{\"waitTime\":30,\"skipRemainingWait\":false}}', 'sys', 'sys');
+insert into `carp_dag_config_step` (`id`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`, `shape`,
+                                    `style`, `step_meta`, `step_attrs`, `creator`, `editor`)
+values (30, 13, '01JJASWEDS856T5G4A330ZT63G', 'Log', 420, 340, null, null,
+        '{\"type\":\"log\",\"syntheticStageOwner\":null,\"additionalMetricTags\":{}}',
+        '{\"stepTitle\":\"log\",\"context\":{\"url\":\"url-data\",\"payload\":\"payload-data\"}}', 'sys', 'sys');
 
 drop table if exists carp_dag_config_link;
 create table carp_dag_config_link
@@ -331,6 +352,14 @@ insert into `carp_dag_config_link` (`id`, `dag_id`, `link_id`, `link_name`, `fro
                                     `style`, `link_meta`, `link_attrs`, `creator`, `editor`)
 values (13, 12, 'ac8ac824-3a43-4f0b-ba44-bd2dfbf45282', null, '1a7dc268-5620-4f17-974a-8b22e51690a5',
         '763e5f0a-fea0-400b-a5d0-42f72fed63f9', null, null, null, null, 'sys', 'sys');
+insert into `carp_dag_config_link` (`id`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`, `shape`,
+                                    `style`, `link_meta`, `link_attrs`, `creator`, `editor`)
+values (14, 13, '01JJAW88TV5SZ44EQBPQ0CHDJ1', null, '01JJASC5NXJZXVNXV4H49V0590', '01JJASQN1A3AX87TCZ3PYKGY6M', NULL,
+        null, null, null, 'sys', 'sys');
+insert into `carp_dag_config_link` (`id`, `dag_id`, `link_id`, `link_name`, `from_step_id`, `to_step_id`, `shape`,
+                                    `style`, `link_meta`, `link_attrs`, `creator`, `editor`)
+values (15, 13, '01JJAWSARAN37VEXDQ0MKZ7PD3', null, '01JJASQN1A3AX87TCZ3PYKGY6M', '01JJASWEDS856T5G4A330ZT63G', NULL,
+        null, null, null, 'sys', 'sys');
 
 drop table if exists carp_dag_instance;
 create table carp_dag_instance

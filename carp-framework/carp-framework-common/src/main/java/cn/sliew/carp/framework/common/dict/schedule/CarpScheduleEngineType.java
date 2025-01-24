@@ -28,6 +28,7 @@ import java.util.Arrays;
 public enum CarpScheduleEngineType implements DictInstance {
 
     INTERNAL("internal", "内置"),
+    ORCA("orca", "Orca"),
     ;
 
     @JsonCreator
