@@ -89,6 +89,7 @@
         <bkdevops.version>0.0.9</bkdevops.version>
         <asm.version>9.7</asm.version>
         <javapoet.version>0.5.0</javapoet.version>
+        <cosid.version>2.10.2</cosid.version>
     </properties>
 
     <dependencyManagement>
@@ -118,6 +119,13 @@
                 <groupId>org.zalando</groupId>
                 <artifactId>logbook-bom</artifactId>
                 <version>${logbook.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>me.ahoo.cosid</groupId>
+                <artifactId>cosid-bom</artifactId>
+                <version>${cosid.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -152,6 +160,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>carp-framework-feign</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-framework-id</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

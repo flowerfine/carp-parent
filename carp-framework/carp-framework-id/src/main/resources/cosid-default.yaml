@@ -1,0 +1,12 @@
+cosid:
+  enabled: true
+  namespace: ${spring.application.name}
+  machine:
+    enabled: false # 可选，当需要使用雪花算法时，需要设置为 true
+  snowflake:
+    enabled: false # 可选，当需要使用雪花算法时，需要设置为 true
+  segment:
+    enabled: true # 可选，当需要使用号段算法时，需要设置为 true
+    mode: CHAIN
+    distributor:
+      type: redis

@@ -24,6 +24,7 @@ import cn.sliew.carp.framework.dag.service.param.orca.*;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public interface CarpDagOrcaPipelineService {
 
@@ -31,7 +32,7 @@ public interface CarpDagOrcaPipelineService {
 
     List<CarpDagOrcaPipelineDTO> listAll(CarpDagOrcaPipelinePageParam param);
 
-    CarpDagOrcaPipelineDTO get(Long id);
+    Optional<CarpDagOrcaPipelineDTO> get(Long id);
 
     Long add(CarpDagOrcaPipelineAddParam param);
 
@@ -41,7 +42,7 @@ public interface CarpDagOrcaPipelineService {
 
     boolean deleteBatch(Collection<Long> ids);
 
-    CarpDagOrcaPipelineStageDTO getStage(Long stageId);
+    Optional<CarpDagOrcaPipelineStageDTO> getStage(Long stageId);
 
     Long addStage(CarpDagOrcaPipelineStageAddParam param);
 

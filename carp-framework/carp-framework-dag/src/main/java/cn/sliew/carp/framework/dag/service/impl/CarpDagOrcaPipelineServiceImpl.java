@@ -45,8 +45,7 @@ import org.springframework.util.StringUtils;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -87,10 +86,9 @@ public class CarpDagOrcaPipelineServiceImpl implements CarpDagOrcaPipelineServic
     }
 
     @Override
-    public CarpDagOrcaPipelineDTO get(Long id) {
+    public Optional<CarpDagOrcaPipelineDTO> get(Long id) {
         CarpDagOrcaPipeline entity = carpDagOrcaPipelineMapper.selectById(id);
-        checkNotNull(entity, "carp dag orca pipeline not exists for id: " + id);
-        return CarpDagOrcaPipelineConvert.INSTANCE.toDto(entity);
+        return Optional.ofNullable(entity).map(CarpDagOrcaPipelineConvert.INSTANCE::toDto);
     }
 
     @Override
@@ -134,16 +132,18 @@ public class CarpDagOrcaPipelineServiceImpl implements CarpDagOrcaPipelineServic
     }
 
     @Override
-    public CarpDagOrcaPipelineStageDTO getStage(Long stageId) {
+    public Optional<CarpDagOrcaPipelineStageDTO> getStage(Long stageId) {
         CarpDagOrcaPipelineStage entity = carpDagOrcaPipelineStageMapper.selectById(stageId);
-        checkNotNull(entity, "carp dag orca pipeline stage not exists for id: " + stageId);
-        return CarpDagOrcaPipelineStageConvert.INSTANCE.toDto(entity);
+        return Optional.ofNullable(entity).map(CarpDagOrcaPipelineStageConvert.INSTANCE::toDto);
     }
 
     @Override
     public Long addStage(CarpDagOrcaPipelineStageAddParam param) {
         CarpDagOrcaPipelineStage entity = new CarpDagOrcaPipelineStage();
         BeanUtils.copyProperties(param, entity);
+        if (Objects.nonNull(param.getBody())) {
+            entity.setBody(param.getBody().toString());
+        }
         carpDagOrcaPipelineStageMapper.insert(entity);
         return entity.getId();
     }
@@ -152,6 +152,9 @@ public class CarpDagOrcaPipelineServiceImpl implements CarpDagOrcaPipelineServic
     public boolean updateStage(CarpDagOrcaPipelineStageUpdateParam param) {
         CarpDagOrcaPipelineStage entity = new CarpDagOrcaPipelineStage();
         BeanUtils.copyProperties(param, entity);
+        if (Objects.nonNull(param.getBody())) {
+            entity.setBody(param.getBody().toString());
+        }
         return SqlHelper.retBool(carpDagOrcaPipelineStageMapper.updateById(entity));
     }
 
