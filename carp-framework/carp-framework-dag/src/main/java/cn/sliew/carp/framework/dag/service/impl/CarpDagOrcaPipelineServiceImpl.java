@@ -59,12 +59,7 @@ public class CarpDagOrcaPipelineServiceImpl implements CarpDagOrcaPipelineServic
     @Override
     public PageResult<CarpDagOrcaPipelineDTO> page(CarpDagOrcaPipelinePageParam param) {
         Page<CarpDagOrcaPipeline> page = PageUtil.buildPageParam(param);
-        LambdaQueryWrapper<CarpDagOrcaPipeline> queryChainWrapper = Wrappers.lambdaQuery(CarpDagOrcaPipeline.class)
-                .eq(CarpDagOrcaPipeline::getNamespace, param.getNamespace())
-                .eq(StringUtils.hasText(param.getType()), CarpDagOrcaPipeline::getType, param.getType())
-                .eq(StringUtils.hasText(param.getConfigId()), CarpDagOrcaPipeline::getConfigId, param.getConfigId())
-                .like(StringUtils.hasText(param.getName()), CarpDagOrcaPipeline::getName, param.getName())
-                .eq(StringUtils.hasText(param.getStatus()), CarpDagOrcaPipeline::getStatus, param.getStatus());
+        LambdaQueryWrapper<CarpDagOrcaPipeline> queryChainWrapper = buildQueryWrapper(param);
 
         Page<CarpDagOrcaPipeline> carpDagOrcaPipelinePage = carpDagOrcaPipelineMapper.selectPage(page, queryChainWrapper);
         PageResult<CarpDagOrcaPipelineDTO> pageResult = new PageResult<>(carpDagOrcaPipelinePage.getCurrent(), carpDagOrcaPipelinePage.getSize(), carpDagOrcaPipelinePage.getTotal());
@@ -74,15 +69,20 @@ public class CarpDagOrcaPipelineServiceImpl implements CarpDagOrcaPipelineServic
 
     @Override
     public List<CarpDagOrcaPipelineDTO> listAll(CarpDagOrcaPipelinePageParam param) {
-        LambdaQueryWrapper<CarpDagOrcaPipeline> queryChainWrapper = Wrappers.lambdaQuery(CarpDagOrcaPipeline.class)
-                .eq(CarpDagOrcaPipeline::getNamespace, param.getNamespace())
-                .eq(StringUtils.hasText(param.getType()), CarpDagOrcaPipeline::getType, param.getType())
-                .eq(StringUtils.hasText(param.getConfigId()), CarpDagOrcaPipeline::getConfigId, param.getConfigId())
-                .like(StringUtils.hasText(param.getName()), CarpDagOrcaPipeline::getName, param.getName())
-                .eq(StringUtils.hasText(param.getStatus()), CarpDagOrcaPipeline::getStatus, param.getStatus());
+        LambdaQueryWrapper<CarpDagOrcaPipeline> queryChainWrapper = buildQueryWrapper(param);
 
         List<CarpDagOrcaPipeline> records = carpDagOrcaPipelineMapper.selectList(queryChainWrapper);
         return CarpDagOrcaPipelineConvert.INSTANCE.toDto(records);
+    }
+
+    private LambdaQueryWrapper<CarpDagOrcaPipeline> buildQueryWrapper(CarpDagOrcaPipelinePageParam param) {
+        return Wrappers.lambdaQuery(CarpDagOrcaPipeline.class)
+                .eq(StringUtils.hasText(param.getNamespace()), CarpDagOrcaPipeline::getNamespace, param.getNamespace())
+                .eq(StringUtils.hasText(param.getType()), CarpDagOrcaPipeline::getType, param.getType())
+                .eq(StringUtils.hasText(param.getConfigId()), CarpDagOrcaPipeline::getConfigId, param.getConfigId())
+                .like(StringUtils.hasText(param.getName()), CarpDagOrcaPipeline::getName, param.getName())
+                .eq(StringUtils.hasText(param.getStatus()), CarpDagOrcaPipeline::getStatus, param.getStatus())
+                .orderByDesc(CarpDagOrcaPipeline::getId);
     }
 
     @Override
@@ -129,6 +129,14 @@ public class CarpDagOrcaPipelineServiceImpl implements CarpDagOrcaPipelineServic
         carpDagOrcaPipelineMapper.deleteByIds(ids);
         deleteStageByPipelines(ids);
         return true;
+    }
+
+    @Override
+    public List<CarpDagOrcaPipelineStageDTO> getStages(Long pipelineId) {
+        LambdaQueryWrapper<CarpDagOrcaPipelineStage> queryWrapper = Wrappers.lambdaQuery(CarpDagOrcaPipelineStage.class)
+                .eq(CarpDagOrcaPipelineStage::getPipelineId, pipelineId);
+        List<CarpDagOrcaPipelineStage> records = carpDagOrcaPipelineStageMapper.selectList(queryWrapper);
+        return CarpDagOrcaPipelineStageConvert.INSTANCE.toDto(records);
     }
 
     @Override
