@@ -90,6 +90,7 @@
         <asm.version>9.7</asm.version>
         <javapoet.version>0.5.0</javapoet.version>
         <cosid.version>2.10.2</cosid.version>
+        <serverlessworkflow.version>7.0.0-alpha5.1</serverlessworkflow.version>
     </properties>
 
     <dependencyManagement>
@@ -568,6 +569,23 @@
                 <groupId>com.palantir.javapoet</groupId>
                 <artifactId>javapoet</artifactId>
                 <version>${javapoet.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>io.serverlessworkflow</groupId>
+                <artifactId>serverlessworkflow-api</artifactId>
+                <version>${serverlessworkflow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.serverlessworkflow</groupId>
+                <artifactId>serverlessworkflow-impl-core</artifactId>
+                <version>${serverlessworkflow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.serverlessworkflow</groupId>
+                <artifactId>serverlessworkflow-impl-http</artifactId>
+                <version>${serverlessworkflow.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
