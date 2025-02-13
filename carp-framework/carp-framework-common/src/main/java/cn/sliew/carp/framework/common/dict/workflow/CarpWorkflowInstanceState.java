@@ -33,6 +33,8 @@ public enum CarpWorkflowInstanceState implements DictInstance {
     SUCCESS("3", "SUCCESS"),
     FAILURE("4", "FAILURE"),
     TERMINATED("5", "TERMINATED"),
+    PRE_RUNNING("6", "PRE RUNNING"),
+    POST_RUNNING("7", "POST RUNNING"),
     ;
 
     @JsonCreator
