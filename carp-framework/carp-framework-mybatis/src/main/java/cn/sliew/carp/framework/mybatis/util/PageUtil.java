@@ -23,6 +23,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.support.PagedListHolder;
 
 import java.util.List;
+import java.util.function.Function;
 
 public enum PageUtil {
     ;
@@ -39,6 +40,12 @@ public enum PageUtil {
         holder.setPageSize(param.getPageSize().intValue());
         PageResult pageResult = new PageResult(Long.valueOf(holder.getPage()), Long.valueOf(holder.getPageSize()), Long.valueOf(holder.getNrOfElements()));
         pageResult.setRecords(holder.getPageList());
+        return pageResult;
+    }
+
+    public static <S, T> PageResult<T> buildPageResult(Page<S> page, Function<List<S>, List<T>> converter) {
+        PageResult<T> pageResult = new PageResult<>(page.getCurrent(), page.getSize(), page.getTotal());
+        pageResult.setRecords(converter.apply(page.getRecords()));
         return pageResult;
     }
 }

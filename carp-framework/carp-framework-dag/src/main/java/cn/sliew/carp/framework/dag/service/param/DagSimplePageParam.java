@@ -15,31 +15,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.dag.service;
+package cn.sliew.carp.framework.dag.service.param;
 
-import cn.sliew.carp.framework.common.model.PageResult;
-import cn.sliew.carp.framework.dag.repository.entity.DagConfig;
-import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
-import cn.sliew.carp.framework.dag.service.param.DagSimplePageParam;
-import com.baomidou.mybatisplus.extension.service.IService;
+import cn.sliew.carp.framework.common.model.PageParam;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
-import java.util.Collection;
+@Data
+public class DagSimplePageParam extends PageParam {
 
-public interface DagConfigService extends IService<DagConfig> {
+    @NotBlank
+    @Schema(description = "namespace")
+    private String namespace;
 
-    PageResult<DagConfigDTO> page(DagSimplePageParam param);
+    @Schema(description = "DAG 类型")
+    private String type;
 
-    DagConfigDTO get(Long id);
+    @Schema(description = "DAG名称。模糊搜索")
+    private String name;
 
-    Long add(DagConfigDTO instanceDTO);
-
-    boolean update(DagConfigDTO instanceDTO);
-
-    void upsert(DagConfigDTO instanceDTO);
-
-    boolean delete(Long id);
-
-    boolean deleteBatch(Collection<Long> ids);
-
-    Long clone(Long id);
+    @Schema(description = "DAG ID")
+    private String uuid;
 }

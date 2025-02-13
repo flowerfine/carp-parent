@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.framework.dag.service.impl;
 
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.service.DagConfigComplexService;
 import cn.sliew.carp.framework.dag.service.DagConfigLinkService;
@@ -28,6 +29,7 @@ import cn.sliew.carp.framework.dag.service.dto.DagConfigLinkDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.carp.framework.dag.service.param.DagConfigSimpleAddParam;
 import cn.sliew.carp.framework.dag.service.param.DagConfigSimpleUpdateParam;
+import cn.sliew.carp.framework.dag.service.param.DagSimplePageParam;
 import cn.sliew.carp.framework.dag.x6.graph.DagGraphVO;
 import cn.sliew.carp.framework.dag.x6.graph.EdgeCellVO;
 import cn.sliew.carp.framework.dag.x6.graph.NodeCellVO;
@@ -54,6 +56,11 @@ public class DagConfigComplexServiceImpl implements DagConfigComplexService {
     private DagConfigLinkService dagConfigLinkService;
     @Autowired
     private DagConfigStepService dagConfigStepService;
+
+    @Override
+    public PageResult<DagConfigDTO> page(DagSimplePageParam param) {
+        return dagConfigService.page(param);
+    }
 
     @Override
     public DagConfigComplexDTO selectOne(Long dagId) {

@@ -17,21 +17,41 @@
  */
 package cn.sliew.carp.framework.dag.service.impl;
 
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.framework.dag.repository.entity.DagConfig;
 import cn.sliew.carp.framework.dag.repository.mapper.DagConfigMapper;
 import cn.sliew.carp.framework.dag.service.DagConfigService;
 import cn.sliew.carp.framework.dag.service.convert.DagConfigConvert;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
+import cn.sliew.carp.framework.dag.service.param.DagSimplePageParam;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
+import cn.sliew.carp.framework.mybatis.util.PageUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 
 @Service
 public class DagConfigServiceImpl extends ServiceImpl<DagConfigMapper, DagConfig> implements DagConfigService {
+
+    @Override
+    public PageResult<DagConfigDTO> page(DagSimplePageParam param) {
+        Page<DagConfig> page = PageUtil.buildPageParam(param);
+        LambdaQueryWrapper<DagConfig> queryWrapper = Wrappers.lambdaQuery(DagConfig.class)
+                .eq(DagConfig::getNamespace, param.getNamespace())
+                .eq(StringUtils.hasText(param.getType()), DagConfig::getType, param.getType())
+                .eq(StringUtils.hasText(param.getName()), DagConfig::getName, param.getName())
+                .eq(StringUtils.hasText(param.getUuid()), DagConfig::getUuid, param.getUuid())
+                .orderByDesc(DagConfig::getId);
+        Page<DagConfig> dagConfigPage = page(page, queryWrapper);
+        return PageUtil.buildPageResult(dagConfigPage, DagConfigConvert.INSTANCE::toDto);
+    }
 
     @Override
     public DagConfigDTO get(Long id) {
