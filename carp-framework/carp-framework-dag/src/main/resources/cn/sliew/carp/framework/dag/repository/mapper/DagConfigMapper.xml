@@ -26,6 +26,7 @@
         <result column="create_time" property="createTime" />
         <result column="editor" property="editor" />
         <result column="update_time" property="updateTime" />
+        <result column="namespace" property="namespace" />
         <result column="type" property="type" />
         <result column="name" property="name" />
         <result column="uuid" property="uuid" />
@@ -44,7 +45,7 @@
         create_time,
         editor,
         update_time,
-        `type`, `name`, uuid, dag_meta, dag_attrs, intput_options, output_options, version, remark
+        namespace, `type`, `name`, uuid, dag_meta, dag_attrs, intput_options, output_options, version, remark
     </sql>
 
 </mapper>

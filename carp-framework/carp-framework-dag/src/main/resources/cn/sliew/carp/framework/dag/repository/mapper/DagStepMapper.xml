@@ -26,6 +26,7 @@
         <result column="create_time" property="createTime" />
         <result column="editor" property="editor" />
         <result column="update_time" property="updateTime" />
+        <result column="namespace" property="namespace" />
         <result column="dag_instance_id" property="dagInstanceId" />
         <result column="dag_config_step_id" property="dagConfigStepId" />
         <result column="uuid" property="uuid" />
@@ -49,7 +50,7 @@
         create_time,
         editor,
         update_time,
-        dag_instance_id, dag_config_step_id, uuid, body, inputs, outputs, `status`, start_time, end_time
+        namespace, dag_instance_id, dag_config_step_id, uuid, body, inputs, outputs, `status`, start_time, end_time
     </sql>
 
 

@@ -28,6 +28,9 @@ import java.util.Date;
 @Schema(name = "DagInstance", description = "DAG 实例")
 public class DagInstanceDTO extends BaseDTO {
 
+    @Schema(description = "namespace")
+    private String namespace;
+
     @Schema(description = "DAG配置")
     private DagConfigComplexDTO dagConfig;
 

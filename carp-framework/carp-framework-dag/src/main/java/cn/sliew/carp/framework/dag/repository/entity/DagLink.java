@@ -30,6 +30,9 @@ public class DagLink extends BaseAuditDO {
 
     private static final long serialVersionUID = 1L;
 
+    @TableField("namespace")
+    private String namespace;
+
     @TableField("dag_instance_id")
     private Long dagInstanceId;
 

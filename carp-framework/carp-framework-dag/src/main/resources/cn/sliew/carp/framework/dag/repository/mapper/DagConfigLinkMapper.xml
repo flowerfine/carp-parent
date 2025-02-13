@@ -26,6 +26,7 @@
         <result column="create_time" property="createTime" />
         <result column="editor" property="editor" />
         <result column="update_time" property="updateTime" />
+        <result column="namespace" property="namespace" />
         <result column="dag_id" property="dagId" />
         <result column="link_id" property="linkId" />
         <result column="link_name" property="linkName" />
@@ -44,7 +45,7 @@
         create_time,
         editor,
         update_time,
-        dag_id, link_id, link_name, from_step_id, to_step_id, shape, `style`, link_meta, link_attrs
+        namespace, dag_id, link_id, link_name, from_step_id, to_step_id, shape, `style`, link_meta, link_attrs
     </sql>
 
 </mapper>

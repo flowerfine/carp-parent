@@ -28,6 +28,9 @@ import java.util.Date;
 @Schema(name = "DagLink", description = "DAG 连线")
 public class DagLinkDTO extends BaseDTO {
 
+    @Schema(description = "namespace")
+    private String namespace;
+
     @Schema(description = "DAG id")
     private Long dagInstanceId;
 

@@ -26,6 +26,9 @@ import lombok.Data;
 @Schema(name = "DagConfig", description = "DAG 配置")
 public class DagConfigDTO extends BaseDTO {
 
+    @Schema(description = "namespace")
+    private String namespace;
+
     @Schema(description = "DAG 类型")
     private String type;
 

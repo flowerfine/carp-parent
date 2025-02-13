@@ -29,6 +29,9 @@ public class DagConfig extends BaseAuditDO {
 
     private static final long serialVersionUID = 1L;
 
+    @TableField("namespace")
+    private String namespace;
+
     @TableField("`type`")
     private String type;
 
