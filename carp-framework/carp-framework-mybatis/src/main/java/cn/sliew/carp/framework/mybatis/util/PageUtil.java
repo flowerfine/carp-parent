@@ -48,4 +48,10 @@ public enum PageUtil {
         pageResult.setRecords(converter.apply(page.getRecords()));
         return pageResult;
     }
+
+    public static <S, T> PageResult<T> buildPageResult(PageResult<S> page, Function<List<S>, List<T>> converter) {
+        PageResult<T> pageResult = new PageResult<>(page.getCurrent(), page.getSize(), page.getTotal());
+        pageResult.setRecords(converter.apply(page.getRecords()));
+        return pageResult;
+    }
 }
