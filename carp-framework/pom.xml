@@ -41,6 +41,7 @@
         <module>carp-framework-mongo</module>
         <module>carp-framework-mybatis</module>
         <module>carp-framework-pekko</module>
+        <module>carp-framework-pf4j</module>
         <module>carp-framework-redis</module>
         <module>carp-framework-spring</module>
         <module>carp-framework-task</module>
