@@ -83,6 +83,7 @@
         <auto-service.version>1.1.1</auto-service.version>
         <pf4j.version>3.12.1</pf4j.version>
         <pf4j-spring.version>0.9.0</pf4j-spring.version>
+        <pf4j-update.version>2.3.0</pf4j-update.version>
         <exp.version>1.0.6</exp.version>
         <javers.version>7.6.1</javers.version>
         <fastexcel.version>1.0.0</fastexcel.version>
@@ -513,6 +514,12 @@
                 <artifactId>pf4j-spring</artifactId>
                 <version>${pf4j-spring.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.pf4j</groupId>
+                <artifactId>pf4j-update</artifactId>
+                <version>${pf4j-update.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>com.mqttsnet.thinglinks</groupId>
