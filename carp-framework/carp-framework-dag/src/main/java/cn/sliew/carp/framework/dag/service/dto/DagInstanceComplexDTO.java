@@ -17,6 +17,8 @@
  */
 package cn.sliew.carp.framework.dag.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -24,6 +26,7 @@ import java.util.List;
 
 @Data
 @Schema(name = "Dag", description = "DAG")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class DagInstanceComplexDTO extends DagInstanceDTO {
 
     @Schema(description = "连线")

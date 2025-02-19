@@ -18,6 +18,8 @@
 package cn.sliew.carp.framework.dag.service.dto;
 
 import cn.sliew.carp.framework.common.model.BaseDTO;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -26,13 +28,14 @@ import java.util.Date;
 
 @Data
 @Schema(name = "DagStep", description = "DAG 步骤")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class DagStepDTO extends BaseDTO {
 
     @Schema(description = "namespace")
     private String namespace;
 
-    @Schema(description = "DAG id")
-    private Long dagInstanceId;
+    @Schema(description = "DAG 实例")
+    private DagInstanceDTO dagInstance;
 
     @Schema(description = "步骤")
     private DagConfigStepDTO dagConfigStep;

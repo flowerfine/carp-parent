@@ -20,6 +20,7 @@ package cn.sliew.carp.framework.dag.service.convert;
 import cn.sliew.carp.framework.common.convert.BaseConvert;
 import cn.sliew.carp.framework.dag.repository.entity.DagLink;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigLinkDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagLinkDTO;
 import cn.sliew.milky.common.util.JacksonUtil;
 import org.mapstruct.Mapper;
@@ -36,6 +37,9 @@ public interface DagLinkConvert extends BaseConvert<DagLink, DagLinkDTO> {
     default DagLink toDo(DagLinkDTO dto) {
         DagLink entity = new DagLink();
         BeanUtils.copyProperties(dto, entity);
+        if (dto.getDagInstance() != null) {
+            entity.setDagInstanceId(dto.getDagInstance().getId());
+        }
         if (dto.getDagConfigLink() != null) {
             entity.setDagConfigLinkId(dto.getDagConfigLink().getId());
         }
@@ -52,6 +56,9 @@ public interface DagLinkConvert extends BaseConvert<DagLink, DagLinkDTO> {
     default DagLinkDTO toDto(DagLink entity) {
         DagLinkDTO dto = new DagLinkDTO();
         BeanUtils.copyProperties(entity, dto);
+        DagInstanceDTO dagInstance = new DagInstanceDTO();
+        dagInstance.setId(entity.getDagInstanceId());
+        dto.setDagInstance(dagInstance);
         DagConfigLinkDTO dagConfigLink = new DagConfigLinkDTO();
         dagConfigLink.setId(entity.getDagConfigLinkId());
         dto.setDagConfigLink(dagConfigLink);

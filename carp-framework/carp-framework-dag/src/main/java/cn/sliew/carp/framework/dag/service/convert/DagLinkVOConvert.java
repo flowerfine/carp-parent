@@ -19,6 +19,7 @@ package cn.sliew.carp.framework.dag.service.convert;
 
 import cn.sliew.carp.framework.common.convert.BaseConvert;
 import cn.sliew.carp.framework.dag.repository.entity.DagLinkVO;
+import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagLinkDTO;
 import cn.sliew.milky.common.util.JacksonUtil;
 import org.mapstruct.Mapper;
@@ -35,6 +36,9 @@ public interface DagLinkVOConvert extends BaseConvert<DagLinkVO, DagLinkDTO> {
     default DagLinkVO toDo(DagLinkDTO dto) {
         DagLinkVO entity = new DagLinkVO();
         BeanUtils.copyProperties(dto, entity);
+        if (dto.getDagInstance() != null) {
+            entity.setDagInstanceId(dto.getDagInstance().getId());
+        }
         if (dto.getDagConfigLink() != null) {
             entity.setDagConfigLink(DagConfigLinkConvert.INSTANCE.toDo(dto.getDagConfigLink()));
         }
@@ -51,6 +55,9 @@ public interface DagLinkVOConvert extends BaseConvert<DagLinkVO, DagLinkDTO> {
     default DagLinkDTO toDto(DagLinkVO entity) {
         DagLinkDTO dto = new DagLinkDTO();
         BeanUtils.copyProperties(entity, dto);
+        DagInstanceDTO dagInstance = new DagInstanceDTO();
+        dagInstance.setId(entity.getDagInstanceId());
+        dto.setDagInstance(dagInstance);
         dto.setDagConfigLink(DagConfigLinkConvert.INSTANCE.toDto(entity.getDagConfigLink()));
         if (StringUtils.hasText(entity.getInputs())) {
             dto.setInputs(JacksonUtil.toJsonNode(entity.getInputs()));

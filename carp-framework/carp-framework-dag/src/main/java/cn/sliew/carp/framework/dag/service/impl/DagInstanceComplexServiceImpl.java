@@ -32,6 +32,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -51,8 +52,16 @@ public class DagInstanceComplexServiceImpl implements DagInstanceComplexService 
         DagInstanceComplexDTO dagInstanceComplexDTO = new DagInstanceComplexDTO();
         DagInstanceDTO instanceDTO = dagInstanceService.getWithConfig(dagInstanceId);
         BeanUtils.copyProperties(instanceDTO, dagInstanceComplexDTO);
-        dagInstanceComplexDTO.setLinks(dagLinkService.listLinks(dagInstanceId));
-        dagInstanceComplexDTO.setSteps(dagStepService.listSteps(dagInstanceId));
+        List<DagLinkDTO> links = dagLinkService.listLinks(dagInstanceId);
+        if (CollectionUtils.isEmpty(links) == false) {
+            links.forEach(link -> link.setDagInstance(instanceDTO));
+        }
+        dagInstanceComplexDTO.setLinks(links);
+        List<DagStepDTO> steps = dagStepService.listSteps(dagInstanceId);
+        if (CollectionUtils.isEmpty(steps) == false) {
+            steps.forEach(step -> step.setDagInstance(instanceDTO));
+        }
+        dagInstanceComplexDTO.setSteps(steps);
         return dagInstanceComplexDTO;
     }
 
@@ -101,7 +110,9 @@ public class DagInstanceComplexServiceImpl implements DagInstanceComplexService 
         if (CollectionUtils.isEmpty(dagConfigComplexDTO.getSteps()) == false) {
             for (DagConfigStepDTO dagConfigStepDTO : dagConfigComplexDTO.getSteps()) {
                 DagStepDTO dagStepDTO = new DagStepDTO();
-                dagStepDTO.setDagInstanceId(dagInstanceId);
+                DagInstanceDTO dagInstance = new DagInstanceDTO();
+                dagInstance.setId(dagInstanceId);
+                dagStepDTO.setDagInstance(dagInstance);
                 dagStepDTO.setDagConfigStep(dagConfigStepDTO);
                 dagStepDTO.setUuid(UUIDUtil.randomUUId());
                 dagStepDTO.setStartTime(new Date());
@@ -112,7 +123,9 @@ public class DagInstanceComplexServiceImpl implements DagInstanceComplexService 
         if (CollectionUtils.isEmpty(dagConfigComplexDTO.getLinks()) == false) {
             for (DagConfigLinkDTO dagConfigLinkDTO : dagConfigComplexDTO.getLinks()) {
                 DagLinkDTO dagLinkDTO = new DagLinkDTO();
-                dagLinkDTO.setDagInstanceId(dagInstanceId);
+                DagInstanceDTO dagInstance = new DagInstanceDTO();
+                dagInstance.setId(dagInstanceId);
+                dagLinkDTO.setDagInstance(dagInstance);
                 dagLinkDTO.setDagConfigLink(dagConfigLinkDTO);
                 dagLinkDTO.setUuid(UUIDUtil.randomUUId());
                 dagLinkDTO.setInputs(dagConfigLinkDTO.getLinkAttrs());

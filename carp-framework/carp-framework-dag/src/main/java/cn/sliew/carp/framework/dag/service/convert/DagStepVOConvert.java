@@ -19,6 +19,7 @@ package cn.sliew.carp.framework.dag.service.convert;
 
 import cn.sliew.carp.framework.common.convert.BaseConvert;
 import cn.sliew.carp.framework.dag.repository.entity.DagStepVO;
+import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.milky.common.util.JacksonUtil;
 import org.mapstruct.Mapper;
@@ -35,6 +36,9 @@ public interface DagStepVOConvert extends BaseConvert<DagStepVO, DagStepDTO> {
     default DagStepVO toDo(DagStepDTO dto) {
         DagStepVO entity = new DagStepVO();
         BeanUtils.copyProperties(dto, entity);
+        if (dto.getDagInstance() != null) {
+            entity.setDagInstanceId(dto.getDagInstance().getId());
+        }
         if (dto.getDagConfigStep() != null) {
             entity.setDagConfigStep(DagConfigStepConvert.INSTANCE.toDo(dto.getDagConfigStep()));
         }
@@ -51,6 +55,9 @@ public interface DagStepVOConvert extends BaseConvert<DagStepVO, DagStepDTO> {
     default DagStepDTO toDto(DagStepVO entity) {
         DagStepDTO dto = new DagStepDTO();
         BeanUtils.copyProperties(entity, dto);
+        DagInstanceDTO dagInstance = new DagInstanceDTO();
+        dagInstance.setId(entity.getDagInstanceId());
+        dto.setDagInstance(dagInstance);
         dto.setDagConfigStep(DagConfigStepConvert.INSTANCE.toDto(entity.getDagConfigStep()));
         if (StringUtils.hasText(entity.getInputs())) {
             dto.setInputs(JacksonUtil.toJsonNode(entity.getInputs()));

@@ -20,6 +20,7 @@ package cn.sliew.carp.framework.dag.service.convert;
 import cn.sliew.carp.framework.common.convert.BaseConvert;
 import cn.sliew.carp.framework.dag.repository.entity.DagStep;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import cn.sliew.milky.common.util.JacksonUtil;
 import org.mapstruct.Mapper;
@@ -36,6 +37,9 @@ public interface DagStepConvert extends BaseConvert<DagStep, DagStepDTO> {
     default DagStep toDo(DagStepDTO dto) {
         DagStep entity = new DagStep();
         BeanUtils.copyProperties(dto, entity);
+        if (dto.getDagInstance() != null) {
+            entity.setDagInstanceId(dto.getDagInstance().getId());
+        }
         if (dto.getDagConfigStep() != null) {
             entity.setDagConfigStepId(dto.getDagConfigStep().getId());
         }
@@ -55,6 +59,9 @@ public interface DagStepConvert extends BaseConvert<DagStep, DagStepDTO> {
     default DagStepDTO toDto(DagStep entity) {
         DagStepDTO dto = new DagStepDTO();
         BeanUtils.copyProperties(entity, dto);
+        DagInstanceDTO dagInstance = new DagInstanceDTO();
+        dagInstance.setId(entity.getDagInstanceId());
+        dto.setDagInstance(dagInstance);
         DagConfigStepDTO dagConfigStep = new DagConfigStepDTO();
         dagConfigStep.setId(entity.getDagConfigStepId());
         dto.setDagConfigStep(dagConfigStep);
