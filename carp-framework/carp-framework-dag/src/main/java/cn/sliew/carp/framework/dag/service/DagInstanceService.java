@@ -25,6 +25,8 @@ public interface DagInstanceService extends IService<DagInstance> {
 
     DagInstanceDTO get(Long id);
 
+    DagInstanceDTO getWithConfig(Long id);
+
     Long add(DagInstanceDTO instanceDTO);
 
     boolean update(DagInstanceDTO instanceDTO);

@@ -49,7 +49,7 @@ public class DagInstanceComplexServiceImpl implements DagInstanceComplexService 
     @Override
     public DagInstanceComplexDTO selectOne(Long dagInstanceId) {
         DagInstanceComplexDTO dagInstanceComplexDTO = new DagInstanceComplexDTO();
-        DagInstanceDTO instanceDTO = dagInstanceService.get(dagInstanceId);
+        DagInstanceDTO instanceDTO = dagInstanceService.getWithConfig(dagInstanceId);
         BeanUtils.copyProperties(instanceDTO, dagInstanceComplexDTO);
         dagInstanceComplexDTO.setLinks(dagLinkService.listLinks(dagInstanceId));
         dagInstanceComplexDTO.setSteps(dagStepService.listSteps(dagInstanceId));

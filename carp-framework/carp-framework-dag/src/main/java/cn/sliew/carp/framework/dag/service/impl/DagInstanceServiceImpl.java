@@ -20,22 +20,34 @@ package cn.sliew.carp.framework.dag.service.impl;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.framework.dag.repository.entity.DagInstance;
 import cn.sliew.carp.framework.dag.repository.mapper.DagInstanceMapper;
+import cn.sliew.carp.framework.dag.service.DagConfigComplexService;
 import cn.sliew.carp.framework.dag.service.DagInstanceService;
 import cn.sliew.carp.framework.dag.service.convert.DagInstanceConvert;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 @Service
 public class DagInstanceServiceImpl extends ServiceImpl<DagInstanceMapper, DagInstance> implements DagInstanceService {
 
+    @Autowired
+    private DagConfigComplexService dagConfigComplexService;
+
     @Override
     public DagInstanceDTO get(Long id) {
         DagInstance entity = getOptById(id).orElseThrow(() -> new IllegalArgumentException("dag instance not exists for id: " + id));
         return DagInstanceConvert.INSTANCE.toDto(entity);
+    }
+
+    @Override
+    public DagInstanceDTO getWithConfig(Long id) {
+        DagInstanceDTO dagInstanceDTO = get(id);
+        dagInstanceDTO.setDagConfig(dagConfigComplexService.selectOne(dagInstanceDTO.getDagConfig().getId()));
+        return dagInstanceDTO;
     }
 
     @Override
