@@ -91,6 +91,7 @@
         <asm.version>9.7</asm.version>
         <javapoet.version>0.5.0</javapoet.version>
         <cosid.version>2.10.2</cosid.version>
+        <uuid-creator.version>6.0.0</uuid-creator.version>
         <serverlessworkflow.version>7.0.0-alpha5.1</serverlessworkflow.version>
     </properties>
 
@@ -583,6 +584,11 @@
                 <version>${javapoet.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.github.f4b6a3</groupId>
+                <artifactId>uuid-creator</artifactId>
+                <version>${uuid-creator.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>io.serverlessworkflow</groupId>
