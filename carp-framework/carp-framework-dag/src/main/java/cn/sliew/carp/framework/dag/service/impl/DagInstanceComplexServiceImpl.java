@@ -17,11 +17,13 @@
  */
 package cn.sliew.carp.framework.dag.service.impl;
 
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.algorithm.DefaultDagEdge;
 import cn.sliew.carp.framework.dag.service.*;
 import cn.sliew.carp.framework.dag.service.dto.*;
+import cn.sliew.carp.framework.dag.service.param.DagInstanceSimplePageParam;
 import com.google.common.graph.Graph;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
@@ -46,6 +48,11 @@ public class DagInstanceComplexServiceImpl implements DagInstanceComplexService 
     private DagLinkService dagLinkService;
     @Autowired
     private DagStepService dagStepService;
+
+    @Override
+    public PageResult<DagInstanceDTO> page(DagInstanceSimplePageParam param) {
+        return dagInstanceService.page(param);
+    }
 
     @Override
     public DagInstanceComplexDTO selectOne(Long dagInstanceId) {

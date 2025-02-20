@@ -17,14 +17,18 @@
  */
 package cn.sliew.carp.framework.dag.service;
 
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceComplexDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
+import cn.sliew.carp.framework.dag.service.param.DagInstanceSimplePageParam;
 import com.google.common.graph.Graph;
 
 public interface DagInstanceComplexService {
+
+    PageResult<DagInstanceDTO> page(DagInstanceSimplePageParam param);
 
     DagInstanceComplexDTO selectOne(Long dagInstanceId);
 

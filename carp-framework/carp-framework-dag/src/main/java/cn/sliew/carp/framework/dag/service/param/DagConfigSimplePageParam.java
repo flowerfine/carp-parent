@@ -20,10 +20,14 @@ package cn.sliew.carp.framework.dag.service.param;
 import cn.sliew.carp.framework.common.model.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class DagSimplePageParam extends PageParam {
+@NoArgsConstructor
+@AllArgsConstructor
+public class DagConfigSimplePageParam extends PageParam {
 
     @NotBlank
     @Schema(description = "namespace")

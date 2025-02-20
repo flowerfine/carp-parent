@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.framework.dag.service.impl;
 
+import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.framework.dag.repository.entity.DagInstance;
 import cn.sliew.carp.framework.dag.repository.mapper.DagInstanceMapper;
@@ -24,8 +25,12 @@ import cn.sliew.carp.framework.dag.service.DagConfigComplexService;
 import cn.sliew.carp.framework.dag.service.DagInstanceService;
 import cn.sliew.carp.framework.dag.service.convert.DagInstanceConvert;
 import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
+import cn.sliew.carp.framework.dag.service.param.DagInstanceSimplePageParam;
+import cn.sliew.carp.framework.mybatis.util.PageUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +41,19 @@ public class DagInstanceServiceImpl extends ServiceImpl<DagInstanceMapper, DagIn
 
     @Autowired
     private DagConfigComplexService dagConfigComplexService;
+
+    @Override
+    public PageResult<DagInstanceDTO> page(DagInstanceSimplePageParam param) {
+        Page<DagInstance> page = PageUtil.buildBasePageParam(param);
+        LambdaQueryWrapper<DagInstance> queryWrapper = Wrappers.lambdaQuery(DagInstance.class)
+                .eq(DagInstance::getNamespace, param.getNamespace())
+                .eq(param.getDagConfigID() != null, DagInstance::getDagConfigId, param.getDagConfigID())
+                .eq(StringUtils.hasText(param.getUuid()), DagInstance::getUuid, param.getUuid())
+                .eq(StringUtils.hasText(param.getStatus()), DagInstance::getStatus, param.getStatus())
+                .orderByDesc(DagInstance::getId);
+        Page<DagInstance> dagInstancePage = page(page, queryWrapper);
+        return PageUtil.buildPageResult(dagInstancePage, DagInstanceConvert.INSTANCE::toDto);
+    }
 
     @Override
     public DagInstanceDTO get(Long id) {

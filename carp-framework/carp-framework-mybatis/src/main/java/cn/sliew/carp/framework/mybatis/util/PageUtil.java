@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.framework.mybatis.util;
 
+import cn.sliew.carp.framework.common.model.BasePageParam;
 import cn.sliew.carp.framework.common.model.PageParam;
 import cn.sliew.carp.framework.common.model.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -29,6 +30,12 @@ public enum PageUtil {
     ;
 
     public static <T> Page<T> buildPageParam(PageParam param) {
+        Page<T> page = new Page<>(param.getCurrent(), param.getPageSize());
+        page.addOrder(param.buildSortItems());
+        return page;
+    }
+
+    public static <T> Page<T> buildBasePageParam(BasePageParam param) {
         Page<T> page = new Page<>(param.getCurrent(), param.getPageSize());
         page.addOrder(param.buildSortItems());
         return page;

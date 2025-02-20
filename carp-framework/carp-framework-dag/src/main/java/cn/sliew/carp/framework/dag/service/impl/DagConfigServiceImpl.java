@@ -24,7 +24,7 @@ import cn.sliew.carp.framework.dag.repository.mapper.DagConfigMapper;
 import cn.sliew.carp.framework.dag.service.DagConfigService;
 import cn.sliew.carp.framework.dag.service.convert.DagConfigConvert;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
-import cn.sliew.carp.framework.dag.service.param.DagSimplePageParam;
+import cn.sliew.carp.framework.dag.service.param.DagConfigSimplePageParam;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.framework.mybatis.util.PageUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -41,7 +41,7 @@ import java.util.Collection;
 public class DagConfigServiceImpl extends ServiceImpl<DagConfigMapper, DagConfig> implements DagConfigService {
 
     @Override
-    public PageResult<DagConfigDTO> page(DagSimplePageParam param) {
+    public PageResult<DagConfigDTO> page(DagConfigSimplePageParam param) {
         Page<DagConfig> page = PageUtil.buildPageParam(param);
         LambdaQueryWrapper<DagConfig> queryWrapper = Wrappers.lambdaQuery(DagConfig.class)
                 .eq(DagConfig::getNamespace, param.getNamespace())

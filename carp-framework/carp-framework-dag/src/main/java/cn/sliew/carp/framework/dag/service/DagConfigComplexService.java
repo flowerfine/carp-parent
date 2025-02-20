@@ -24,7 +24,7 @@ import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.carp.framework.dag.service.param.DagConfigSimpleAddParam;
 import cn.sliew.carp.framework.dag.service.param.DagConfigSimpleUpdateParam;
-import cn.sliew.carp.framework.dag.service.param.DagSimplePageParam;
+import cn.sliew.carp.framework.dag.service.param.DagConfigSimplePageParam;
 import cn.sliew.carp.framework.dag.x6.graph.DagGraphVO;
 import com.google.common.graph.Graph;
 
@@ -32,7 +32,7 @@ import java.util.List;
 
 public interface DagConfigComplexService {
 
-    PageResult<DagConfigDTO> page(DagSimplePageParam param);
+    PageResult<DagConfigDTO> page(DagConfigSimplePageParam param);
 
     DagConfigComplexDTO selectOne(Long dagId);
 

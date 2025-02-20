@@ -15,25 +15,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.dag.service;
+package cn.sliew.carp.framework.dag.service.param;
 
-import cn.sliew.carp.framework.common.model.PageResult;
-import cn.sliew.carp.framework.dag.repository.entity.DagInstance;
-import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
-import cn.sliew.carp.framework.dag.service.param.DagInstanceSimplePageParam;
-import com.baomidou.mybatisplus.extension.service.IService;
+import cn.sliew.carp.framework.common.model.BasePageParam;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
-public interface DagInstanceService extends IService<DagInstance> {
+@Data
+@Jacksonized
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+public class DagInstanceSimplePageParam extends BasePageParam {
 
-    PageResult<DagInstanceDTO> page(DagInstanceSimplePageParam param);
+    @NotBlank
+    @Schema(description = "namespace")
+    private String namespace;
 
-    DagInstanceDTO get(Long id);
+    @Schema(description = "DAG config id")
+    private Long dagConfigID;
 
-    DagInstanceDTO getWithConfig(Long id);
+    @Schema(description = "uuid")
+    private String uuid;
 
-    Long add(DagInstanceDTO instanceDTO);
-
-    boolean update(DagInstanceDTO instanceDTO);
-
-    boolean updateStatus(Long id, String fromStatus, String toStatus);
+    @Schema(description = "status")
+    private String status;
 }
