@@ -17,9 +17,13 @@
  */
 package cn.sliew.carp.framework.dag.algorithm;
 
+import cn.sliew.carp.framework.dag.service.dto.*;
 import com.google.common.collect.Sets;
 import org.apache.commons.collections4.CollectionUtils;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
@@ -27,6 +31,38 @@ import java.util.stream.Collectors;
 
 public enum DagUtil {
     ;
+
+    public static DAG<DagConfigStepDTO> buildDag(DagConfigComplexDTO dag) {
+        DAG<DagConfigStepDTO> graph = new DAG<>();
+        List<DagConfigStepDTO> steps = dag.getSteps();
+        List<DagConfigLinkDTO> links = dag.getLinks();
+        if (CollectionUtils.isEmpty(steps)) {
+            return graph;
+        }
+        Map<String, DagConfigStepDTO> stepMap = new HashMap<>();
+        for (DagConfigStepDTO step : steps) {
+            graph.addNode(step);
+            stepMap.put(step.getStepId(), step);
+        }
+        links.forEach(link -> graph.addEdge(stepMap.get(link.getFromStepId()), stepMap.get(link.getToStepId())));
+        return graph;
+    }
+
+    public static DAG<DagStepDTO> buildDag(DagInstanceComplexDTO dagInstanceComplexDTO) {
+        DAG<DagConfigStepDTO> configGraph = buildDag(dagInstanceComplexDTO.getDagConfig());
+        DAG<DagStepDTO> graph = new DAG<>();
+        Map<Long, DagStepDTO> stepMap = new HashMap<>();
+        for (DagStepDTO dagStepDTO : dagInstanceComplexDTO.getSteps()) {
+            stepMap.put(dagStepDTO.getDagConfigStep().getId(), dagStepDTO);
+            graph.addNode(dagStepDTO);
+        }
+        for (DefaultDagEdge<DagConfigStepDTO> edge : configGraph.edges()) {
+            DagConfigStepDTO source = edge.getSource();
+            DagConfigStepDTO target = edge.getTarget();
+            graph.addEdge(stepMap.get(source.getId()), stepMap.get(target.getId()));
+        }
+        return graph;
+    }
 
     public static <N> void execute(DAG<N> dag, Consumer<Set<N>> consumer) {
         execute(dag, (dag1, node) -> true, (dag1, edge) -> true, consumer);

@@ -20,7 +20,7 @@ package cn.sliew.carp.framework.dag.service.impl;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
-import cn.sliew.carp.framework.dag.algorithm.DefaultDagEdge;
+import cn.sliew.carp.framework.dag.algorithm.DagUtil;
 import cn.sliew.carp.framework.dag.service.*;
 import cn.sliew.carp.framework.dag.service.dto.*;
 import cn.sliew.carp.framework.dag.service.param.DagInstanceSimplePageParam;
@@ -33,9 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class DagInstanceComplexServiceImpl implements DagInstanceComplexService {
@@ -88,20 +86,7 @@ public class DagInstanceComplexServiceImpl implements DagInstanceComplexService 
 
     @Override
     public DAG<DagStepDTO> getDagNew(Long dagInstanceId) {
-        DagInstanceComplexDTO dagInstanceComplexDTO = selectOne(dagInstanceId);
-        DAG<DagConfigStepDTO> configGraph = dagConfigComplexService.getDagNew(dagInstanceComplexDTO.getDagConfig().getId());
-        DAG<DagStepDTO> graph = new DAG<>();
-        Map<Long, DagStepDTO> stepMap = new HashMap<>();
-        for (DagStepDTO dagStepDTO : dagInstanceComplexDTO.getSteps()) {
-            stepMap.put(dagStepDTO.getDagConfigStep().getId(), dagStepDTO);
-            graph.addNode(dagStepDTO);
-        }
-        for (DefaultDagEdge<DagConfigStepDTO> edge : configGraph.edges()) {
-            DagConfigStepDTO source = edge.getSource();
-            DagConfigStepDTO target = edge.getTarget();
-            graph.addEdge(stepMap.get(source.getId()), stepMap.get(target.getId()));
-        }
-        return graph;
+        return DagUtil.buildDag(selectOne(dagInstanceId));
     }
 
     @Override

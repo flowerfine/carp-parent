@@ -19,6 +19,7 @@ package cn.sliew.carp.framework.dag.service.impl;
 
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
+import cn.sliew.carp.framework.dag.algorithm.DagUtil;
 import cn.sliew.carp.framework.dag.service.DagConfigComplexService;
 import cn.sliew.carp.framework.dag.service.DagConfigLinkService;
 import cn.sliew.carp.framework.dag.service.DagConfigService;
@@ -28,8 +29,8 @@ import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigLinkDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.carp.framework.dag.service.param.DagConfigSimpleAddParam;
-import cn.sliew.carp.framework.dag.service.param.DagConfigSimpleUpdateParam;
 import cn.sliew.carp.framework.dag.service.param.DagConfigSimplePageParam;
+import cn.sliew.carp.framework.dag.service.param.DagConfigSimpleUpdateParam;
 import cn.sliew.carp.framework.dag.x6.graph.DagGraphVO;
 import cn.sliew.carp.framework.dag.x6.graph.EdgeCellVO;
 import cn.sliew.carp.framework.dag.x6.graph.NodeCellVO;
@@ -40,11 +41,8 @@ import com.google.common.graph.MutableGraph;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -89,19 +87,7 @@ public class DagConfigComplexServiceImpl implements DagConfigComplexService {
     @Override
     public DAG<DagConfigStepDTO> getDagNew(Long dagId) {
         DagConfigComplexDTO dag = selectOne(dagId);
-        DAG<DagConfigStepDTO> graph = new DAG<>();
-        List<DagConfigStepDTO> steps = dag.getSteps();
-        List<DagConfigLinkDTO> links = dag.getLinks();
-        if (CollectionUtils.isEmpty(steps)) {
-            return graph;
-        }
-        Map<String, DagConfigStepDTO> stepMap = new HashMap<>();
-        for (DagConfigStepDTO step : steps) {
-            graph.addNode(step);
-            stepMap.put(step.getStepId(), step);
-        }
-        links.forEach(link -> graph.addEdge(stepMap.get(link.getFromStepId()), stepMap.get(link.getToStepId())));
-        return graph;
+        return DagUtil.buildDag(dag);
     }
 
     @Override
