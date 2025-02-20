@@ -71,7 +71,9 @@ public class DagInstanceServiceImpl extends ServiceImpl<DagInstanceMapper, DagIn
     @Override
     public Long add(DagInstanceDTO instanceDTO) {
         DagInstance record = DagInstanceConvert.INSTANCE.toDo(instanceDTO);
-        record.setUuid(UUIDUtil.randomUUId());
+        if (StringUtils.hasText(record.getBody()) == false) {
+            record.setUuid(UUIDUtil.randomUUId());
+        }
         save(record);
         return record.getId();
     }

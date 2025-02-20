@@ -27,6 +27,7 @@ import cn.sliew.carp.framework.dag.service.convert.DagLinkVOConvert;
 import cn.sliew.carp.framework.dag.service.dto.DagLinkDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -42,7 +43,9 @@ public class DagLinkServiceImpl extends ServiceImpl<DagLinkMapper, DagLink> impl
     @Override
     public boolean add(DagLinkDTO linkDTO) {
         DagLink record = DagLinkConvert.INSTANCE.toDo(linkDTO);
-        record.setUuid(UUIDUtil.randomUUId());
+        if (StringUtils.hasText(record.getBody()) == false) {
+            record.setUuid(UUIDUtil.randomUUId());
+        }
         return save(record);
     }
 

@@ -51,7 +51,9 @@ public class DagStepServiceImpl extends ServiceImpl<DagStepMapper, DagStep> impl
     @Override
     public boolean add(DagStepDTO stepDTO) {
         DagStep record = DagStepConvert.INSTANCE.toDo(stepDTO);
-        record.setUuid(UUIDUtil.randomUUId());
+        if (StringUtils.hasText(record.getBody()) == false) {
+            record.setUuid(UUIDUtil.randomUUId());
+        }
         return save(record);
     }
 
