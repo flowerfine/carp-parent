@@ -43,6 +43,9 @@ public interface DagLinkConvert extends BaseConvert<DagLink, DagLinkDTO> {
         if (dto.getDagConfigLink() != null) {
             entity.setDagConfigLinkId(dto.getDagConfigLink().getId());
         }
+        if (dto.getBody() != null) {
+            entity.setBody(dto.getBody().toString());
+        }
         if (dto.getInputs() != null) {
             entity.setInputs(dto.getInputs().toString());
         }
@@ -62,6 +65,9 @@ public interface DagLinkConvert extends BaseConvert<DagLink, DagLinkDTO> {
         DagConfigLinkDTO dagConfigLink = new DagConfigLinkDTO();
         dagConfigLink.setId(entity.getDagConfigLinkId());
         dto.setDagConfigLink(dagConfigLink);
+        if (StringUtils.hasText(entity.getBody())) {
+            dto.setBody(JacksonUtil.toJsonNode(entity.getBody()));
+        }
         if (StringUtils.hasText(entity.getInputs())) {
             dto.setInputs(JacksonUtil.toJsonNode(entity.getInputs()));
         }
