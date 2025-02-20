@@ -18,7 +18,6 @@
 package cn.sliew.carp.framework.dag.service.dto;
 
 import cn.sliew.carp.framework.common.model.BaseDTO;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.JsonNode;
