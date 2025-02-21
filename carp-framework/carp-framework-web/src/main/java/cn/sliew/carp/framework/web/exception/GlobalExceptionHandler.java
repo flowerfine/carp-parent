@@ -54,7 +54,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseVO> handleException(Throwable exception,
+    public ResponseEntity<ResponseVO> handleException(Exception exception,
                                                       HttpServletRequest request,
                                                       HttpServletResponse response) {
         ResponseVO errorInfo = convert(exception, request, response);
@@ -62,7 +62,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(SliewException.class)
-    public ResponseEntity<ResponseVO> handleSliewException(Throwable exception,
+    public ResponseEntity<ResponseVO> handleSliewException(SliewException exception,
                                                       HttpServletRequest request,
                                                       HttpServletResponse response) {
         ResponseVO errorInfo = convert(exception, request, response);
@@ -70,7 +70,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(BindException.class)
-    public ResponseEntity<ResponseVO> handleBindException(Throwable exception,
+    public ResponseEntity<ResponseVO> handleBindException(BindException exception,
                                                            HttpServletRequest request,
                                                            HttpServletResponse response) {
         ResponseVO errorInfo = convert(exception, request, response);
@@ -78,7 +78,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ResponseVO> handleBadRequestException(Throwable exception,
+    public ResponseEntity<ResponseVO> handleBadRequestException(BadRequestException exception,
                                                           HttpServletRequest request,
                                                           HttpServletResponse response) {
         ResponseVO errorInfo = convert(exception, request, response);
@@ -86,7 +86,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ConversionFailedException.class)
-    public ResponseEntity<ResponseVO> handleConversionFailedException(Throwable exception,
+    public ResponseEntity<ResponseVO> handleConversionFailedException(ConversionFailedException exception,
                                                                 HttpServletRequest request,
                                                                 HttpServletResponse response) {
         ResponseVO errorInfo = convert(exception, request, response);
