@@ -23,7 +23,6 @@ import cn.sliew.carp.framework.web.util.RequestParamUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +31,7 @@ import org.springframework.stereotype.Component;
 @Order(ExceptionConvertor.ORDER)
 public class ExceptionConvertor implements WebExceptionHandler<Exception> {
 
-    static final Integer ORDER = Ordered.LOWEST_PRECEDENCE - 1;
+    static final int ORDER = ThrowableConvertor.ORDER - 1;
 
     @Override
     public boolean support(Exception e) {

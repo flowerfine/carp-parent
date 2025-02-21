@@ -25,7 +25,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +33,7 @@ import org.springframework.stereotype.Component;
 @Order(BadRequestExceptionConvertor.ORDER)
 public class BadRequestExceptionConvertor implements WebExceptionHandler<BadRequestException> {
 
-    static final Integer ORDER = Ordered.LOWEST_PRECEDENCE - 3;
+    static final int ORDER = SliewExceptionConvertor.ORDER - 1;
 
     @Override
     public boolean support(BadRequestException e) {

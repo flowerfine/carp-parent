@@ -24,7 +24,6 @@ import cn.sliew.carp.framework.web.util.RequestParamUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindException;
@@ -35,7 +34,7 @@ import org.springframework.validation.FieldError;
 @Order(BindExceptionConvertor.ORDER)
 public class BindExceptionConvertor implements WebExceptionHandler<BindException> {
 
-    static final Integer ORDER = Ordered.LOWEST_PRECEDENCE - 3;
+    static final int ORDER = SliewExceptionConvertor.ORDER - 3;
 
     @Override
     public boolean support(BindException e) {

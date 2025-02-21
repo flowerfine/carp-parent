@@ -25,7 +25,6 @@ import cn.sliew.carp.framework.web.util.RequestParamUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -35,7 +34,7 @@ import org.springframework.util.StringUtils;
 @Order(SliewExceptionConvertor.ORDER)
 public class SliewExceptionConvertor implements WebExceptionHandler<SliewException> {
 
-    static final Integer ORDER = Ordered.LOWEST_PRECEDENCE - 2;
+    public static final int ORDER = ExceptionConvertor.ORDER - 1;
 
     @Override
     public boolean support(SliewException e) {

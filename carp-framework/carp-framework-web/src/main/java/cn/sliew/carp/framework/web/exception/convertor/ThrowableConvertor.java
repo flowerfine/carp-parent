@@ -17,13 +17,13 @@
  */
 package cn.sliew.carp.framework.web.exception.convertor;
 
+import cn.sliew.carp.framework.exception.DefaultExceptionHandler;
 import cn.sliew.carp.framework.exception.ExceptionVO;
 import cn.sliew.carp.framework.web.exception.WebExceptionHandler;
 import cn.sliew.carp.framework.web.util.RequestParamUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +32,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ThrowableConvertor implements WebExceptionHandler<Throwable> {
 
-    static final Integer ORDER = Ordered.LOWEST_PRECEDENCE;
+    static final int ORDER = DefaultExceptionHandler.ORDER - 1;
 
     @Override
     public boolean support(Throwable e) {

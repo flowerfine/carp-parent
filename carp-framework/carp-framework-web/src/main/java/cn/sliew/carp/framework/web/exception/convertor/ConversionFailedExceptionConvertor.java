@@ -24,7 +24,6 @@ import cn.sliew.carp.framework.web.util.RequestParamUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.core.convert.TypeDescriptor;
@@ -35,7 +34,7 @@ import org.springframework.stereotype.Component;
 @Order(ConversionFailedExceptionConvertor.ORDER)
 public class ConversionFailedExceptionConvertor implements WebExceptionHandler<ConversionFailedException> {
 
-    static final Integer ORDER = Ordered.LOWEST_PRECEDENCE - 3;
+    static final int ORDER = SliewExceptionConvertor.ORDER - 3;
 
     @Override
     public boolean support(ConversionFailedException e) {

@@ -29,7 +29,7 @@ import java.util.Map;
 @Order(DefaultExceptionHandler.ORDER)
 public class DefaultExceptionHandler implements ExceptionHandler<Throwable> {
 
-    static final Integer ORDER = Ordered.LOWEST_PRECEDENCE;
+    public static final int ORDER = Ordered.LOWEST_PRECEDENCE;
 
     @Override
     public boolean support(Throwable e) {
