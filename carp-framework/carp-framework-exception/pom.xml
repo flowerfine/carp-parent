@@ -31,7 +31,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-framework-common</artifactId>
+            <artifactId>carp-framework-spring</artifactId>
         </dependency>
     </dependencies>
 

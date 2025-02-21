@@ -17,23 +17,37 @@
  */
 package cn.sliew.carp.framework.web.exception.convertor;
 
-import cn.sliew.carp.framework.common.model.ResponseVO;
+import cn.sliew.carp.framework.common.enums.ResponseCodeEnum;
+import cn.sliew.carp.framework.exception.ExceptionVO;
+import cn.sliew.carp.framework.web.exception.WebExceptionHandler;
 import cn.sliew.carp.framework.web.util.RequestParamUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 
 @Slf4j
-public class BindExceptionConvertor implements ExceptionConvertor<BindException> {
+@Component
+@Order(BindExceptionConvertor.ORDER)
+public class BindExceptionConvertor implements WebExceptionHandler<BindException> {
+
+    static final Integer ORDER = Ordered.LOWEST_PRECEDENCE - 3;
 
     @Override
-    public ResponseVO convert(BindException exception, HttpServletRequest request, HttpServletResponse response) {
+    public boolean support(BindException e) {
+        return BindException.class.equals(e.getClass());
+    }
+
+    @Override
+    public ExceptionVO handle(String name, BindException e, HttpServletRequest request, HttpServletResponse response) {
         String params = RequestParamUtil.formatRequestParams(request);
-        log.error("{} {} {}", request.getMethod(), request.getRequestURI(), params, exception);
+        log.error("{} {} {}", request.getMethod(), request.getRequestURI(), params, e);
         StringBuilder sb = new StringBuilder();
-        for (FieldError fieldError : exception.getFieldErrors()) {
+        for (FieldError fieldError : e.getFieldErrors()) {
             String message = String.format("server reject [%s] value [%s] with rules: %s;",
                     fieldError.getField(), fieldError.getRejectedValue(), fieldError.getDefaultMessage());
             sb.append(message);
@@ -41,6 +55,11 @@ public class BindExceptionConvertor implements ExceptionConvertor<BindException>
         if (sb.length() > 0) {
             sb.deleteCharAt(sb.length() - 1);
         }
-        return ResponseVO.error(sb.toString());
+
+        return new ExceptionVO(
+                ResponseCodeEnum.ERROR.getCode(),
+                sb.toString(),
+                null,
+                false);
     }
 }

@@ -104,14 +104,13 @@ public class DagInstanceComplexServiceImpl implements DagInstanceComplexService 
         dagInstanceDTO.setUuid(UUIDUtil.randomUUId());
         dagInstanceDTO.setBody(JacksonUtil.toJsonNode(dagConfigComplexDTO));
         Long dagInstanceId = dagInstanceService.add(dagInstanceDTO);
+        dagInstanceDTO.setId(dagInstanceId);
         // 插入 dag_step
         if (CollectionUtils.isEmpty(steps) == false) {
             for (DagConfigStepDTO dagConfigStepDTO : steps) {
                 DagStepDTO dagStepDTO = new DagStepDTO();
                 dagStepDTO.setNamespace(dagConfigComplexDTO.getNamespace());
-                DagInstanceDTO dagInstance = new DagInstanceDTO();
-                dagInstance.setId(dagInstanceId);
-                dagStepDTO.setDagInstance(dagInstance);
+                dagStepDTO.setDagInstance(dagInstanceDTO);
                 dagStepDTO.setDagConfigStep(dagConfigStepDTO);
                 dagStepDTO.setUuid(UUIDUtil.randomUUId());
                 dagStepDTO.setBody(JacksonUtil.toJsonNode(dagConfigStepDTO));
@@ -123,9 +122,7 @@ public class DagInstanceComplexServiceImpl implements DagInstanceComplexService 
             for (DagConfigLinkDTO dagConfigLinkDTO : links) {
                 DagLinkDTO dagLinkDTO = new DagLinkDTO();
                 dagLinkDTO.setNamespace(dagConfigComplexDTO.getNamespace());
-                DagInstanceDTO dagInstance = new DagInstanceDTO();
-                dagInstance.setId(dagInstanceId);
-                dagLinkDTO.setDagInstance(dagInstance);
+                dagLinkDTO.setDagInstance(dagInstanceDTO);
                 dagLinkDTO.setDagConfigLink(dagConfigLinkDTO);
                 dagLinkDTO.setUuid(UUIDUtil.randomUUId());
                 dagLinkDTO.setInputs(dagConfigLinkDTO.getLinkAttrs());

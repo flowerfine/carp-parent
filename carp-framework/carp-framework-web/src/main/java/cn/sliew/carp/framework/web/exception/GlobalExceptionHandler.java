@@ -17,12 +17,14 @@
  */
 package cn.sliew.carp.framework.web.exception;
 
+import cn.sliew.carp.framework.common.enums.ResponseCodeEnum;
 import cn.sliew.carp.framework.common.model.ResponseVO;
+import cn.sliew.carp.framework.exception.ExceptionVO;
 import cn.sliew.carp.framework.exception.SliewException;
-import cn.sliew.carp.framework.web.exception.convertor.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.coyote.BadRequestException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +34,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 
 /**
  * @see DefaultHandlerExceptionResolver
@@ -41,40 +42,63 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    /**
-     * All exception handling converters
-     */
-    public static final Map<Class<?>, ExceptionConvertor> REGISTRY = new HashMap<>();
-
-    static {
-        REGISTRY.put(Throwable.class, new ThrowableConvertor());
-        REGISTRY.put(Exception.class, new CommonExceptionConvertor());
-        REGISTRY.put(SliewException.class, new SliewExceptionConvertor());
-
-        REGISTRY.put(ConversionFailedException.class, new ConversionFailedExceptionConvertor());
-        REGISTRY.put(BadRequestException.class, new BadRequestExceptionConvertor());
-        REGISTRY.put(BindException.class, new BindExceptionConvertor());
-    }
+    @Autowired
+    private ExceptionHandlerFactory exceptionHandlerFactory;
 
     @ExceptionHandler(Throwable.class)
-    public ResponseEntity<ResponseVO> exception(Throwable exception,
+    public ResponseEntity<ResponseVO> handleThrowalbe(Throwable exception,
                                                 HttpServletRequest request,
                                                 HttpServletResponse response) {
         ResponseVO errorInfo = convert(exception, request, response);
         return new ResponseEntity<>(errorInfo, HttpStatus.OK);
     }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ResponseVO> handleException(Throwable exception,
+                                                      HttpServletRequest request,
+                                                      HttpServletResponse response) {
+        ResponseVO errorInfo = convert(exception, request, response);
+        return new ResponseEntity<>(errorInfo, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(SliewException.class)
+    public ResponseEntity<ResponseVO> handleSliewException(Throwable exception,
+                                                      HttpServletRequest request,
+                                                      HttpServletResponse response) {
+        ResponseVO errorInfo = convert(exception, request, response);
+        return new ResponseEntity<>(errorInfo, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(BindException.class)
+    public ResponseEntity<ResponseVO> handleBindException(Throwable exception,
+                                                           HttpServletRequest request,
+                                                           HttpServletResponse response) {
+        ResponseVO errorInfo = convert(exception, request, response);
+        return new ResponseEntity<>(errorInfo, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ResponseVO> handleBadRequestException(Throwable exception,
+                                                          HttpServletRequest request,
+                                                          HttpServletResponse response) {
+        ResponseVO errorInfo = convert(exception, request, response);
+        return new ResponseEntity<>(errorInfo, HttpStatus.OK);
+    }
+
+    @ExceptionHandler(ConversionFailedException.class)
+    public ResponseEntity<ResponseVO> handleConversionFailedException(Throwable exception,
+                                                                HttpServletRequest request,
+                                                                HttpServletResponse response) {
+        ResponseVO errorInfo = convert(exception, request, response);
+        return new ResponseEntity<>(errorInfo, HttpStatus.OK);
+    }
+
     public ResponseVO convert(Throwable exception, HttpServletRequest request, HttpServletResponse response) {
-        ExceptionConvertor exceptionConvertor = REGISTRY.get(exception.getClass());
-        if (exceptionConvertor == null) {
-            if (exception instanceof SliewException) {
-                exceptionConvertor = REGISTRY.get(SliewException.class);
-            } else if (exception instanceof Exception) {
-                exceptionConvertor = REGISTRY.get(Exception.class);
-            } else {
-                exceptionConvertor = REGISTRY.get(Throwable.class);
-            }
+        Optional<ExceptionVO> optional = exceptionHandlerFactory.handle(exception, request, response);
+        if (optional.isPresent()) {
+            ExceptionVO exceptionVO = optional.get();
+            return ResponseVO.error(exceptionVO.getErrorCode(), exceptionVO.getErrorMessage());
         }
-        return exceptionConvertor.convert(exception, request, response);
+        return ResponseVO.error(ResponseCodeEnum.ERROR.getCode(), ResponseCodeEnum.ERROR.getValue());
     }
 }

@@ -15,34 +15,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.web.exception.convertor;
+package cn.sliew.carp.framework.web.exception;
 
 import cn.sliew.carp.framework.exception.ExceptionVO;
-import cn.sliew.carp.framework.web.exception.WebExceptionHandler;
-import cn.sliew.carp.framework.web.util.RequestParamUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Component
-@Order(ExceptionConvertor.ORDER)
-public class ExceptionConvertor implements WebExceptionHandler<Exception> {
+public class ExceptionHandlerFactory {
 
-    static final Integer ORDER = Ordered.LOWEST_PRECEDENCE - 1;
+    @Autowired
+    private List<WebExceptionHandler> exceptionHandlers;
 
-    @Override
-    public boolean support(Exception e) {
-        return e.getClass().isAssignableFrom(Exception.class);
-    }
-
-    @Override
-    public ExceptionVO handle(String name, Exception e, HttpServletRequest request, HttpServletResponse response) {
-        String params = RequestParamUtil.formatRequestParams(request);
-        log.error("{} {} {}", request.getMethod(), request.getRequestURI(), params, e);
-        return handle(name, e);
+    public Optional<ExceptionVO> handle(Throwable e, HttpServletRequest request, HttpServletResponse response) {
+        if (CollectionUtils.isEmpty(exceptionHandlers)) {
+            return Optional.empty();
+        }
+        return exceptionHandlers.stream()
+                .filter(handler -> handler.support(e))
+                .findFirst()
+                .map(handler -> handler.handle(request.getMethod() + " " + request.getRequestURI(), e, request, response));
     }
 }

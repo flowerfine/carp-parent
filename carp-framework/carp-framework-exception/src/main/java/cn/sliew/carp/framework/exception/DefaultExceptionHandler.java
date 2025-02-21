@@ -15,22 +15,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.web.exception.convertor;
+package cn.sliew.carp.framework.exception;
 
-import cn.sliew.carp.framework.exception.ExceptionVO;
-import cn.sliew.carp.framework.web.exception.WebExceptionHandler;
-import cn.sliew.carp.framework.web.util.RequestParamUtil;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
+import com.google.common.base.Throwables;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-@Slf4j
-@Order(ThrowableConvertor.ORDER)
+import java.util.Collections;
+import java.util.Map;
+
 @Component
-public class ThrowableConvertor implements WebExceptionHandler<Throwable> {
+@Order(DefaultExceptionHandler.ORDER)
+public class DefaultExceptionHandler implements ExceptionHandler<Throwable> {
 
     static final Integer ORDER = Ordered.LOWEST_PRECEDENCE;
 
@@ -40,9 +37,16 @@ public class ThrowableConvertor implements WebExceptionHandler<Throwable> {
     }
 
     @Override
-    public ExceptionVO handle(String name, Throwable e, HttpServletRequest request, HttpServletResponse response) {
-        String params = RequestParamUtil.formatRequestParams(request);
-        log.error("{} {} {}", request.getMethod(), request.getRequestURI(), params, e);
-        return handle(name, e);
+    public ExceptionVO handle(String name, Throwable e) {
+        Map<String, Object> exceptionDetails =
+                ExceptionVO.buildDetails("Unexpected Failure", Collections.singletonList(e.getMessage()));
+        exceptionDetails.put("name", name);
+        exceptionDetails.put("exceptionType", e.getClass().getSimpleName());
+        exceptionDetails.put("stackTrace", Throwables.getStackTraceAsString(e));
+        if (e instanceof SliewException sliewException) {
+            exceptionDetails.putAll(sliewException.getAdditionalAttributes());
+        }
+        return new ExceptionVO(
+                "-1", "unknown exception", exceptionDetails, false);
     }
 }

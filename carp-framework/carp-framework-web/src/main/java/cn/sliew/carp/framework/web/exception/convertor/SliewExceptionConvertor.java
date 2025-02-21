@@ -17,27 +17,39 @@
  */
 package cn.sliew.carp.framework.web.exception.convertor;
 
-import cn.sliew.carp.framework.common.model.ResponseVO;
+import cn.sliew.carp.framework.common.enums.ResponseCodeEnum;
+import cn.sliew.carp.framework.exception.ExceptionVO;
 import cn.sliew.carp.framework.exception.SliewException;
+import cn.sliew.carp.framework.web.exception.WebExceptionHandler;
 import cn.sliew.carp.framework.web.util.RequestParamUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 @Slf4j
-public class SliewExceptionConvertor implements ExceptionConvertor<SliewException> {
+@Component
+@Order(SliewExceptionConvertor.ORDER)
+public class SliewExceptionConvertor implements WebExceptionHandler<SliewException> {
+
+    static final Integer ORDER = Ordered.LOWEST_PRECEDENCE - 2;
 
     @Override
-    public ResponseVO convert(SliewException exception, HttpServletRequest request, HttpServletResponse response) {
+    public boolean support(SliewException e) {
+        return e.getClass().isAssignableFrom(SliewException.class);
+    }
+
+    @Override
+    public ExceptionVO handle(String name, SliewException e, HttpServletRequest request, HttpServletResponse response) {
         String params = RequestParamUtil.formatRequestParams(request);
-        log.error("{} {} {}", request.getMethod(), request.getRequestURI(), params, exception);
-        ResponseVO errorInfo;
-        if (StringUtils.hasText(exception.getCode())) {
-            errorInfo = ResponseVO.error(exception.getCode(), exception.getMessage());
+        log.error("{} {} {}", request.getMethod(), request.getRequestURI(), params, e);
+        if (StringUtils.hasText(e.getCode())) {
+            return new ExceptionVO(e.getCode(), e.getMessage(), null, e.getRetryable());
         } else {
-            errorInfo = ResponseVO.error(exception.getMessage());
+            return new ExceptionVO(ResponseCodeEnum.ERROR.getCode(), e.getMessage(), null, e.getRetryable());
         }
-        return errorInfo;
     }
 }

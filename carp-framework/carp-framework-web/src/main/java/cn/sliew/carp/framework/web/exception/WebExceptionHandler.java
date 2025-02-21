@@ -15,23 +15,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.web.exception.convertor;
+package cn.sliew.carp.framework.web.exception;
 
 import cn.sliew.carp.framework.common.enums.ResponseCodeEnum;
-import cn.sliew.carp.framework.common.model.ResponseVO;
-import cn.sliew.carp.framework.web.util.I18nUtil;
-import cn.sliew.carp.framework.web.util.RequestParamUtil;
+import cn.sliew.carp.framework.exception.ExceptionHandler;
+import cn.sliew.carp.framework.exception.ExceptionVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
-public class CommonExceptionConvertor implements ExceptionConvertor<Exception> {
+public interface WebExceptionHandler<T extends Throwable> extends ExceptionHandler<T> {
 
     @Override
-    public ResponseVO convert(Exception exception, HttpServletRequest request, HttpServletResponse response) {
-        String params = RequestParamUtil.formatRequestParams(request);
-        log.error("{} {} {}", request.getMethod(), request.getRequestURI(), params, exception);
-        return ResponseVO.error(I18nUtil.get(ResponseCodeEnum.ERROR.getValue()));
+    default ExceptionVO handle(String name, T e) {
+        return new ExceptionVO(
+                ResponseCodeEnum.ERROR.getCode(),
+                ResponseCodeEnum.ERROR.getValue(),
+                null,
+                false);
     }
+
+    default ExceptionVO handle(String name, T e, HttpServletRequest request, HttpServletResponse response) {
+        return handle(name, e);
+    }
+
 }

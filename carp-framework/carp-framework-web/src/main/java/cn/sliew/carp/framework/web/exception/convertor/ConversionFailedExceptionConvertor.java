@@ -17,26 +17,44 @@
  */
 package cn.sliew.carp.framework.web.exception.convertor;
 
-import cn.sliew.carp.framework.common.model.ResponseVO;
+import cn.sliew.carp.framework.common.enums.ResponseCodeEnum;
+import cn.sliew.carp.framework.exception.ExceptionVO;
+import cn.sliew.carp.framework.web.exception.WebExceptionHandler;
 import cn.sliew.carp.framework.web.util.RequestParamUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.core.convert.TypeDescriptor;
+import org.springframework.stereotype.Component;
 
 @Slf4j
-public class ConversionFailedExceptionConvertor implements ExceptionConvertor<ConversionFailedException> {
+@Component
+@Order(ConversionFailedExceptionConvertor.ORDER)
+public class ConversionFailedExceptionConvertor implements WebExceptionHandler<ConversionFailedException> {
+
+    static final Integer ORDER = Ordered.LOWEST_PRECEDENCE - 3;
 
     @Override
-    public ResponseVO convert(ConversionFailedException exception, HttpServletRequest request, HttpServletResponse response) {
-        String params = RequestParamUtil.formatRequestParams(request);
-        log.error("{} {}", request.getMethod(), request.getRequestURI(), params, exception);
-        final TypeDescriptor sourceType = exception.getSourceType();
-        final TypeDescriptor targetType = exception.getTargetType();
-        final Object value = exception.getValue();
-        ResponseVO errorInfo = ResponseVO.error(String.format("springmvc convert %s from %s to %s error",
-                value, sourceType.getName(), targetType.getName()));
-        return errorInfo;
+    public boolean support(ConversionFailedException e) {
+        return ConversionFailedException.class.equals(e.getClass());
     }
+
+    @Override
+    public ExceptionVO handle(String name, ConversionFailedException e, HttpServletRequest request, HttpServletResponse response) {
+        String params = RequestParamUtil.formatRequestParams(request);
+        log.error("{} {} {}", request.getMethod(), request.getRequestURI(), params, e);
+        final TypeDescriptor sourceType = e.getSourceType();
+        final TypeDescriptor targetType = e.getTargetType();
+        final Object value = e.getValue();
+        return new ExceptionVO(
+                ResponseCodeEnum.ERROR.getCode(),
+                String.format("springmvc convert %s from %s to %s error",
+                        value, sourceType.getName(), targetType.getName()),
+                null,
+                false);
+    }
+
 }

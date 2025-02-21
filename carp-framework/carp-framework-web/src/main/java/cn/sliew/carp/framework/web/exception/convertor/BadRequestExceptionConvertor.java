@@ -18,21 +18,42 @@
 package cn.sliew.carp.framework.web.exception.convertor;
 
 import cn.sliew.carp.framework.common.enums.ResponseCodeEnum;
-import cn.sliew.carp.framework.common.model.ResponseVO;
-import cn.sliew.carp.framework.web.util.I18nUtil;
+import cn.sliew.carp.framework.exception.ExceptionVO;
+import cn.sliew.carp.framework.web.exception.WebExceptionHandler;
 import cn.sliew.carp.framework.web.util.RequestParamUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 @Slf4j
-public class BadRequestExceptionConvertor implements ExceptionConvertor<BadRequestException> {
+@Component
+@Order(BadRequestExceptionConvertor.ORDER)
+public class BadRequestExceptionConvertor implements WebExceptionHandler<BadRequestException> {
+
+    static final Integer ORDER = Ordered.LOWEST_PRECEDENCE - 3;
 
     @Override
-    public ResponseVO convert(BadRequestException exception, HttpServletRequest request, HttpServletResponse response) {
+    public boolean support(BadRequestException e) {
+        return BadRequestException.class.equals(e.getClass());
+    }
+
+    @Override
+    public ExceptionVO handle(String name, BadRequestException e) {
+        return new ExceptionVO(
+                ResponseCodeEnum.ERROR_BAD_REQUEST.getCode(),
+                ResponseCodeEnum.ERROR_BAD_REQUEST.getValue(),
+                null,
+                false);
+    }
+
+    @Override
+    public ExceptionVO handle(String name, BadRequestException e, HttpServletRequest request, HttpServletResponse response) {
         String params = RequestParamUtil.formatRequestParams(request);
-        log.error("{} {}", request.getMethod(), request.getRequestURI(), params, exception);
-        return ResponseVO.error(I18nUtil.get(ResponseCodeEnum.ERROR_BAD_REQUEST.getValue()));
+        log.error("{} {} {}", request.getMethod(), request.getRequestURI(), params, e);
+        return handle(name, e);
     }
 }
