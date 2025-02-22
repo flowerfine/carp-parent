@@ -27,7 +27,7 @@ import java.util.Map;
 
 @Component
 @Order(DefaultExceptionHandler.ORDER)
-public class DefaultExceptionHandler implements ExceptionHandler<Throwable> {
+public class DefaultExceptionHandler implements ExceptionHandler {
 
     public static final int ORDER = Ordered.LOWEST_PRECEDENCE;
 

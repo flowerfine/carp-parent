@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Order(ThrowableConvertor.ORDER)
 @Component
-public class ThrowableConvertor implements WebExceptionHandler<Throwable> {
+public class ThrowableConvertor implements WebExceptionHandler {
 
     static final int ORDER = DefaultExceptionHandler.ORDER - 1;
 

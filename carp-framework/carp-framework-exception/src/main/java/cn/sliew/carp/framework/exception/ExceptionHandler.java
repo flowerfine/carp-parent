@@ -17,9 +17,9 @@
  */
 package cn.sliew.carp.framework.exception;
 
-public interface ExceptionHandler<T extends Throwable> {
+public interface ExceptionHandler {
 
-    boolean support(T e);
+    boolean support(Throwable e);
 
-    ExceptionVO handle(String name, T e);
+    ExceptionVO handle(String name, Throwable e);
 }

@@ -32,23 +32,26 @@ import org.springframework.util.StringUtils;
 @Slf4j
 @Component
 @Order(SliewExceptionConvertor.ORDER)
-public class SliewExceptionConvertor implements WebExceptionHandler<SliewException> {
+public class SliewExceptionConvertor implements WebExceptionHandler {
 
     public static final int ORDER = ExceptionConvertor.ORDER - 1;
 
     @Override
-    public boolean support(SliewException e) {
+    public boolean support(Throwable e) {
         return e.getClass().isAssignableFrom(SliewException.class);
     }
 
     @Override
-    public ExceptionVO handle(String name, SliewException e, HttpServletRequest request, HttpServletResponse response) {
+    public ExceptionVO handle(String name, Throwable e, HttpServletRequest request, HttpServletResponse response) {
         String params = RequestParamUtil.formatRequestParams(request);
         log.error("{} {} {}", request.getMethod(), request.getRequestURI(), params, e);
-        if (StringUtils.hasText(e.getCode())) {
-            return new ExceptionVO(e.getCode(), e.getMessage(), null, e.getRetryable());
-        } else {
-            return new ExceptionVO(ResponseCodeEnum.ERROR.getCode(), e.getMessage(), null, e.getRetryable());
+        if (e instanceof SliewException exception) {
+            if (StringUtils.hasText(exception.getCode())) {
+                return new ExceptionVO(exception.getCode(), exception.getMessage(), null, exception.getRetryable());
+            } else {
+                return new ExceptionVO(ResponseCodeEnum.ERROR.getCode(), exception.getMessage(), null, exception.getRetryable());
+            }
         }
+        return null;
     }
 }

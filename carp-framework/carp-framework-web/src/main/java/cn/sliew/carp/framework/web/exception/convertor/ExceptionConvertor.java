@@ -29,17 +29,17 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @Order(ExceptionConvertor.ORDER)
-public class ExceptionConvertor implements WebExceptionHandler<Exception> {
+public class ExceptionConvertor implements WebExceptionHandler {
 
     static final int ORDER = ThrowableConvertor.ORDER - 1;
 
     @Override
-    public boolean support(Exception e) {
+    public boolean support(Throwable e) {
         return e.getClass().isAssignableFrom(Exception.class);
     }
 
     @Override
-    public ExceptionVO handle(String name, Exception e, HttpServletRequest request, HttpServletResponse response) {
+    public ExceptionVO handle(String name, Throwable e, HttpServletRequest request, HttpServletResponse response) {
         String params = RequestParamUtil.formatRequestParams(request);
         log.error("{} {} {}", request.getMethod(), request.getRequestURI(), params, e);
         return handle(name, e);

@@ -31,17 +31,17 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @Order(BadRequestExceptionConvertor.ORDER)
-public class BadRequestExceptionConvertor implements WebExceptionHandler<BadRequestException> {
+public class BadRequestExceptionConvertor implements WebExceptionHandler {
 
     static final int ORDER = SliewExceptionConvertor.ORDER - 1;
 
     @Override
-    public boolean support(BadRequestException e) {
+    public boolean support(Throwable e) {
         return BadRequestException.class.equals(e.getClass());
     }
 
     @Override
-    public ExceptionVO handle(String name, BadRequestException e) {
+    public ExceptionVO handle(String name, Throwable e) {
         return new ExceptionVO(
                 ResponseCodeEnum.ERROR_BAD_REQUEST.getCode(),
                 ResponseCodeEnum.ERROR_BAD_REQUEST.getValue(),
@@ -50,7 +50,7 @@ public class BadRequestExceptionConvertor implements WebExceptionHandler<BadRequ
     }
 
     @Override
-    public ExceptionVO handle(String name, BadRequestException e, HttpServletRequest request, HttpServletResponse response) {
+    public ExceptionVO handle(String name, Throwable e, HttpServletRequest request, HttpServletResponse response) {
         String params = RequestParamUtil.formatRequestParams(request);
         log.error("{} {} {}", request.getMethod(), request.getRequestURI(), params, e);
         return handle(name, e);

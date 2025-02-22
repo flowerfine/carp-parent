@@ -23,10 +23,10 @@ import cn.sliew.carp.framework.exception.ExceptionVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public interface WebExceptionHandler<T extends Throwable> extends ExceptionHandler<T> {
+public interface WebExceptionHandler extends ExceptionHandler {
 
     @Override
-    default ExceptionVO handle(String name, T e) {
+    default ExceptionVO handle(String name, Throwable e) {
         return new ExceptionVO(
                 ResponseCodeEnum.ERROR.getCode(),
                 ResponseCodeEnum.ERROR.getValue(),
@@ -34,7 +34,7 @@ public interface WebExceptionHandler<T extends Throwable> extends ExceptionHandl
                 false);
     }
 
-    default ExceptionVO handle(String name, T e, HttpServletRequest request, HttpServletResponse response) {
+    default ExceptionVO handle(String name, Throwable e, HttpServletRequest request, HttpServletResponse response) {
         return handle(name, e);
     }
 

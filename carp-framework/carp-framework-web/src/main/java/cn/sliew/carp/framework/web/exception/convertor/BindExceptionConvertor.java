@@ -32,24 +32,26 @@ import org.springframework.validation.FieldError;
 @Slf4j
 @Component
 @Order(BindExceptionConvertor.ORDER)
-public class BindExceptionConvertor implements WebExceptionHandler<BindException> {
+public class BindExceptionConvertor implements WebExceptionHandler {
 
     static final int ORDER = SliewExceptionConvertor.ORDER - 3;
 
     @Override
-    public boolean support(BindException e) {
+    public boolean support(Throwable e) {
         return BindException.class.equals(e.getClass());
     }
 
     @Override
-    public ExceptionVO handle(String name, BindException e, HttpServletRequest request, HttpServletResponse response) {
+    public ExceptionVO handle(String name, Throwable e, HttpServletRequest request, HttpServletResponse response) {
         String params = RequestParamUtil.formatRequestParams(request);
         log.error("{} {} {}", request.getMethod(), request.getRequestURI(), params, e);
         StringBuilder sb = new StringBuilder();
-        for (FieldError fieldError : e.getFieldErrors()) {
-            String message = String.format("server reject [%s] value [%s] with rules: %s;",
-                    fieldError.getField(), fieldError.getRejectedValue(), fieldError.getDefaultMessage());
-            sb.append(message);
+        if (e instanceof BindException exception) {
+            for (FieldError fieldError : exception.getFieldErrors()) {
+                String message = String.format("server reject [%s] value [%s] with rules: %s;",
+                        fieldError.getField(), fieldError.getRejectedValue(), fieldError.getDefaultMessage());
+                sb.append(message);
+            }
         }
         if (sb.length() > 0) {
             sb.deleteCharAt(sb.length() - 1);

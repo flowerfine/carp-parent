@@ -32,28 +32,31 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @Order(ConversionFailedExceptionConvertor.ORDER)
-public class ConversionFailedExceptionConvertor implements WebExceptionHandler<ConversionFailedException> {
+public class ConversionFailedExceptionConvertor implements WebExceptionHandler {
 
     static final int ORDER = SliewExceptionConvertor.ORDER - 3;
 
     @Override
-    public boolean support(ConversionFailedException e) {
+    public boolean support(Throwable e) {
         return ConversionFailedException.class.equals(e.getClass());
     }
 
     @Override
-    public ExceptionVO handle(String name, ConversionFailedException e, HttpServletRequest request, HttpServletResponse response) {
+    public ExceptionVO handle(String name, Throwable e, HttpServletRequest request, HttpServletResponse response) {
         String params = RequestParamUtil.formatRequestParams(request);
         log.error("{} {} {}", request.getMethod(), request.getRequestURI(), params, e);
-        final TypeDescriptor sourceType = e.getSourceType();
-        final TypeDescriptor targetType = e.getTargetType();
-        final Object value = e.getValue();
-        return new ExceptionVO(
-                ResponseCodeEnum.ERROR.getCode(),
-                String.format("springmvc convert %s from %s to %s error",
-                        value, sourceType.getName(), targetType.getName()),
-                null,
-                false);
+        if (e instanceof ConversionFailedException exception) {
+            final TypeDescriptor sourceType = exception.getSourceType();
+            final TypeDescriptor targetType = exception.getTargetType();
+            final Object value = exception.getValue();
+            return new ExceptionVO(
+                    ResponseCodeEnum.ERROR.getCode(),
+                    String.format("springmvc convert %s from %s to %s error",
+                            value, sourceType.getName(), targetType.getName()),
+                    null,
+                    false);
+        }
+        return null;
     }
 
 }
