@@ -23,7 +23,12 @@ package cn.sliew.carp.framework.pf4j.spring;
 public interface BeanPromoter {
 
     /**
-     * promote
+     * promote bean
+     *
+     * @param beanName  bean
+     * @param bean      bean instance
+     * @param beanClass bean class
+     * @param isPrimary is primary
      */
     void promote(String beanName, Object bean, Class beanClass, boolean isPrimary);
 }

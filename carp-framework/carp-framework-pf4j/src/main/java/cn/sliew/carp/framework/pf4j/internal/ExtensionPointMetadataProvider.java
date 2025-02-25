@@ -27,7 +27,7 @@ public class ExtensionPointMetadataProvider {
     /**
      * get extension class
      *
-     * @param extensionPoint
+     * @param extensionPoint extension point
      * @return extension class
      */
     public static Class<? extends CarpExtensionPoint> getExtensionClass(CarpExtensionPoint extensionPoint) {

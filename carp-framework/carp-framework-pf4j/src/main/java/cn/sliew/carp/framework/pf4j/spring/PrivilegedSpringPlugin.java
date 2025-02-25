@@ -52,6 +52,12 @@ public abstract class PrivilegedSpringPlugin extends Plugin {
      */
     public abstract void registerBeanDefinitions(BeanDefinitionRegistry registry);
 
+    /**
+     * Create a bean definition for the given class.
+     *
+     * @param beanClass bean class
+     * @return bean definition
+     */
     protected BeanDefinition beanDefinitionFor(Class beanClass) {
         return BeanDefinitionBuilder.genericBeanDefinition(beanClass)
                 .setScope(BeanDefinition.SCOPE_SINGLETON)
@@ -59,12 +65,25 @@ public abstract class PrivilegedSpringPlugin extends Plugin {
                 .getBeanDefinition();
     }
 
+    /**
+     * Create a primary bean definition for the given class.
+     *
+     * @param beanClass bean class
+     * @return bean definition
+     */
     protected BeanDefinition primaryBeanDefinitionFor(Class beanClass) {
         final BeanDefinition beanDefinition = beanDefinitionFor(beanClass);
         beanDefinition.setPrimary(true);
         return beanDefinition;
     }
 
+    /**
+     * Register the bean definition into the registry.
+     *
+     * @param beanDefinition bean definition
+     * @param registry       registry
+     * @throws ClassNotFoundException
+     */
     protected void registerBean(BeanDefinition beanDefinition, BeanDefinitionRegistry registry) throws ClassNotFoundException {
         final Class loadedBeanClass =
                 this.getClass().getClassLoader().loadClass(beanDefinition.getBeanClassName());

@@ -38,6 +38,14 @@ public class SpringLoader implements ApplicationContextAware {
     private final List<Class> classesToRegister;
     private final AnnotationConfigApplicationContext pluginContext;
 
+    /**
+     * Spring loader
+     *
+     * @param pluginClassLoader class loader
+     * @param packagesToScan    package
+     * @param classesToRegister class
+     * @param pluginContext     application context
+     */
     public SpringLoader(
             ClassLoader pluginClassLoader,
             List<String> packagesToScan,

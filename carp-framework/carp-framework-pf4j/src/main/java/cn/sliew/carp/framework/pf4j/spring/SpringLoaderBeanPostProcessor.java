@@ -38,6 +38,12 @@ public class SpringLoaderBeanPostProcessor implements BeanPostProcessor {
     private final GenericApplicationContext pluginContext;
     private final BeanPromoter beanPromoter;
 
+    /**
+     * bean post processor
+     *
+     * @param pluginContext plugin context
+     * @param beanPromoter  bean promoter
+     */
     public SpringLoaderBeanPostProcessor(
             GenericApplicationContext pluginContext, BeanPromoter beanPromoter) {
         this.pluginContext = pluginContext;
