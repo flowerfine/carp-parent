@@ -27,6 +27,8 @@ public interface CarpExtensionPoint extends ExtensionPoint {
     /**
      * Return the plugin ID this extension point implementation is associated with. Returns "default"
      * if extension point is not associated with a plugin.
+     *
+     * @return plugin id
      */
     default String getPluginId() {
         return ExtensionPointMetadataProvider.getPluginId(this);
@@ -36,6 +38,8 @@ public interface CarpExtensionPoint extends ExtensionPoint {
      * Spinnaker extension points are typically proxied to provide some extension invocation
      * instrumentation (logging, metrics, etc). To get the extension class type, use this method
      * instead of {@link #getClass()}.
+     *
+     * @return extension class
      */
     default Class<? extends CarpExtensionPoint> getExtensionClass() {
         return ExtensionPointMetadataProvider.getExtensionClass(this);

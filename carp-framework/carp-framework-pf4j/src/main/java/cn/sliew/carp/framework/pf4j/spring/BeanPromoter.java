@@ -17,6 +17,13 @@
  */
 package cn.sliew.carp.framework.pf4j.spring;
 
+/**
+ * bean promoter
+ */
 public interface BeanPromoter {
+
+    /**
+     * promote
+     */
     void promote(String beanName, Object bean, Class beanClass, boolean isPrimary);
 }
