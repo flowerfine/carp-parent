@@ -27,6 +27,8 @@ public interface DagConfigLinkService extends IService<DagConfigLink> {
 
     List<DagConfigLinkDTO> listLinks(Long dagId);
 
+    DagConfigLinkDTO get(Long id);
+
     boolean add(DagConfigLinkDTO linkDTO);
 
     boolean update(DagConfigLinkDTO linkDTO);

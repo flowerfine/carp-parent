@@ -21,11 +21,14 @@ import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.framework.dag.repository.entity.DagLink;
 import cn.sliew.carp.framework.dag.repository.entity.DagLinkVO;
 import cn.sliew.carp.framework.dag.repository.mapper.DagLinkMapper;
+import cn.sliew.carp.framework.dag.service.DagConfigLinkService;
 import cn.sliew.carp.framework.dag.service.DagLinkService;
 import cn.sliew.carp.framework.dag.service.convert.DagLinkConvert;
 import cn.sliew.carp.framework.dag.service.convert.DagLinkVOConvert;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigLinkDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagLinkDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -34,10 +37,27 @@ import java.util.List;
 @Service
 public class DagLinkServiceImpl extends ServiceImpl<DagLinkMapper, DagLink> implements DagLinkService {
 
+    @Autowired
+    private DagConfigLinkService dagConfigLinkService;
+
     @Override
     public List<DagLinkDTO> listLinks(Long dagInstanceId) {
         List<DagLinkVO> dagLinkVOS = baseMapper.listByDagInstanceId(dagInstanceId);
         return DagLinkVOConvert.INSTANCE.toDto(dagLinkVOS);
+    }
+
+    @Override
+    public DagLinkDTO get(Long id) {
+        DagLink entity = getOptById(id).orElseThrow(() -> new IllegalArgumentException("dag link not exists for id: " + id));
+        return DagLinkConvert.INSTANCE.toDto(entity);
+    }
+
+    @Override
+    public DagLinkDTO getWithConfig(Long id) {
+        DagLinkDTO dagLinkDTO = get(id);
+        DagConfigLinkDTO dagConfigLinkDTO = dagConfigLinkService.get(dagLinkDTO.getDagConfigLink().getId());
+        dagLinkDTO.setDagConfigLink(dagConfigLinkDTO);
+        return dagLinkDTO;
     }
 
     @Override

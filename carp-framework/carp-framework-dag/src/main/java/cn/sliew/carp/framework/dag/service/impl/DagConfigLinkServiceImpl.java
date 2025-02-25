@@ -43,6 +43,12 @@ public class DagConfigLinkServiceImpl extends ServiceImpl<DagConfigLinkMapper, D
     }
 
     @Override
+    public DagConfigLinkDTO get(Long id) {
+        DagConfigLink entity = getOptById(id).orElseThrow(() -> new IllegalArgumentException("dag config link not exists for id: " + id));
+        return DagConfigLinkConvert.INSTANCE.toDto(entity);
+    }
+
+    @Override
     public boolean add(DagConfigLinkDTO linkDTO) {
         DagConfigLink record = DagConfigLinkConvert.INSTANCE.toDo(linkDTO);
         return save(record);

@@ -21,13 +21,16 @@ import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.framework.dag.repository.entity.DagStep;
 import cn.sliew.carp.framework.dag.repository.entity.DagStepVO;
 import cn.sliew.carp.framework.dag.repository.mapper.DagStepMapper;
+import cn.sliew.carp.framework.dag.service.DagConfigStepService;
 import cn.sliew.carp.framework.dag.service.DagStepService;
 import cn.sliew.carp.framework.dag.service.convert.DagStepConvert;
 import cn.sliew.carp.framework.dag.service.convert.DagStepVOConvert;
+import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -35,6 +38,9 @@ import java.util.List;
 
 @Service
 public class DagStepServiceImpl extends ServiceImpl<DagStepMapper, DagStep> implements DagStepService {
+
+    @Autowired
+    private DagConfigStepService dagConfigStepService;
 
     @Override
     public List<DagStepDTO> listSteps(Long dagInstanceId) {
@@ -46,6 +52,14 @@ public class DagStepServiceImpl extends ServiceImpl<DagStepMapper, DagStep> impl
     public DagStepDTO get(Long id) {
         DagStep entity = getOptById(id).orElseThrow(() -> new IllegalArgumentException("dag step not exists for id: " + id));
         return DagStepConvert.INSTANCE.toDto(entity);
+    }
+
+    @Override
+    public DagStepDTO getWithConfig(Long id) {
+        DagStepDTO dagStepDTO = get(id);
+        DagConfigStepDTO dagConfigStepDTO = dagConfigStepService.get(dagStepDTO.getDagConfigStep().getId());
+        dagStepDTO.setDagConfigStep(dagConfigStepDTO);
+        return dagStepDTO;
     }
 
     @Override

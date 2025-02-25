@@ -29,6 +29,8 @@ public interface DagStepService extends IService<DagStep> {
 
     DagStepDTO get(Long id);
 
+    DagStepDTO getWithConfig(Long id);
+
     boolean add(DagStepDTO stepDTO);
 
     boolean update(DagStepDTO stepDTO);
