@@ -34,11 +34,16 @@ import java.util.List;
  */
 public abstract class SpringLoaderPlugin extends PrivilegedSpringPlugin {
 
+    /**
+     * The plugin context.
+     */
     protected AnnotationConfigApplicationContext pluginContext = new AnnotationConfigApplicationContext();
 
     /**
      * Constructor to be used by plugin manager for plugin instantiation. Your plugins have to provide
      * constructor with this exact signature to be successfully loaded by manager.
+     *
+     * @param wrapper plugin wrapper
      */
     public SpringLoaderPlugin(PluginWrapper wrapper) {
         super(wrapper);
@@ -77,6 +82,8 @@ public abstract class SpringLoaderPlugin extends PrivilegedSpringPlugin {
 
     /**
      * Specify plugin packages to scan for beans.
+     *
+     * @return plugin packages to scan for beans
      */
     public List<String> getPackagesToScan() {
         return Collections.emptyList();
@@ -84,6 +91,8 @@ public abstract class SpringLoaderPlugin extends PrivilegedSpringPlugin {
 
     /**
      * Specify plugin classes to register with the plugin context.
+     *
+     * @return plugin classes to register with the plugin context
      */
     public List<Class> getClassesToRegister() {
         return Collections.emptyList();

@@ -82,7 +82,7 @@ public abstract class PrivilegedSpringPlugin extends Plugin {
      *
      * @param beanDefinition bean definition
      * @param registry       registry
-     * @throws ClassNotFoundException
+     * @throws ClassNotFoundException throw if the bean class cannot be loaded
      */
     protected void registerBean(BeanDefinition beanDefinition, BeanDefinitionRegistry registry) throws ClassNotFoundException {
         final Class loadedBeanClass =

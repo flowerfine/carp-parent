@@ -23,6 +23,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+/**
+ * spring loader custom init
+ */
 public abstract class SpringLoaderCustomInit implements ApplicationContextAware {
 
     @Override
@@ -32,6 +35,12 @@ public abstract class SpringLoaderCustomInit implements ApplicationContextAware 
                 (AnnotationConfigApplicationContext) applicationContext);
     }
 
+    /**
+     * init
+     *
+     * @param appContext    application context
+     * @param pluginContext plugin context
+     */
     protected abstract void init(
             AnnotationConfigServletWebServerApplicationContext appContext,
             AnnotationConfigApplicationContext pluginContext);

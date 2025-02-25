@@ -37,7 +37,7 @@ public interface CarpExtensionPoint extends ExtensionPoint {
     /**
      * Spinnaker extension points are typically proxied to provide some extension invocation
      * instrumentation (logging, metrics, etc). To get the extension class type, use this method
-     * instead of {@link #getClass()}.
+     * instead of {@code #getClass()}.
      *
      * @return extension class
      */
