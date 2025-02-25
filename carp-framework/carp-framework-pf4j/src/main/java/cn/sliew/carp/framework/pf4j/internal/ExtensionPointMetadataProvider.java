@@ -19,8 +19,17 @@ package cn.sliew.carp.framework.pf4j.internal;
 
 import java.lang.reflect.Proxy;
 
+/**
+ * ExtensionPointMetadataProvider
+ */
 public class ExtensionPointMetadataProvider {
 
+    /**
+     * get extension class
+     *
+     * @param extensionPoint
+     * @return extension class
+     */
     public static Class<? extends CarpExtensionPoint> getExtensionClass(CarpExtensionPoint extensionPoint) {
         if (Proxy.isProxyClass(extensionPoint.getClass())) {
             ExtensionInvocationHandler extensionInvocationHandler =
@@ -30,6 +39,12 @@ public class ExtensionPointMetadataProvider {
         return extensionPoint.getClass();
     }
 
+    /**
+     * get plugin id
+     *
+     * @param extensionPoint extension point
+     * @return plugin id
+     */
     public static String getPluginId(CarpExtensionPoint extensionPoint) {
         if (Proxy.isProxyClass(extensionPoint.getClass())) {
             ExtensionInvocationHandler extensionInvocationHandler =

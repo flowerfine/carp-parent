@@ -27,11 +27,15 @@ public interface ExtensionInvocationHandler extends InvocationHandler {
 
     /**
      * Get the plugin ID of the proxied extension point.
+     *
+     * @return plugin id
      */
     String getPluginId();
 
     /**
      * Get the proxy target class.
+     *
+     * @return target class
      */
     Class<? extends CarpExtensionPoint> getTargetClass();
 }
