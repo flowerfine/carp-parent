@@ -22,10 +22,12 @@ import cn.sliew.carp.framework.dag.repository.entity.DagLink;
 import cn.sliew.carp.framework.dag.repository.entity.DagLinkVO;
 import cn.sliew.carp.framework.dag.repository.mapper.DagLinkMapper;
 import cn.sliew.carp.framework.dag.service.DagConfigLinkService;
+import cn.sliew.carp.framework.dag.service.DagInstanceService;
 import cn.sliew.carp.framework.dag.service.DagLinkService;
 import cn.sliew.carp.framework.dag.service.convert.DagLinkConvert;
 import cn.sliew.carp.framework.dag.service.convert.DagLinkVOConvert;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigLinkDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagLinkDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,8 @@ public class DagLinkServiceImpl extends ServiceImpl<DagLinkMapper, DagLink> impl
 
     @Autowired
     private DagConfigLinkService dagConfigLinkService;
+    @Autowired
+    private DagInstanceService dagInstanceService;
 
     @Override
     public List<DagLinkDTO> listLinks(Long dagInstanceId) {
@@ -57,6 +61,8 @@ public class DagLinkServiceImpl extends ServiceImpl<DagLinkMapper, DagLink> impl
         DagLinkDTO dagLinkDTO = get(id);
         DagConfigLinkDTO dagConfigLinkDTO = dagConfigLinkService.get(dagLinkDTO.getDagConfigLink().getId());
         dagLinkDTO.setDagConfigLink(dagConfigLinkDTO);
+        DagInstanceDTO dagInstanceDTO = dagInstanceService.getWithConfig(dagLinkDTO.getDagInstance().getId());
+        dagLinkDTO.setDagInstance(dagInstanceDTO);
         return dagLinkDTO;
     }
 

@@ -22,10 +22,12 @@ import cn.sliew.carp.framework.dag.repository.entity.DagStep;
 import cn.sliew.carp.framework.dag.repository.entity.DagStepVO;
 import cn.sliew.carp.framework.dag.repository.mapper.DagStepMapper;
 import cn.sliew.carp.framework.dag.service.DagConfigStepService;
+import cn.sliew.carp.framework.dag.service.DagInstanceService;
 import cn.sliew.carp.framework.dag.service.DagStepService;
 import cn.sliew.carp.framework.dag.service.convert.DagStepConvert;
 import cn.sliew.carp.framework.dag.service.convert.DagStepVOConvert;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
+import cn.sliew.carp.framework.dag.service.dto.DagInstanceDTO;
 import cn.sliew.carp.framework.dag.service.dto.DagStepDTO;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -41,6 +43,8 @@ public class DagStepServiceImpl extends ServiceImpl<DagStepMapper, DagStep> impl
 
     @Autowired
     private DagConfigStepService dagConfigStepService;
+    @Autowired
+    private DagInstanceService dagInstanceService;
 
     @Override
     public List<DagStepDTO> listSteps(Long dagInstanceId) {
@@ -59,6 +63,8 @@ public class DagStepServiceImpl extends ServiceImpl<DagStepMapper, DagStep> impl
         DagStepDTO dagStepDTO = get(id);
         DagConfigStepDTO dagConfigStepDTO = dagConfigStepService.get(dagStepDTO.getDagConfigStep().getId());
         dagStepDTO.setDagConfigStep(dagConfigStepDTO);
+        DagInstanceDTO dagInstanceDTO = dagInstanceService.getWithConfig(dagStepDTO.getDagInstance().getId());
+        dagStepDTO.setDagInstance(dagInstanceDTO);
         return dagStepDTO;
     }
 
