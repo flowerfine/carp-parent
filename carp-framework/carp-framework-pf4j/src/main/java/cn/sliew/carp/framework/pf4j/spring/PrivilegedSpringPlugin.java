@@ -38,7 +38,7 @@ public abstract class PrivilegedSpringPlugin extends Plugin {
      * Constructor to be used by plugin manager for plugin instantiation. Your plugins have to provide
      * constructor with this exact signature to be successfully loaded by manager.
      *
-     * @param wrapper
+     * @param wrapper plugin wrapper
      */
     public PrivilegedSpringPlugin(PluginWrapper wrapper) {
         super(wrapper);
@@ -48,7 +48,7 @@ public abstract class PrivilegedSpringPlugin extends Plugin {
      * Provides the opportunity to register bean definitions from the plugin into the application's
      * registry.
      *
-     * @param registry
+     * @param registry registry
      */
     public abstract void registerBeanDefinitions(BeanDefinitionRegistry registry);
 
