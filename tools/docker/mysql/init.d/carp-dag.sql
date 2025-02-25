@@ -431,6 +431,32 @@ create table carp_dag_link
     unique key uniq_link (dag_instance_id, dag_config_link_id)
 ) engine = innodb comment 'dag instance link';
 
+drop table if exists carp_dag_step_task;
+create table carp_dag_step_task
+(
+    id                     bigint       not null auto_increment comment '自增主键',
+    namespace              varchar(32)  not null default 'default' comment 'namespace',
+    dag_instance_id        bigint       not null comment 'DAG id',
+    dag_step_id            bigint       not null comment 'step id',
+    uuid                   varchar(36)  not null comment 'task id',
+    name                   varchar(128) not null comment 'task name',
+    implementing_class     varchar(255) not null comment 'task implementing class name',
+    stage_start            tinyint(1) not null comment 'stage task start ? 1 : 0',
+    stage_end              tinyint(1) not null comment 'stage end ? 1 : 0',
+    loop_start             tinyint(1) not null comment 'loop task start ? 1 : 0',
+    loop_end               tinyint(1) not null comment 'loop end ? 1 : 0',
+    status                 varchar(32) comment '状态',
+    start_time             timestamp comment '启动时间',
+    end_time               timestamp comment '结束时间',
+    task_exception_details text,
+    creator                varchar(32) comment 'creator',
+    create_time            datetime     not null default current_timestamp comment 'create time',
+    editor                 varchar(32) comment 'editor',
+    update_time            datetime     not null default current_timestamp on update current_timestamp comment 'update time',
+    primary key (id),
+    unique key uniq_step (`dag_instance_id`, `dag_step_id`, `name`)
+) engine = innodb comment 'dag instance step task';
+
 drop table if exists `carp_dag_orca_pipeline`;
 create table `carp_dag_orca_pipeline`
 (
