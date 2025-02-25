@@ -9,7 +9,7 @@ create table carp_dag_config
     type           varchar(16) not null comment 'DAG 类型',
     name           varchar(128) comment 'DAG名称',
     uuid           varchar(64) not null comment 'DAG ID',
-    dag_meta       varchar(128) comment 'DAG元信息',
+    dag_meta       text comment 'DAG元信息',
     dag_attrs      text comment 'DAG属性',
     intput_options text comment '输入参数声明',
     output_options text comment '输出参数声明',
@@ -86,7 +86,7 @@ create table carp_dag_config_history
     type           varchar(16) not null comment 'DAG 类型',
     name           varchar(128) comment 'DAG名称',
     uuid           varchar(64) not null comment 'DAG ID',
-    dag_meta       varchar(128) comment 'DAG元信息',
+    dag_meta       text comment 'DAG元信息',
     dag_attrs      text comment 'DAG属性',
     intput_options text comment '输入参数声明',
     output_options text comment '输出参数声明',
@@ -112,7 +112,7 @@ create table carp_dag_config_step
     position_y  int         not null comment 'y坐标',
     shape       varchar(64),
     style       text,
-    step_meta   varchar(128) comment '步骤元信息',
+    step_meta   text comment '步骤元信息',
     step_attrs  text comment '步骤属性',
     creator     varchar(32) comment 'creator',
     create_time datetime    not null default current_timestamp comment 'create time',
@@ -170,22 +170,22 @@ values (9, 'default', 6, '8c7b171c-f232-4b96-b842-5f4fbef34bc1', 'DorisOperatorI
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`,
                                     `shape`, `style`, `step_meta`, `step_attrs`, `creator`, `editor`)
 values (10, 'default', 7, 'cae1a622-6c96-4cec-81d3-883510c17702', 'FlinkJobStatus-1', 460, 400, null, null,
-        '{"handler":"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepOne","stepType":"normal","taskType":"1"}',
+        '{"handler":"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepOne","stepType":"normal","taskType":"1","type":"log"}',
         '{"key1":"value1"}', 'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`,
                                     `shape`, `style`, `step_meta`, `step_attrs`, `creator`, `editor`)
 values (11, 'default', 7, '2c2cb6c8-794b-4cc1-8258-cd1898912744', 'FlinkJobStatus-2', 460, 400, null, null,
-        '{"handler":"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepTwo","stepType":"normal","taskType":"1"}',
+        '{"handler":"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepTwo","stepType":"normal","taskType":"1","type":"log"}',
         '{"key2":"value2"}', 'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`,
                                     `shape`, `style`, `step_meta`, `step_attrs`, `creator`, `editor`)
 values (12, 'default', 7, 'd82a947b-f414-4273-973a-06f20fe33f0d', 'FlinkJobStatus-3-1', 460, 400, null, null,
-        '{"handler":"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepThreeOne","stepType":"normal","taskType":"1"}',
+        '{"handler":"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepThreeOne","stepType":"normal","taskType":"1","type":"log"}',
         '{"key3-1":"value3-1"}', 'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`,
                                     `shape`, `style`, `step_meta`, `step_attrs`, `creator`, `editor`)
 values (13, 'default', 7, '027db10b-9150-403d-9d11-e4a36c99e1db', 'FlinkJobStatus-3-2', 460, 400, null, null,
-        '{"handler":"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepThreeTwo","stepType":"normal","taskType":"1"}',
+        '{"handler":"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepThreeTwo","stepType":"normal","taskType":"1","type":"log"}',
         '{"key3-2":"value3-2"}', 'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `position_x`, `position_y`,
                                     `shape`, `style`, `step_meta`, `step_attrs`, `creator`, `editor`)
@@ -299,7 +299,7 @@ create table carp_dag_config_link
     to_step_id   varchar(36) not null comment '目标步骤id',
     shape        varchar(64),
     style        text,
-    link_meta    varchar(128) comment '连线元信息',
+    link_meta    text comment '连线元信息',
     link_attrs   text comment '连线属性',
     creator      varchar(32) comment 'creator',
     create_time  datetime    not null default current_timestamp comment 'create time',
