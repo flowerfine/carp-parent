@@ -36,7 +36,8 @@ public class DagStepTaskServiceImpl extends ServiceImpl<DagStepTaskMapper, DagSt
     @Override
     public List<DagStepTaskDTO> listTasks(Long dagStepId) {
         LambdaQueryWrapper<DagStepTask> queryWrapper = Wrappers.lambdaQuery(DagStepTask.class)
-                .eq(DagStepTask::getDagStepId, dagStepId);
+                .eq(DagStepTask::getDagStepId, dagStepId)
+                .orderByAsc(DagStepTask::getTaskId);
         List<DagStepTask> entities = list(queryWrapper);
         return DagStepTaskConvert.INSTANCE.toDto(entities);
     }
