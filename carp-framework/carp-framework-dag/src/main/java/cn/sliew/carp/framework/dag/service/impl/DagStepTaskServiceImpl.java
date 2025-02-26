@@ -49,6 +49,16 @@ public class DagStepTaskServiceImpl extends ServiceImpl<DagStepTaskMapper, DagSt
     }
 
     @Override
+    public DagStepTaskDTO get(Long dagInstanceId, Long dagStepId, Long taskId) {
+        LambdaQueryWrapper<DagStepTask> queryWrapper = Wrappers.lambdaQuery(DagStepTask.class)
+                .eq(DagStepTask::getDagInstanceId, dagInstanceId)
+                .eq(DagStepTask::getDagStepId, dagStepId)
+                .eq(DagStepTask::getTaskId, taskId);
+        DagStepTask entity = getOne(queryWrapper);
+        return DagStepTaskConvert.INSTANCE.toDto(entity);
+    }
+
+    @Override
     public boolean add(DagStepTaskDTO param) {
         DagStepTask entity = DagStepTaskConvert.INSTANCE.toDo(param);
         return save(entity);

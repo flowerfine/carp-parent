@@ -29,6 +29,8 @@ public interface DagStepTaskService extends IService<DagStepTask> {
 
     DagStepTaskDTO get(Long id);
 
+    DagStepTaskDTO get(Long dagInstanceId, Long dagStepId, Long taskId);
+
     boolean add(DagStepTaskDTO param);
 
     boolean update(DagStepTaskDTO param);
