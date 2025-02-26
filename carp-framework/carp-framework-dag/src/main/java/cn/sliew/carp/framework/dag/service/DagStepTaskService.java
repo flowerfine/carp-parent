@@ -33,4 +33,6 @@ public interface DagStepTaskService extends IService<DagStepTask> {
 
     boolean update(DagStepTaskDTO param);
 
+    boolean updateByUuid(DagStepTaskDTO param);
+
 }
