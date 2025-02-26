@@ -12,6 +12,7 @@
         <result column="namespace" property="namespace" />
         <result column="dag_instance_id" property="dagInstanceId" />
         <result column="dag_step_id" property="dagStepId" />
+        <result column="task_id" property="taskId" />
         <result column="uuid" property="uuid" />
         <result column="name" property="name" />
         <result column="implementing_class" property="implementingClass" />
@@ -32,7 +33,7 @@
         create_time,
         editor,
         update_time,
-        namespace, dag_instance_id, dag_step_id, uuid, `name`, implementing_class, stage_start, stage_end, loop_start, loop_end, `status`, start_time, end_time, task_exception_details
+        namespace, dag_instance_id, dag_step_id, task_id, uuid, `name`, implementing_class, stage_start, stage_end, loop_start, loop_end, `status`, start_time, end_time, task_exception_details
     </sql>
 
 </mapper>

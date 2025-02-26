@@ -39,6 +39,9 @@ public class DagStepTask extends BaseAuditDO {
     @TableField("dag_step_id")
     private Long dagStepId;
 
+    @TableField("task_id")
+    private Integer taskId;
+
     @TableField("uuid")
     private String uuid;
 

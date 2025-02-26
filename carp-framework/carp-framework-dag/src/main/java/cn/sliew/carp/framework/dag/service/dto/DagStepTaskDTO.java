@@ -40,6 +40,9 @@ public class DagStepTaskDTO extends BaseAuditDO {
     private Long dagStepId;
 
     @Schema(description = "task id")
+    private Integer taskId;
+
+    @Schema(description = "task id")
     private String uuid;
 
     @Schema(description = "task name")

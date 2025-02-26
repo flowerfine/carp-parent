@@ -438,6 +438,7 @@ create table carp_dag_step_task
     namespace              varchar(32)  not null default 'default' comment 'namespace',
     dag_instance_id        bigint       not null comment 'DAG id',
     dag_step_id            bigint       not null comment 'step id',
+    task_id                int          not null comment 'task id',
     uuid                   varchar(36)  not null comment 'task id',
     name                   varchar(128) not null comment 'task name',
     implementing_class     varchar(255) not null comment 'task implementing class name',
