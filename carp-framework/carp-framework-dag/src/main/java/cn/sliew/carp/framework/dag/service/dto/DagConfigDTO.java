@@ -45,7 +45,7 @@ public class DagConfigDTO extends BaseDTO {
     private JsonNode dagAttrs;
 
     @Schema(description = "输入参数声明")
-    private JsonNode intputOptions;
+    private JsonNode inputOptions;
 
     @Schema(description = "输出参数声明")
     private JsonNode outputOptions;

@@ -35,6 +35,12 @@ public interface DagConfigStepConvert extends BaseConvert<DagConfigStep, DagConf
     default DagConfigStep toDo(DagConfigStepDTO dto) {
         DagConfigStep entity = new DagConfigStep();
         BeanUtils.copyProperties(dto, entity);
+        if (dto.getInputOptions() != null) {
+            entity.setInputOptions(dto.getInputOptions().toString());
+        }
+        if (dto.getOutputOptions() != null) {
+            entity.setOutputOptions(dto.getOutputOptions().toString());
+        }
         if (dto.getStyle() != null) {
             entity.setStyle(dto.getStyle().toString());
         }
@@ -51,6 +57,12 @@ public interface DagConfigStepConvert extends BaseConvert<DagConfigStep, DagConf
     default DagConfigStepDTO toDto(DagConfigStep entity) {
         DagConfigStepDTO dto = new DagConfigStepDTO();
         BeanUtils.copyProperties(entity, dto);
+        if (StringUtils.hasText(entity.getInputOptions())) {
+            dto.setInputOptions(JacksonUtil.toJsonNode(entity.getInputOptions()));
+        }
+        if (StringUtils.hasText(entity.getOutputOptions())) {
+            dto.setOutputOptions(JacksonUtil.toJsonNode(entity.getOutputOptions()));
+        }
         if (StringUtils.hasText(entity.getStyle())) {
             dto.setStyle(JacksonUtil.toJsonNode(entity.getStyle()));
         }

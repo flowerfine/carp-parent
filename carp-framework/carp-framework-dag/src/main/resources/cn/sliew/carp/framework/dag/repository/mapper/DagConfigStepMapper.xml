@@ -30,6 +30,8 @@
         <result column="dag_id" property="dagId" />
         <result column="step_id" property="stepId" />
         <result column="step_name" property="stepName" />
+        <result column="input_options" property="inputOptions" />
+        <result column="output_options" property="outputOptions" />
         <result column="position_x" property="positionX" />
         <result column="position_y" property="positionY" />
         <result column="shape" property="shape" />
@@ -45,7 +47,7 @@
         create_time,
         editor,
         update_time,
-        namespace, dag_id, step_id, step_name, position_x, position_y, shape, `style`, step_meta, step_attrs
+        namespace, dag_id, step_id, step_name, input_options, output_options, position_x, position_y, shape, `style`, step_meta, step_attrs
     </sql>
 
 </mapper>

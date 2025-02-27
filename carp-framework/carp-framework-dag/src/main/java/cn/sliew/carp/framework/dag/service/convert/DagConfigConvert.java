@@ -41,8 +41,8 @@ public interface DagConfigConvert extends BaseConvert<DagConfig, DagConfigDTO> {
         if (dto.getDagAttrs() != null) {
             entity.setDagAttrs(dto.getDagAttrs().toString());
         }
-        if (dto.getIntputOptions() != null) {
-            entity.setIntputOptions(dto.getIntputOptions().toString());
+        if (dto.getInputOptions() != null) {
+            entity.setInputOptions(dto.getInputOptions().toString());
         }
         if (dto.getOutputOptions() != null) {
             entity.setOutputOptions(dto.getOutputOptions().toString());
@@ -60,8 +60,8 @@ public interface DagConfigConvert extends BaseConvert<DagConfig, DagConfigDTO> {
         if (StringUtils.hasText(entity.getDagAttrs())) {
             dto.setDagAttrs(JacksonUtil.toJsonNode(entity.getDagAttrs()));
         }
-        if (StringUtils.hasText(entity.getIntputOptions())) {
-            dto.setIntputOptions(JacksonUtil.toJsonNode(entity.getIntputOptions()));
+        if (StringUtils.hasText(entity.getInputOptions())) {
+            dto.setInputOptions(JacksonUtil.toJsonNode(entity.getInputOptions()));
         }
         if (StringUtils.hasText(entity.getOutputOptions())) {
             dto.setOutputOptions(JacksonUtil.toJsonNode(entity.getOutputOptions()));

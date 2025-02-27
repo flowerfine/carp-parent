@@ -48,8 +48,8 @@ public class DagConfig extends BaseAuditDO {
     @TableField("dag_attrs")
     private String dagAttrs;
 
-    @TableField("intput_options")
-    private String intputOptions;
+    @TableField("input_options")
+    private String inputOptions;
 
     @TableField("output_options")
     private String outputOptions;

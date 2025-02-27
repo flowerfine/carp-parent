@@ -32,7 +32,7 @@
         <result column="uuid" property="uuid" />
         <result column="dag_meta" property="dagMeta" />
         <result column="dag_attrs" property="dagAttrs" />
-        <result column="intput_options" property="intputOptions" />
+        <result column="input_options" property="inputOptions" />
         <result column="output_options" property="outputOptions" />
         <result column="version" property="version" />
         <result column="remark" property="remark" />
@@ -45,7 +45,7 @@
         create_time,
         editor,
         update_time,
-        namespace, `type`, `name`, uuid, dag_meta, dag_attrs, intput_options, output_options, version, remark
+        namespace, `type`, `name`, uuid, dag_meta, dag_attrs, input_options, output_options, version, remark
     </sql>
 
 </mapper>

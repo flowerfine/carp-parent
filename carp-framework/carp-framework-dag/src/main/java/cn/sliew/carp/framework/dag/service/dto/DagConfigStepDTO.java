@@ -38,6 +38,12 @@ public class DagConfigStepDTO extends BaseDTO {
     @Schema(description = "步骤名称")
     private String stepName;
 
+    @Schema(description = "输入参数声明")
+    private JsonNode inputOptions;
+
+    @Schema(description = "输出参数声明")
+    private JsonNode outputOptions;
+
     @Schema(description = "x坐标")
     private Integer positionX;
 

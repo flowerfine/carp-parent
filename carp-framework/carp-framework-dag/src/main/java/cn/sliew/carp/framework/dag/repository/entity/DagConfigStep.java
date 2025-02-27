@@ -40,6 +40,12 @@ public class DagConfigStep extends BaseAuditDO {
     @TableField("step_name")
     private String stepName;
 
+    @TableField("input_options")
+    private String inputOptions;
+
+    @TableField("output_options")
+    private String outputOptions;
+
     @TableField("position_x")
     private Integer positionX;
 
