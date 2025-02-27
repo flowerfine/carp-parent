@@ -23,7 +23,9 @@ import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.AllDirectedPaths;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
 import org.jgrapht.traverse.TopologicalOrderIterator;
+import org.springframework.util.CollectionUtils;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -86,6 +88,45 @@ public class DAG<N> {
         return jgrapht.vertexSet().stream()
                 .filter(node -> jgrapht.outDegreeOf(node) == 0)
                 .collect(Collectors.toSet());
+    }
+
+    public List<N> getAncestors(N node) {
+        DAG<N> ancestor = new DAG<>();
+        ancestor.addNode(node);
+        addToAncestor(ancestor, node);
+        return ancestor.topologySort();
+    }
+
+    private void addToAncestor(DAG<N> dag, N node) {
+        Set<N> inDegreeSet = inDegreeOf(node);
+        if (CollectionUtils.isEmpty(inDegreeSet)) {
+            return;
+        }
+        inDegreeSet.forEach(inDegreeNode -> {
+            dag.addNode(inDegreeNode);
+            dag.addEdge(inDegreeNode, node);
+            addToAncestor(dag, inDegreeNode);
+        });
+    }
+
+
+    public List<N> getChildren(N node) {
+        DAG<N> children = new DAG<>();
+        children.addNode(node);
+        addToChildren(children, node);
+        return children.topologySort();
+    }
+
+    private void addToChildren(DAG<N> dag, N node) {
+        Set<N> outDegreeSet = outDegreeOf(node);
+        if (CollectionUtils.isEmpty(outDegreeSet)) {
+            return;
+        }
+        outDegreeSet.forEach(outDegreeNode -> {
+            dag.addNode(outDegreeNode);
+            dag.addEdge(node, outDegreeNode);
+            addToChildren(dag, outDegreeNode);
+        });
     }
 
     public Integer getMaxDepth() {
