@@ -48,8 +48,9 @@ values (6, 'default', 'WorkFlow', 'DorisOperatorInstanceStatusSyncJob', 'kepa00f
         null, null, null, 0, null, 'sys', 'sys');
 insert into `carp_dag_config` (`id`, `namespace`, `type`, `name`, `uuid`, `dag_meta`, `dag_attrs`, `input_options`,
                                `output_options`, `version`, `remark`, `creator`, `editor`)
-values (7, 'default', 'WorkFlow', 'Demo', 'fssxbe099903bf174c11bf64b0d486383784', null, '{"foo":"bar"}', null, null, 0,
-        null, 'sys', 'sys');
+values (7, 'default', 'WorkFlow', 'Demo', 'fssxbe099903bf174c11bf64b0d486383784', null, '{"foo":"bar"}',
+        '[{"name":"foo","alias":"foo","value":"foo-data","type":"STRING","fromType":"CONSTANT"},{"name":"bar","alias":"bar","value":"bar-data","type":"STRING","fromType":"CONSTANT"}]',
+        null, 0, null, 'sys', 'sys');
 insert into `carp_dag_config` (`id`, `namespace`, `type`, `name`, `uuid`, `dag_meta`, `dag_attrs`, `input_options`,
                                `output_options`, `version`, `remark`, `creator`, `editor`)
 values (8, 'default', 'SeaTunnel', 'mysql_binlog_kafka_es', 'zzbk202837c4529d47d2ab09fa7ccf84fd81', null, null, null,
@@ -183,27 +184,33 @@ values (9, 'default', 6, '8c7b171c-f232-4b96-b842-5f4fbef34bc1', 'DorisOperatorI
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (10, 'default', 7, 'cae1a622-6c96-4cec-81d3-883510c17702', 'FlinkJobStatus-1', null, null, 460, 400, null, null,
+values (10, 'default', 7, 'cae1a622-6c96-4cec-81d3-883510c17702', 'FlinkJobStatus-1',
+        '[{"name":"url","alias":"url","value":"url-data","type":"STRING","fromType":"CONSTANT"},{"name":"url","alias":"url","value":"url-data","type":"STRING","fromType":"CONSTANT"}]',
+        null, 460, 400, null, null,
         '{"handler":"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepOne","stepType":"normal","taskType":"1","type":"log"}',
         '{"key1":"value1"}', 'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (11, 'default', 7, '2c2cb6c8-794b-4cc1-8258-cd1898912744', 'FlinkJobStatus-2', null, null, 460, 400, null, null,
+values (11, 'default', 7, '2c2cb6c8-794b-4cc1-8258-cd1898912744', 'FlinkJobStatus-2',
+        '[{"name":"url","alias":"url","value":"url-data","type":"STRING","fromType":"CONSTANT"},{"name":"url","alias":"url","value":"url-data","type":"STRING","fromType":"CONSTANT"}]',
+        null, 460, 400, null, null,
         '{"handler":"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepTwo","stepType":"normal","taskType":"1","type":"log"}',
         '{"key2":"value2"}', 'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (12, 'default', 7, 'd82a947b-f414-4273-973a-06f20fe33f0d', 'FlinkJobStatus-3-1', null, null, 460, 400,
-        null, null,
+values (12, 'default', 7, 'd82a947b-f414-4273-973a-06f20fe33f0d', 'FlinkJobStatus-3-1',
+        '[{"name":"url","alias":"url","value":"url-data","type":"STRING","fromType":"CONSTANT"},{"name":"url","alias":"url","value":"url-data","type":"STRING","fromType":"CONSTANT"}]',
+        null, 460, 400, null, null,
         '{"handler":"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepThreeOne","stepType":"normal","taskType":"1","type":"log"}',
         '{"key3-1":"value3-1"}', 'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
                                     `output_options`, `position_x`, `position_y`, `shape`, `style`, `step_meta`,
                                     `step_attrs`, `creator`, `editor`)
-values (13, 'default', 7, '027db10b-9150-403d-9d11-e4a36c99e1db', 'FlinkJobStatus-3-2', null, null, 460, 400,
-        null, null,
+values (13, 'default', 7, '027db10b-9150-403d-9d11-e4a36c99e1db', 'FlinkJobStatus-3-2',
+        '[{"name":"url","alias":"url","value":"url-data","type":"STRING","fromType":"CONSTANT"},{"name":"url","alias":"url","value":"url-data","type":"STRING","fromType":"CONSTANT"}]',
+        null, 460, 400, null, null,
         '{"handler":"cn.sliew.scaleph.application.flink.action.FlinkJobStatusSyncJobStepThreeTwo","stepType":"normal","taskType":"1","type":"log"}',
         '{"key3-2":"value3-2"}', 'sys', 'sys');
 insert into `carp_dag_config_step` (`id`, `namespace`, `dag_id`, `step_id`, `step_name`, `input_options`,
