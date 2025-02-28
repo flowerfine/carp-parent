@@ -66,7 +66,7 @@ public class DAG<N> {
     }
 
     public Set<N> inDegreeOf(N node) {
-        return jgrapht.incomingEdgesOf(node).stream().map(DefaultDagEdge::getTarget).collect(Collectors.toSet());
+        return jgrapht.incomingEdgesOf(node).stream().map(DefaultDagEdge::getSource).collect(Collectors.toSet());
     }
 
     public Integer outDegree(N node) {
