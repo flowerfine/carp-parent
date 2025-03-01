@@ -92,7 +92,7 @@
         <javapoet.version>0.5.0</javapoet.version>
         <cosid.version>2.10.2</cosid.version>
         <uuid-creator.version>6.0.0</uuid-creator.version>
-        <serverlessworkflow.version>7.0.0-alpha5.1</serverlessworkflow.version>
+        <serverlessworkflow.version>7.0.0.Final</serverlessworkflow.version>
     </properties>
 
     <dependencyManagement>
