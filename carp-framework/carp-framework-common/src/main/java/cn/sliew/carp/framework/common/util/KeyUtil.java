@@ -23,21 +23,37 @@ import org.apache.commons.lang3.StringUtils;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-public enum CacheUtil {
+public enum KeyUtil {
     ;
 
+    private static final String APPLICATION = "carp";
+    private static final String NAMESPACE_CACHE = "cache";
+    private static final String NAMESPACE_LOCK = "lock";
     private static final String SEPARATOR = ":";
 
     public static String buildCacheKey(@NotBlank String tag, Object... obj) {
         checkArgument(StringUtils.isNotBlank(tag), "tag must not blank");
-        String.join(SEPARATOR);
+        return buildKey(addPrefix(APPLICATION, NAMESPACE_CACHE, tag, SEPARATOR), SEPARATOR, obj);
+    }
+
+    public static String buildLockKey(@NotBlank String tag, Object... obj) {
+        checkArgument(StringUtils.isNotBlank(tag), "tag must not blank");
+        return buildKey(addPrefix(APPLICATION, NAMESPACE_LOCK, tag, SEPARATOR), SEPARATOR, obj);
+    }
+
+    private static String addPrefix(String application, String namespace, String tag, String separator) {
+        return String.format("%s%s%s%s%s", application, separator, namespace, separator, tag);
+    }
+
+    private static String buildKey(@NotBlank String tag, String separator, Object... obj) {
+        String.join(separator);
         StringBuilder key = new StringBuilder(tag);
         if (ArrayUtils.isNotEmpty(obj)) {
             for (int i = 0; i < obj.length; i++) {
                 if (i == obj.length - 1) {
                     key.append(obj[i]);
                 } else {
-                    key.append(obj[i]).append(SEPARATOR);
+                    key.append(obj[i]).append(separator);
                 }
             }
         }

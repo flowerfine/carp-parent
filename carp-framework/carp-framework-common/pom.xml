@@ -90,6 +90,11 @@
             <groupId>cn.sliew</groupId>
             <artifactId>milky-registry</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

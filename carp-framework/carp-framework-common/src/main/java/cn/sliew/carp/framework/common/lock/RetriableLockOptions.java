@@ -15,40 +15,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.exception;
+package cn.sliew.carp.framework.common.lock;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
-public class SliewException extends RuntimeException implements HasAdditionalAttributes {
+import java.time.Duration;
 
-    @Setter
-    @Getter
-    private Boolean retryable;
-    @Getter
-    private String code;
+@Getter
+@AllArgsConstructor
+public class RetriableLockOptions {
+    private String lockName;
+    private int maxRetries;
+    private Duration interval;
+    private boolean exponential;
+    private boolean throwOnAcquireFailure;
 
-    public SliewException() {
-    }
-
-    public SliewException(String message) {
-        super(message);
-    }
-
-    public SliewException(String code, String message) {
-        super(message);
-        this.code = code;
-    }
-
-    public SliewException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public SliewException(Throwable cause) {
-        super(cause);
-    }
-
-    public SliewException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
+    public RetriableLockOptions(String lockName) {
+        this.lockName = lockName;
+        this.maxRetries = 5;
+        this.interval = Duration.ofMillis(500);
+        this.exponential = false;
+        this.throwOnAcquireFailure = false;
     }
 }

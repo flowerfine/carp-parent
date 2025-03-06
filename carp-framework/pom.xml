@@ -37,6 +37,7 @@
         <module>carp-framework-feign</module>
         <module>carp-framework-id</module>
         <module>carp-framework-license</module>
+        <module>carp-framework-lock</module>
         <module>carp-framework-log</module>
         <module>carp-framework-mongo</module>
         <module>carp-framework-mybatis</module>

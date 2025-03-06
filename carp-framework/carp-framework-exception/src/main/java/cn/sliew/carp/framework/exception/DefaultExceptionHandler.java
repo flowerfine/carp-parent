@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.framework.exception;
 
+import cn.sliew.carp.framework.common.exception.SliewException;
 import com.google.common.base.Throwables;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

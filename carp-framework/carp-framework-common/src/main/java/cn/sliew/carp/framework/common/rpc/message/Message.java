@@ -21,7 +21,8 @@ import cn.sliew.carp.framework.common.jackson.polymorphic.Polymorphic;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 
 @JsonSubTypes({
-        @JsonSubTypes.Type(name = RpcMethodMessage.TYPE, value = RpcMethodMessage.class)
+        @JsonSubTypes.Type(name = RpcMethodMessage.TYPE, value = RpcMethodMessage.class),
+        @JsonSubTypes.Type(name = RpcLambdaMessage.TYPE, value = RpcLambdaMessage.class)
 })
 public interface Message extends Polymorphic<String> {
 
