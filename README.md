@@ -36,27 +36,27 @@ carp-parent 为 [carp](https://github.com/flowerfine/carp) 项目提供统一的
 framework 提供常见功能模块以满足快速开发需求
 
 * 基础功能
-  * exception。异常处理
-  * common。通用模块、工具类
-  * biz。jackson、mapstruct、mybatis、validation、fastexcel 等常用框架扩展
-  * spring
+  * [carp-framework-exception](./carp-framework/carp-framework-exception)。异常处理
+  * [carp-framework-common](./carp-framework/carp-framework-common)。通用模块、工具类
+  * [carp-framework-biz](./carp-framework/carp-framework-biz)。jackson、mapstruct、mybatis、validation、fastexcel 等常用框架扩展
+  * [carp-framework-spring](./carp-framework/carp-framework-spring)
 * 存储
-  * mongo
-  * mybatis
-  * redis
+  * [carp-framework-mongo](./carp-framework/carp-framework-mongo)
+  * [carp-framework-mybatis](./carp-framework/carp-framework-mybatis)
+  * [carp-framework-redis](./carp-framework/carp-framework-redis)
 * 微服务
-  * id。唯一id
-  * [lock](./carp-framework/carp-framework-lock)。提供基于 [ShedLock](https://github.com/lukas-krecan/ShedLock) 和 [redisson](https://github.com/redisson/redisson) 锁实现
-  * feign。http 调用
+  * [carp-framework-id](./carp-framework/carp-framework-id)。唯一id
+  * [carp-framework-lock](./carp-framework/carp-framework-lock)。提供基于 [ShedLock](https://github.com/lukas-krecan/ShedLock) 和 [redisson](https://github.com/redisson/redisson) 锁实现
+  * [carp-framework-feign](./carp-framework/carp-framework-feign)。http 调用
 * web 应用
-  * web
-  * log
-* DAG
-* license
-* pekko
-* pf4j
-* pubsub
-* task
+  * [carp-framework-web](./carp-framework/carp-framework-web)
+  * [carp-framework-log](./carp-framework/carp-framework-log)
+* [carp-framework-dag](./carp-framework/carp-framework-dag)
+* [carp-framework-license](./carp-framework/carp-framework-license)
+* [carp-framework-pekko](./carp-framework/carp-framework-pekko)
+* [carp-framework-pf4j](./carp-framework/carp-framework-pf4j)
+* [carp-framework-pubsub](./carp-framework/carp-framework-pubsub)
+* [carp-framework-task](./carp-framework/carp-framework-task)
 
 ## 项目发版
 
