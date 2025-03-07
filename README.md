@@ -1,4 +1,4 @@
-[![Maven Central](https://img.shields.io/maven-central/v/cn.sliew/carp-parent)](https://maven-badges.herokuapp.com/maven-central/cn.sliew/carp-parent) [![License](https://img.shields.io/github/license/flowerfine/carp-parent.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+[![Gihub Actions](https://github.com/flowerfine/carp-parent/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/flowerfine/carp-parent/actions) [![Last commit](https://img.shields.io/github/last-commit/flowerfine/carp-parent.svg)](https://github.com/flowerfine/carp-parent) [![codecov](https://codecov.io/gh/flowerfine/carp-parent/branch/dev/graph/badge.svg)](https://codecov.io/gh/flowerfine/carp-parent/branch/dev) [![GitHub Tag](https://img.shields.io/github/v/tag/flowerfine/carp-parent)](https://github.com/flowerfine/carp-parent/tags) [![Maven Central](https://img.shields.io/maven-central/v/cn.sliew/carp-parent)](https://maven-badges.herokuapp.com/maven-central/cn.sliew/carp-parent) [![License](https://img.shields.io/github/license/flowerfine/carp-parent.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 # Carp-Parent
 
