@@ -1,6 +1,6 @@
 [![Maven Central](https://img.shields.io/maven-central/v/cn.sliew/carp-parent)](https://maven-badges.herokuapp.com/maven-central/cn.sliew/carp-parent) [![License](https://img.shields.io/github/license/flowerfine/carp-parent.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
-# Carp
+# Carp-Parent
 
 carp-parent 为 [carp](https://github.com/flowerfine/carp) 项目提供统一的依赖管理，确保依赖全局一致。
 
@@ -14,7 +14,7 @@ carp-parent 为 [carp](https://github.com/flowerfine/carp) 项目提供统一的
         <dependency>
             <groupId>cn.sliew</groupId>
             <artifactId>carp-dependencies</artifactId>
-            <version>0.0.1</version>
+            <version>${latest}</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
@@ -28,7 +28,7 @@ carp-parent 为 [carp](https://github.com/flowerfine/carp) 项目提供统一的
 <parent>
     <groupId>cn.sliew</groupId>
     <artifactId>carp-spring-boot-parent</artifactId>
-    <version>0.0.1</version>
+    <version>${latest}</version>
     <relativePath/>
 </parent>
 ```
