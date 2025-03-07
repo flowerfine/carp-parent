@@ -22,15 +22,17 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp-framework</artifactId>
+        <artifactId>carp-framework-lock</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-framework-lock</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>carp-framework-lock-redis</artifactId>
 
-    <modules>
-        <module>carp-framework-lock-redis</module>
-        <module>carp-framework-lock-shedlock</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-redis</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

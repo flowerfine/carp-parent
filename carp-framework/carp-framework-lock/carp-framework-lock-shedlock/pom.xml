@@ -22,15 +22,31 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp-framework</artifactId>
+        <artifactId>carp-framework-lock</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-framework-lock</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>carp-framework-lock-shedlock</artifactId>
 
-    <modules>
-        <module>carp-framework-lock-redis</module>
-        <module>carp-framework-lock-shedlock</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-spring</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.javacrumbs.shedlock</groupId>
+            <artifactId>shedlock-spring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.javacrumbs.shedlock</groupId>
+            <artifactId>shedlock-provider-jdbc-template</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

@@ -93,6 +93,7 @@
         <cosid.version>2.10.2</cosid.version>
         <uuid-creator.version>6.0.0</uuid-creator.version>
         <serverlessworkflow.version>7.0.0.Final</serverlessworkflow.version>
+        <shedlock.version>6.3.0</shedlock.version>
     </properties>
 
     <dependencyManagement>
@@ -609,6 +610,17 @@
                 <groupId>io.serverlessworkflow</groupId>
                 <artifactId>serverlessworkflow-impl-http</artifactId>
                 <version>${serverlessworkflow.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.javacrumbs.shedlock</groupId>
+                <artifactId>shedlock-spring</artifactId>
+                <version>${shedlock.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.javacrumbs.shedlock</groupId>
+                <artifactId>shedlock-provider-jdbc-template</artifactId>
+                <version>${shedlock.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

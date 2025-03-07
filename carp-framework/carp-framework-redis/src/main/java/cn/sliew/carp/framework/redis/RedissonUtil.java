@@ -54,10 +54,10 @@ public class RedissonUtil {
     /**
      * 设置 leaseTime，redisson 不会自动对锁进行续期
      */
-    public boolean lock(String key, long lockTimeout, long leaseTime) {
+    public boolean lock(String key, Duration expireTime, Duration lockTimeout) {
         RLock lock = getLock(key);
         try {
-            return lock.tryLock(lockTimeout, leaseTime, TimeUnit.MILLISECONDS);
+            return lock.tryLock(lockTimeout.toMillis(), expireTime.toMillis(), TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             return false;
@@ -74,10 +74,10 @@ public class RedissonUtil {
      * 设置 leaseTime 的风险就是需有效评估任务执行时长，防止未执行完就自动释放了。
      * 当应用重启时，不会释放锁，就只能等 leaseTime 到达，锁自动释放。
      */
-    public boolean lock(String key, long lockTimeout) {
+    public boolean lock(String key, Duration lockTimeout) {
         RLock lock = getLock(key);
         try {
-            return lock.tryLock(lockTimeout, TimeUnit.MILLISECONDS);
+            return lock.tryLock(lockTimeout.toMillis(), TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             return false;

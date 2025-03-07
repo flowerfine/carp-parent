@@ -31,6 +31,33 @@ carp-parent 为 [carp](https://github.com/flowerfine/carp) 项目提供统一的
 </parent>
 ```
 
+## Carp Framework
+
+framework 提供常见功能模块以满足快速开发需求
+
+* 基础功能
+  * exception。异常处理
+  * common。通用模块、工具类
+  * biz。jackson、mapstruct、mybatis、validation、fastexcel 等常用框架扩展
+  * spring
+* 存储
+  * mongo
+  * mybatis
+  * redis
+* 微服务
+  * id。唯一id
+  * [lock](./carp-framework/carp-framework-lock/README.md)。提供基于 [ShedLock](https://github.com/lukas-krecan/ShedLock) 和 [redisson](https://github.com/redisson/redisson) 锁实现
+  * feign。http 调用
+* web 应用
+  * web
+  * log
+* DAG
+* license
+* pekko
+* pf4j
+* pubsub
+* task
+
 ## 项目发版
 
 参考：[Release](./docs/Release.md)
