@@ -20,22 +20,27 @@ package cn.sliew.carp.framework.common.lock;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.time.Duration;
-
 @Getter
 @AllArgsConstructor
-public class RetriableLockOptions {
-    private String lockName;
-    private int maxRetries;
-    private Duration interval;
-    private boolean exponential;
-    private boolean throwOnAcquireFailure;
+public class LockRunResult<R> {
+    private final boolean lockAcquired;
+    private final boolean actionExecuted;
+    private final Exception exception;
+    private final R result;
 
-    public RetriableLockOptions(String lockName) {
-        this.lockName = lockName;
-        this.maxRetries = 5;
-        this.interval = Duration.ofMillis(500);
-        this.exponential = false;
-        this.throwOnAcquireFailure = false;
+    public LockRunResult(boolean lockAcquired) {
+        this(lockAcquired, false, null, null);
+    }
+
+    public LockRunResult(boolean lockAcquired, boolean actionExecuted) {
+        this(lockAcquired, actionExecuted, null, null);
+    }
+
+    public LockRunResult(boolean lockAcquired, Exception exception) {
+        this(lockAcquired, false, exception, null);
+    }
+
+    public LockRunResult(boolean lockAcquired, boolean actionExecuted, R result) {
+        this(lockAcquired, actionExecuted, null, result);
     }
 }
