@@ -17,7 +17,7 @@
  */
 package cn.sliew.carp.framework.task;
 
-import cn.sliew.carp.framework.exception.SliewException;
+import cn.sliew.carp.framework.common.exception.SliewException;
 
 public class TaskException extends SliewException {
 
