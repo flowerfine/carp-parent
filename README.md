@@ -1,4 +1,4 @@
-[![Maven Central](https://img.shields.io/maven-central/v/cn.sliew/carp-parent)](https://maven-badges.herokuapp.com/maven-central/cn.sliew/carp-parent)[![License](https://img.shields.io/github/license/flowerfine/carp-parent.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+[![Maven Central](https://img.shields.io/maven-central/v/cn.sliew/carp-parent)](https://maven-badges.herokuapp.com/maven-central/cn.sliew/carp-parent) [![License](https://img.shields.io/github/license/flowerfine/carp-parent.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 # Carp
 
