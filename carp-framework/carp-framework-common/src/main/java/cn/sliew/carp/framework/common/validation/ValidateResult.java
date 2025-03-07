@@ -35,21 +35,7 @@ public class ValidateResult {
     @Singular
     private List<ValidateResultItem> items;
 
-    /**
-     * 创建一个验证成功的 ValidateResult 实例。
-     *
-     * @return 包含 {@code valid = true} 结果
-     */
     public static ValidateResult success() {
         return builder().valid(true).build();
-    }
-
-    /**
-     * 创建一个验证失败的 ValidateResult 构建器。
-     *
-     * @return 配置了 {@code valid = false} 的结果
-     */
-    public static ValidateResultBuilder failure() {
-        return builder().valid(false);
     }
 }

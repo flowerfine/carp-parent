@@ -34,7 +34,7 @@ public enum ValidatorUtil {
             return ValidateResult.success();
         }
 
-        ValidateResult.ValidateResultBuilder builder = ValidateResult.failure();
+        ValidateResult.ValidateResultBuilder builder = ValidateResult.builder().valid(false);
         for (ConstraintViolation constraintViolation : validate) {
             builder.rootBeanClass(constraintViolation.getRootBeanClass().getSimpleName())
                     .rootBean(constraintViolation.getRootBean());
