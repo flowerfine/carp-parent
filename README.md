@@ -46,7 +46,7 @@ framework 提供常见功能模块以满足快速开发需求
   * redis
 * 微服务
   * id。唯一id
-  * [lock](./carp-framework/carp-framework-lock/README.md)。提供基于 [ShedLock](https://github.com/lukas-krecan/ShedLock) 和 [redisson](https://github.com/redisson/redisson) 锁实现
+  * [lock](./carp-framework/carp-framework-lock)。提供基于 [ShedLock](https://github.com/lukas-krecan/ShedLock) 和 [redisson](https://github.com/redisson/redisson) 锁实现
   * feign。http 调用
 * web 应用
   * web
