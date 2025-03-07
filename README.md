@@ -1,5 +1,9 @@
 # Carp
 
+[![Maven Central](https://img.shields.io/maven-central/v/cn.sliew/carp-parent)](https://maven-badges.herokuapp.com/maven-central/cn.sliew/carp-parent)
+
+[![License](https://img.shields.io/github/license/flowerfine/carp-parent.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+
 carp-parent 为 [carp](https://github.com/flowerfine/carp) 项目提供统一的依赖管理，确保依赖全局一致。
 
 ## 使用方式
