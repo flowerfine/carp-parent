@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.framework.common.serder.jackson;
 
+import cn.hutool.core.codec.Base64;
 import cn.sliew.carp.framework.common.serder.SerDer;
 import cn.sliew.carp.framework.common.serder.SerDerException;
 import cn.sliew.milky.common.util.JacksonUtil;
@@ -27,8 +28,14 @@ public class JacksonSerDer implements SerDer {
 
     @Override
     public byte[] serialize(Object object) throws SerDerException {
+        byte[] bytes = serializeAsString(object).getBytes(StandardCharsets.UTF_8);
+        return Base64.encode(bytes, false);
+    }
+
+    @Override
+    public String serializeAsString(Object object) throws SerDerException {
         try {
-            return JacksonUtil.toJsonString(object).getBytes(StandardCharsets.UTF_8);
+            return JacksonUtil.toJsonString(object);
         } catch (Exception e) {
             throw new SerDerException(e);
         }
@@ -36,8 +43,14 @@ public class JacksonSerDer implements SerDer {
 
     @Override
     public <T> T deserialize(byte[] bytes, Class<T> clazz) throws SerDerException {
+        String string = new String(Base64.decode(bytes), StandardCharsets.UTF_8);
+        return deserializeFromString(string, clazz);
+    }
+
+    @Override
+    public <T> T deserializeFromString(String string, Class<T> clazz) throws SerDerException {
         try {
-            return JacksonUtil.parseJsonString(new String(bytes, StandardCharsets.UTF_8), clazz);
+            return JacksonUtil.parseJsonString(string, clazz);
         } catch (Exception e) {
             throw new SerDerException(e);
         }
