@@ -17,19 +17,9 @@
  */
 package cn.sliew.carp.framework.common.serder;
 
-import cn.hutool.core.codec.Base64;
+public class SerDerException extends RuntimeException {
 
-public interface SerDer {
-
-    byte[] serialize(Object object) throws SerDerException;
-
-    default String serializeAsString(Object object) throws SerDerException {
-        return Base64.encode(serialize(object));
-    }
-
-    <T> T deserialize(byte[] bytes, Class<T> clazz) throws SerDerException;
-
-    default <T> T deserializeFromString(String string, Class<T> clazz) throws SerDerException {
-        return deserialize(Base64.decode(string), clazz);
+    public SerDerException(Throwable cause) {
+        super(cause);
     }
 }

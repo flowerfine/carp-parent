@@ -18,29 +18,30 @@
 package cn.sliew.carp.framework.common.serder.jdk;
 
 import cn.sliew.carp.framework.common.serder.SerDer;
+import cn.sliew.carp.framework.common.serder.SerDerException;
 
 import java.io.*;
 
 public class JdkSerDer implements SerDer {
 
     @Override
-    public byte[] serialize(Object object) {
+    public byte[] serialize(Object object) throws SerDerException {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
              ObjectOutputStream oos = new ObjectOutputStream(bos)) {
             oos.writeObject(object);
             return bos.toByteArray();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SerDerException(e);
         }
     }
 
     @Override
-    public <T> T deserialize(byte[] bytes, Class<T> clazz) {
+    public <T> T deserialize(byte[] bytes, Class<T> clazz) throws SerDerException {
         try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
              ObjectInputStream ois = new ObjectInputStream(bis)) {
             return (T) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new SerDerException(e);
         }
     }
 }

@@ -18,6 +18,7 @@
 package cn.sliew.carp.framework.common.serder.jackson;
 
 import cn.sliew.carp.framework.common.serder.SerDer;
+import cn.sliew.carp.framework.common.serder.SerDerException;
 import cn.sliew.milky.common.util.JacksonUtil;
 
 import java.nio.charset.StandardCharsets;
@@ -25,12 +26,20 @@ import java.nio.charset.StandardCharsets;
 public class JacksonSerDer implements SerDer {
 
     @Override
-    public byte[] serialize(Object object) {
-        return JacksonUtil.toJsonString(object).getBytes(StandardCharsets.UTF_8);
+    public byte[] serialize(Object object) throws SerDerException {
+        try {
+            return JacksonUtil.toJsonString(object).getBytes(StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            throw new SerDerException(e);
+        }
     }
 
     @Override
-    public <T> T deserialize(byte[] bytes, Class<T> clazz) {
-        return JacksonUtil.parseJsonString(new String(bytes, StandardCharsets.UTF_8), clazz);
+    public <T> T deserialize(byte[] bytes, Class<T> clazz) throws SerDerException {
+        try {
+            return JacksonUtil.parseJsonString(new String(bytes, StandardCharsets.UTF_8), clazz);
+        } catch (Exception e) {
+            throw new SerDerException(e);
+        }
     }
 }
