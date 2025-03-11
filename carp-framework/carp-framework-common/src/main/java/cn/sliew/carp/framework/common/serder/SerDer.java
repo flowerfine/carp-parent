@@ -17,9 +17,19 @@
  */
 package cn.sliew.carp.framework.common.serder;
 
+import cn.hutool.core.codec.Base64;
+
 public interface SerDer {
 
     byte[] serialize(Object object);
 
+    default String serializeAsString(Object object) {
+        return Base64.encode(serialize(object));
+    }
+
     <T> T deserialize(byte[] bytes, Class<T> clazz);
+
+    default <T> T deserializeFromString(String string, Class<T> clazz) {
+        return deserialize(Base64.decode(string), clazz);
+    }
 }
