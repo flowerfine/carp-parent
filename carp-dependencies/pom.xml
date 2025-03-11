@@ -54,7 +54,7 @@
         <commons.io.version>2.14.0</commons.io.version>
         <commons.cli.version>1.9.0</commons.cli.version>
         <guava.version>33.4.0-jre</guava.version>
-        <milky.version>1.0.14</milky.version>
+        <milky.version>1.0.15</milky.version>
 
         <mybatis.plus.version>3.5.9</mybatis.plus.version>
         <velocity.engine.version>2.2</velocity.engine.version>
