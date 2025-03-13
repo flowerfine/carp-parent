@@ -17,17 +17,15 @@
  */
 package cn.sliew.carp.framework.dag.x6.dnd;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 
 @Getter
-@Builder
+@SuperBuilder
 @Jacksonized
-@AllArgsConstructor
-public class X6DataDTO {
+public class X6CellDTO {
 
-    private X6DndDTO dndData;
-    private Object nodeData;
+    private String id;
+    private String shape;
 }

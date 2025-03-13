@@ -26,7 +26,7 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 @AllArgsConstructor
-public class X6PortDTO {
+public class X6NodePortDTO {
 
     private String id;
     private String group;

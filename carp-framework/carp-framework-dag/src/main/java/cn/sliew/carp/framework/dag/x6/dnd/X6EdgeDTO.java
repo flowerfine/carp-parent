@@ -18,21 +18,15 @@
 package cn.sliew.carp.framework.dag.x6.dnd;
 
 import lombok.Getter;
-import lombok.Singular;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
-
-import java.util.List;
 
 @Getter
 @SuperBuilder
 @Jacksonized
-public class X6NodeDTO extends X6CellDTO {
+public class X6EdgeDTO extends X6CellDTO {
 
-    // todo 确定 position 格式
-    private Integer x;
-    private Integer y;
-    @Singular
-    private List<X6NodePortDTO> ports;
-    private X6NodeDataDTO data;
+    private X6EdgePortDTO source;
+    private X6EdgePortDTO target;
+    private X6EdgeDataDTO data;
 }
