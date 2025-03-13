@@ -20,16 +20,7 @@ package cn.sliew.carp.framework.dag.x6.dnd;
 /**
  * https://x6.antv.vision/zh/docs/tutorial/basic/port
  */
-public enum DndPortGroupEnum {
+public enum X6PortGroupPositionEnum {
 
-    /**
-     * 节点顶部
-     */
-    top,
-
-    /**
-     * 节点底部
-     */
-    bottom
-    ;
+    top, bottom, left, right;
 }
