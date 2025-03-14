@@ -36,4 +36,5 @@ public class X6DndDTO {
     private String category;
     private String author;
     private String description;
+    private String document;
 }
