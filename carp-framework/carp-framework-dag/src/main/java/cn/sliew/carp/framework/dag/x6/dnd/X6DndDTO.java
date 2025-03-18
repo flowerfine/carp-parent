@@ -28,6 +28,7 @@ import lombok.extern.jackson.Jacksonized;
 @AllArgsConstructor
 public class X6DndDTO {
 
+    private String namespace;
     private String label;
     private String name;
     private String type;
