@@ -18,17 +18,16 @@
 package cn.sliew.carp.framework.dag.x6.dnd;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 
 @Getter
-@Builder
+@SuperBuilder
 @Jacksonized
 @AllArgsConstructor
-public class X6EdgeDataDTO {
+public class X6EdgeMetaDTO {
 
-    private String label;
-    private X6EdgeMetaDTO meta;
-    private Object attrs;
+    private String namespace;
+    private String type;
 }

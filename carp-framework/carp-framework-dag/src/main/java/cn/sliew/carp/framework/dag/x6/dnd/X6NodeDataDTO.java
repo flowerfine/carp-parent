@@ -29,7 +29,7 @@ import lombok.extern.jackson.Jacksonized;
 public class X6NodeDataDTO {
 
     private String label;
-    private X6DndDTO meta;
+    private X6NodeMetaDTO meta;
     private Object attrs;
     private Object extData;
 }

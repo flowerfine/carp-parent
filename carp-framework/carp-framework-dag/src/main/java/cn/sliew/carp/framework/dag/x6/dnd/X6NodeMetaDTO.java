@@ -18,7 +18,6 @@
 package cn.sliew.carp.framework.dag.x6.dnd;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
@@ -27,7 +26,7 @@ import lombok.extern.jackson.Jacksonized;
 @SuperBuilder
 @Jacksonized
 @AllArgsConstructor
-public class X6DndDTO {
+public class X6NodeMetaDTO {
 
     private String namespace;
     private String label;
