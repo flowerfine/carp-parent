@@ -29,6 +29,6 @@ import lombok.extern.jackson.Jacksonized;
 public class X6EdgeDataDTO {
 
     private String label;
-    private Object edgeData;
-    private Object extData;
+    private Object meta;
+    private Object attrs;
 }
