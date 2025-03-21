@@ -45,6 +45,7 @@
         <module>carp-framework-pf4j</module>
         <module>carp-framework-pubsub</module>
         <module>carp-framework-redis</module>
+        <module>carp-framework-socketio</module>
         <module>carp-framework-spring</module>
         <module>carp-framework-task</module>
         <module>carp-framework-web</module>
