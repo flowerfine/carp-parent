@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.framework.web.config;
 
+import cn.sliew.carp.framework.common.security.SecurityConstants;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -59,17 +60,17 @@ public class OpenAPIConfig {
 
     private SecurityRequirement securityRequirement() {
         return new SecurityRequirement()
-                .addList("u_token");
+                .addList(SecurityConstants.AUTHORIZATION_TOKEN_KEY);
     }
 
     private Components components() {
         return new Components()
-                .addSecuritySchemes("u_token", securityScheme());
+                .addSecuritySchemes(SecurityConstants.AUTHORIZATION_TOKEN_KEY, securityScheme());
     }
 
     private SecurityScheme securityScheme() {
         return new SecurityScheme()
-                .name("u_token")
+                .name(SecurityConstants.AUTHORIZATION_TOKEN_KEY)
                 .type(SecurityScheme.Type.HTTP);
     }
 }

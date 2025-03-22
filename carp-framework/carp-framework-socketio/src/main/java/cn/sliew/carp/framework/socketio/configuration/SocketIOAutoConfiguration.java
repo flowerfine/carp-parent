@@ -15,30 +15,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.socketio.config;
+package cn.sliew.carp.framework.socketio.configuration;
 
-import cn.sliew.carp.framework.socketio.auth.CarpSocketAuthorizationListener;
+import cn.sliew.carp.framework.socketio.annotation.CarpSocketIoNamespace;
+import com.corundumstudio.socketio.AuthorizationListener;
+import com.corundumstudio.socketio.SocketConfig;
 import com.corundumstudio.socketio.SocketIOServer;
+import com.corundumstudio.socketio.annotation.SpringAnnotationScanner;
 import com.corundumstudio.socketio.store.RedissonStoreFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
+import java.util.Objects;
+
 @EnableConfigurationProperties(SocketIOProperties.class)
 public class SocketIOAutoConfiguration {
 
     @Autowired
     private SocketIOProperties properties;
-
-    @Bean
-    public CarpSocketAuthorizationListener carpSocketAuthorizationListener() {
-        return new CarpSocketAuthorizationListener();
-    }
 
     @Bean
     @ConditionalOnBean(RedissonClient.class)
@@ -49,13 +49,28 @@ public class SocketIOAutoConfiguration {
     @Bean(initMethod = "start", destroyMethod = "stop")
     @ConditionalOnMissingBean
     public SocketIOServer socketIOServer(
-            CarpSocketAuthorizationListener carpSocketAuthorizationListener,
+            @Autowired(required = false) AuthorizationListener authorizationListener,
             RedissonStoreFactory redissonStoreFactory) {
         com.corundumstudio.socketio.Configuration config = new com.corundumstudio.socketio.Configuration();
-        config.setHostname(properties.getHost());
+        if (StringUtils.isNotBlank(properties.getHost())) {
+            config.setHostname(properties.getHost());
+        }
         config.setPort(properties.getPort());
-        config.setAuthorizationListener(carpSocketAuthorizationListener);
+        if (Objects.nonNull(authorizationListener)) {
+            config.setAuthorizationListener(authorizationListener);
+        }
         config.setStoreFactory(redissonStoreFactory);
+
+        SocketConfig socketConfig = new SocketConfig();
+        socketConfig.setReuseAddress(true);
+        config.setSocketConfig(socketConfig);
         return new SocketIOServer(config);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(SpringAnnotationScanner.class)
+    @ConditionalOnClass(CarpSocketIoNamespace.class)
+    public SocketIONamespaceBeanPostProcessor socketIONamespaceBeanPostProcessor(SocketIOServer socketIOServer) {
+        return new SocketIONamespaceBeanPostProcessor(socketIOServer);
     }
 }
