@@ -30,6 +30,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>carp-framework-log-realtime</module>
         <module>carp-framework-log-web</module>
     </modules>
 
