@@ -5,10 +5,10 @@
 实现思路：
 
 * 服务端存储日志
-  * 消息队列或 Redis。日志输出任务将日志写入消息队列或 Redis 中，服务端甚至客户端消费日志，实时展示日志。消息队列中消息无法主动查询、只能被动消费，消息队列或 Redis 也无法长时间存储日志。如需在任务结束后继续查看日志数据，需增加日志归档功能，将消息队列或 Redis 中日志数据存储到文件系统中供日后查询。
+  * 消息队列或 Redis。日志输出任务将日志写入消息队列或 Redis 中，服务端甚至客户端消费日志，实时展示日志。消息队列中消息无法主动查询、只能被动消费，消息队列或 Redis 也无法长时间存储日志。如需在任务结束后继续查看日志数据，需增加日志归档功能，将消息队列或 Redis 中日志数据存储到文件系统中供日后查询。参考：[sreworks#StreamLogServiceImpl](https://github.com/alibaba/SREWorks/blob/main/paas/appmanager/tesla-appmanager-common-service/src/main/java/com/alibaba/tesla/appmanager/common/service/impl/StreamLogServiceImpl.java#L48)
   * 文件存储。以追求方式将日志写入文件系统中。参考：[xxl-job#XxlJobFileAppender](https://github.com/xuxueli/xxl-job/blob/master/xxl-job-core/src/main/java/com/xxl/job/core/log/XxlJobFileAppender.java#L89)
 * 前端查询日志
-  * 主动推送。前端与服务端建立连接，服务端通过 websocket、sse 或 Socket.IO 等方式实时推送日志。
+  * 主动推送。前端与服务端建立连接，服务端通过 websocket、sse 或 Socket.IO 等方式实时推送日志。参考：[sreworks#WebSocketWorkflowLogController](https://github.com/alibaba/SREWorks/blob/main/paas/appmanager/tesla-appmanager-workflow/src/main/java/com/alibaba/tesla/appmanager/workflow/controller/WebSocketWorkflowLogController.java#L64)
   * 被动查询。前端通过服务端提供的接口，获取日志。参考：[xxl-job#JobLogController](https://github.com/xuxueli/xxl-job/blob/master/xxl-job-admin/src/main/java/com/xxl/job/admin/controller/JobLogController.java#L144)、[xxljob#XxlJobFileAppender](https://github.com/xuxueli/xxl-job/blob/master/xxl-job-core/src/main/java/com/xxl/job/core/log/XxlJobFileAppender.java#L138)
 * 前端 + 服务端
   * 主动推送。
