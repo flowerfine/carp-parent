@@ -18,8 +18,8 @@
 package cn.sliew.carp.framework.web.util;
 
 import cn.hutool.extra.spring.SpringUtil;
-import cn.sliew.carp.framework.log.annotation.WebLog;
-import cn.sliew.carp.framework.log.enums.LogEntity;
+import cn.sliew.carp.framework.log.web.annotation.WebLog;
+import cn.sliew.carp.framework.log.web.enums.LogEntity;
 import cn.sliew.milky.common.util.JacksonUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

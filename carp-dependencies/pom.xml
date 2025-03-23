@@ -189,7 +189,7 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>carp-framework-log</artifactId>
+                <artifactId>carp-framework-log-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
