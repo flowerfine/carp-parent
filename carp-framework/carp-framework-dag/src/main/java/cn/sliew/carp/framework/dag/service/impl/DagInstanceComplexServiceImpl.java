@@ -101,7 +101,6 @@ public class DagInstanceComplexServiceImpl implements DagInstanceComplexService 
         dagInstanceDTO.setNamespace(dagConfigComplexDTO.getNamespace());
         dagInstanceDTO.setDagConfig(dagConfigComplexDTO);
         dagInstanceDTO.setUuid(UUIDUtil.randomUUId());
-//        dagInstanceDTO.setBody(JacksonUtil.toJsonNode(dagConfigComplexDTO));
         Long dagInstanceId = dagInstanceService.add(dagInstanceDTO);
         dagInstanceDTO.setId(dagInstanceId);
         // 插入 dag_step
@@ -112,7 +111,6 @@ public class DagInstanceComplexServiceImpl implements DagInstanceComplexService 
                 dagStepDTO.setDagInstance(dagInstanceDTO);
                 dagStepDTO.setDagConfigStep(dagConfigStepDTO);
                 dagStepDTO.setUuid(UUIDUtil.randomUUId());
-//                dagStepDTO.setBody(JacksonUtil.toJsonNode(dagConfigStepDTO));
                 dagStepService.add(dagStepDTO);
             }
         }
@@ -125,7 +123,6 @@ public class DagInstanceComplexServiceImpl implements DagInstanceComplexService 
                 dagLinkDTO.setDagConfigLink(dagConfigLinkDTO);
                 dagLinkDTO.setUuid(UUIDUtil.randomUUId());
 //                dagLinkDTO.setInputs(dagConfigLinkDTO.getLinkAttrs());
-//                dagLinkDTO.setBody(JacksonUtil.toJsonNode(dagConfigLinkDTO));
                 dagLinkService.add(dagLinkDTO);
             }
         }
