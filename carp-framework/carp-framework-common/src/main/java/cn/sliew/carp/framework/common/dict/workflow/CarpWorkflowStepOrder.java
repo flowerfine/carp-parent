@@ -25,24 +25,25 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum CarpWorkflowStepType implements DictInstance {
+public enum CarpWorkflowStepOrder implements DictInstance {
 
-    STEP("step", "Step"),
-    SUB_WORKFLOW("sub_workflow", "Sub Workflow")
+    PRE("pre", "前置"),
+    POST("post", "后置"),
+    NORMAL("normal", "正常"),
     ;
 
     @JsonCreator
-    public static CarpWorkflowStepType of(String value) {
+    public static CarpWorkflowStepOrder of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(CarpWorkflowStepType.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(CarpWorkflowStepOrder.class, value));
     }
 
     @EnumValue
     private String value;
     private String label;
 
-    CarpWorkflowStepType(String value, String label) {
+    CarpWorkflowStepOrder(String value, String label) {
         this.value = value;
         this.label = label;
     }
