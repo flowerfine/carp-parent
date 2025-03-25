@@ -22,10 +22,13 @@ import cn.sliew.carp.framework.dag.repository.mapper.DagConfigStepMapper;
 import cn.sliew.carp.framework.dag.service.DagConfigStepService;
 import cn.sliew.carp.framework.dag.service.convert.DagConfigStepConvert;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
+import cn.sliew.carp.framework.dag.service.param.DagConfigStepGetParam;
+import cn.sliew.milky.common.util.JacksonUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -45,6 +48,17 @@ public class DagConfigStepServiceImpl extends ServiceImpl<DagConfigStepMapper, D
     @Override
     public DagConfigStepDTO get(Long id) {
         DagConfigStep entity = getOptById(id).orElseThrow(() -> new IllegalArgumentException("dag config step not exists for id: " + id));
+        return DagConfigStepConvert.INSTANCE.toDto(entity);
+    }
+
+    @Override
+    public DagConfigStepDTO get(DagConfigStepGetParam param) {
+        LambdaQueryWrapper<DagConfigStep> queryWrapper = Wrappers.lambdaQuery(DagConfigStep.class)
+                .eq(DagConfigStep::getNamespace, param.getNamespace())
+                .eq(DagConfigStep::getDagId, param.getDagId())
+                .eq(StringUtils.isNotBlank(param.getStepId()), DagConfigStep::getStepId, param.getStepId())
+                .eq(StringUtils.isNotBlank(param.getStepName()), DagConfigStep::getStepName, param.getStepName());
+        DagConfigStep entity = getOneOpt(queryWrapper).orElseThrow(() -> new IllegalArgumentException("dag config step not exists for param: " + JacksonUtil.toJsonString(param)));
         return DagConfigStepConvert.INSTANCE.toDto(entity);
     }
 

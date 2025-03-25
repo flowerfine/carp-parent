@@ -19,6 +19,7 @@ package cn.sliew.carp.framework.dag.service;
 
 import cn.sliew.carp.framework.dag.repository.entity.DagConfigLink;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigLinkDTO;
+import cn.sliew.carp.framework.dag.service.param.DagConfigLinkGetParam;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -28,6 +29,8 @@ public interface DagConfigLinkService extends IService<DagConfigLink> {
     List<DagConfigLinkDTO> listLinks(Long dagId);
 
     DagConfigLinkDTO get(Long id);
+
+    DagConfigLinkDTO get(DagConfigLinkGetParam param);
 
     boolean add(DagConfigLinkDTO linkDTO);
 

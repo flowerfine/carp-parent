@@ -19,6 +19,7 @@ package cn.sliew.carp.framework.dag.service;
 
 import cn.sliew.carp.framework.dag.repository.entity.DagConfigStep;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigStepDTO;
+import cn.sliew.carp.framework.dag.service.param.DagConfigStepGetParam;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -28,6 +29,8 @@ public interface DagConfigStepService extends IService<DagConfigStep> {
     List<DagConfigStepDTO> listSteps(Long dagId);
 
     DagConfigStepDTO get(Long id);
+
+    DagConfigStepDTO get(DagConfigStepGetParam param);
 
     boolean add(DagConfigStepDTO stepDTO);
 

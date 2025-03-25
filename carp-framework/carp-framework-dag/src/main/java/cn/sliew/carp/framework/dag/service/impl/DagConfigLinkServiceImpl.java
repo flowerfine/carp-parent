@@ -22,10 +22,13 @@ import cn.sliew.carp.framework.dag.repository.mapper.DagConfigLinkMapper;
 import cn.sliew.carp.framework.dag.service.DagConfigLinkService;
 import cn.sliew.carp.framework.dag.service.convert.DagConfigLinkConvert;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigLinkDTO;
+import cn.sliew.carp.framework.dag.service.param.DagConfigLinkGetParam;
+import cn.sliew.milky.common.util.JacksonUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -45,6 +48,17 @@ public class DagConfigLinkServiceImpl extends ServiceImpl<DagConfigLinkMapper, D
     @Override
     public DagConfigLinkDTO get(Long id) {
         DagConfigLink entity = getOptById(id).orElseThrow(() -> new IllegalArgumentException("dag config link not exists for id: " + id));
+        return DagConfigLinkConvert.INSTANCE.toDto(entity);
+    }
+
+    @Override
+    public DagConfigLinkDTO get(DagConfigLinkGetParam param) {
+        LambdaQueryWrapper<DagConfigLink> queryWrapper = Wrappers.lambdaQuery(DagConfigLink.class)
+                .eq(DagConfigLink::getNamespace, param.getNamespace())
+                .eq(DagConfigLink::getDagId, param.getDagId())
+                .eq(StringUtils.isNotBlank(param.getLinkId()), DagConfigLink::getLinkId, param.getLinkId())
+                .eq(StringUtils.isNotBlank(param.getLinkName()), DagConfigLink::getLinkName, param.getLinkName());
+        DagConfigLink entity = getOneOpt(queryWrapper).orElseThrow(() -> new IllegalArgumentException("dag config link not exists for param: " + JacksonUtil.toJsonString(param)));
         return DagConfigLinkConvert.INSTANCE.toDto(entity);
     }
 

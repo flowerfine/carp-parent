@@ -20,6 +20,7 @@ package cn.sliew.carp.framework.dag.service;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.dag.repository.entity.DagConfig;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
+import cn.sliew.carp.framework.dag.service.param.DagConfigSimpleGetParam;
 import cn.sliew.carp.framework.dag.service.param.DagConfigSimplePageParam;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -30,6 +31,8 @@ public interface DagConfigService extends IService<DagConfig> {
     PageResult<DagConfigDTO> page(DagConfigSimplePageParam param);
 
     DagConfigDTO get(Long id);
+
+    DagConfigDTO get(DagConfigSimpleGetParam param);
 
     Long add(DagConfigDTO instanceDTO);
 

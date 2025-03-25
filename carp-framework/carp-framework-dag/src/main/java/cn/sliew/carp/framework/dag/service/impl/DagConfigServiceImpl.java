@@ -24,9 +24,11 @@ import cn.sliew.carp.framework.dag.repository.mapper.DagConfigMapper;
 import cn.sliew.carp.framework.dag.service.DagConfigService;
 import cn.sliew.carp.framework.dag.service.convert.DagConfigConvert;
 import cn.sliew.carp.framework.dag.service.dto.DagConfigDTO;
+import cn.sliew.carp.framework.dag.service.param.DagConfigSimpleGetParam;
 import cn.sliew.carp.framework.dag.service.param.DagConfigSimplePageParam;
 import cn.sliew.carp.framework.mybatis.DataSourceConstants;
 import cn.sliew.carp.framework.mybatis.util.PageUtil;
+import cn.sliew.milky.common.util.JacksonUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -56,6 +58,17 @@ public class DagConfigServiceImpl extends ServiceImpl<DagConfigMapper, DagConfig
     @Override
     public DagConfigDTO get(Long id) {
         DagConfig entity = getOptById(id).orElseThrow(() -> new IllegalArgumentException("dag config not exists for id: " + id));
+        return DagConfigConvert.INSTANCE.toDto(entity);
+    }
+
+    @Override
+    public DagConfigDTO get(DagConfigSimpleGetParam param) {
+        LambdaQueryWrapper<DagConfig> queryWrapper = Wrappers.lambdaQuery(DagConfig.class)
+                .eq(DagConfig::getNamespace, param.getNamespace())
+                .eq(DagConfig::getType, param.getType())
+                .eq(StringUtils.hasText(param.getName()), DagConfig::getName, param.getName())
+                .eq(StringUtils.hasText(param.getUuid()), DagConfig::getUuid, param.getUuid());
+        DagConfig entity = getOneOpt(queryWrapper).orElseThrow(() -> new IllegalArgumentException("dag config not exists for param: " + JacksonUtil.toJsonString(param)));
         return DagConfigConvert.INSTANCE.toDto(entity);
     }
 
