@@ -75,7 +75,7 @@
         <minio.version>8.3.8</minio.version>
         <kubernetes-client.version>6.9.2</kubernetes-client.version>
         <redisson.version>3.27.2</redisson.version>
-        <cola.version>4.3.2</cola.version>
+        <cola.version>5.0.0</cola.version>
         <jgrapht.version>1.5.2</jgrapht.version>
         <zjsonpatch.version>0.4.14</zjsonpatch.version>
         <semver.version>0.9.0</semver.version>
