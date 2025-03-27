@@ -25,7 +25,7 @@ import lombok.extern.jackson.Jacksonized;
 import java.util.List;
 
 @Getter
-@Builder
+@Builder(toBuilder = true)
 @Jacksonized
 @AllArgsConstructor
 public class X6GraphDTO {

@@ -25,7 +25,7 @@ import lombok.extern.jackson.Jacksonized;
 import java.util.List;
 
 @Getter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @Jacksonized
 public class X6NodeDTO extends X6CellDTO {
 

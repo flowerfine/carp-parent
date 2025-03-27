@@ -22,7 +22,7 @@ import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 
 @Getter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @Jacksonized
 public class X6EdgeDTO extends X6CellDTO {
 
