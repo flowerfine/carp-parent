@@ -44,6 +44,7 @@
         <module>carp-framework-pekko</module>
         <module>carp-framework-pf4j</module>
         <module>carp-framework-pubsub</module>
+        <module>carp-framework-queue</module>
         <module>carp-framework-redis</module>
         <module>carp-framework-socketio</module>
         <module>carp-framework-spring</module>

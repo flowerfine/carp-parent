@@ -95,6 +95,7 @@
         <serverlessworkflow.version>7.0.0.Final</serverlessworkflow.version>
         <shedlock.version>6.3.0</shedlock.version>
         <socketio.version>2.0.13</socketio.version>
+        <jedis.version>5.2.0</jedis.version>
     </properties>
 
     <dependencyManagement>
@@ -220,6 +221,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>carp-framework-pubsub</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-framework-queue-kekio</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -648,6 +654,12 @@
                 <groupId>com.corundumstudio.socketio</groupId>
                 <artifactId>netty-socketio</artifactId>
                 <version>${socketio.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>${jedis.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

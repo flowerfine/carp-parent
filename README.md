@@ -51,6 +51,9 @@ framework 提供常见功能模块以满足快速开发需求
   * [carp-framework-lock](./carp-framework/carp-framework-lock)。提供基于 [ShedLock](https://github.com/lukas-krecan/ShedLock) 和 [redisson](https://github.com/redisson/redisson) 锁实现
   * [carp-framework-feign](./carp-framework/carp-framework-feign)。http 调用
   * [carp-framework-socketio](./carp-framework/carp-framework-socketio)。WebSocket
+  * [carp-framework-queue](./carp-framework/carp-framework-queue)
+  * [carp-framework-pubsub](./carp-framework/carp-framework-pubsub)
+  * [carp-framework-task](./carp-framework/carp-framework-task)
 * web 应用
   * [carp-framework-web](./carp-framework/carp-framework-web)
 * [carp-framework-log](./carp-framework/carp-framework-log)。提供多场景日志解决方案
@@ -58,13 +61,10 @@ framework 提供常见功能模块以满足快速开发需求
   * 数据修改日志。详细记录应用关键数据的变动：增、删、改（改涉及到字段级的增、删、改）
   * 权限审计日志。账号（开通、关闭、注销），权限（授权、取消授权），鉴权（认证成功、失败），登录登出等
   * 实时日志。调度系统实时展示运行日志，Flink 实时数据查询等
-
 * [carp-framework-dag](./carp-framework/carp-framework-dag)
 * [carp-framework-license](./carp-framework/carp-framework-license)
 * [carp-framework-pekko](./carp-framework/carp-framework-pekko)
 * [carp-framework-pf4j](./carp-framework/carp-framework-pf4j)
-* [carp-framework-pubsub](./carp-framework/carp-framework-pubsub)
-* [carp-framework-task](./carp-framework/carp-framework-task)
 
 ## 项目发版
 
