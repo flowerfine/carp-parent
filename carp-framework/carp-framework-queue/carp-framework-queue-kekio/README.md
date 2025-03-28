@@ -4,7 +4,9 @@
 
 ## 使用指南
 
-
+- 配置文件
+  - 增加 `carp.framework.queue.kekio` 配置。具体查看 `KekioQueueAutoConfiguration` 和 `KekioObjectMapperConfiguration`
+- 添加 `@EnableKekioQueue` 注解
 
 ## Kekio介绍
 
