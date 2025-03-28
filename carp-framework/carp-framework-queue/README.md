@@ -10,7 +10,7 @@
 
 在 Java 生态中存在多种延迟任务解决方案：
 
-* [RocketMQ](https://rocketmq.apache.org/)。在 5.0 版本中，延迟时间取消了固定值，可设置任意时间，但延迟时间不能超过 24 小时。参考：[定时/延时消息](https://rocketmq.apache.org/zh/docs/featureBehavior/02delaymessage)
+* [RocketMQ](https://rocketmq.apache.org/)。在 5.0 版本中，延迟时间取消了固定值，可设置任意时间，但延迟时间不能超过 24 小时。4.x 版本支持 18 个延迟级别。参考：[定时/延时消息](https://rocketmq.apache.org/zh/docs/featureBehavior/02delaymessage)
 * [Kafka](https://kafka.apache.org/)。Kafka 并不支持延迟消息，但是用户可以参照 RocketMQ 实现延迟消息思路，实现 Kafka 版本的固定间隔延迟消息功能
   * [kafka-delayed-queue](https://github.com/cashfree/kafka-delayed-queue)
   * [高吞吐低延迟：朴朴基于 Kafka 的延迟队列实践](https://www.infoq.cn/article/2YMOLi5o2ooj1vW3R3q7?utm_source=related_read&utm_medium=article)
