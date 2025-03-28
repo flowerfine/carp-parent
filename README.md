@@ -51,7 +51,7 @@ framework 提供常见功能模块以满足快速开发需求
   * [carp-framework-lock](./carp-framework/carp-framework-lock)。提供基于 [ShedLock](https://github.com/lukas-krecan/ShedLock) 和 [redisson](https://github.com/redisson/redisson) 锁实现
   * [carp-framework-feign](./carp-framework/carp-framework-feign)。http 调用
   * [carp-framework-socketio](./carp-framework/carp-framework-socketio)。WebSocket
-  * [carp-framework-queue](./carp-framework/carp-framework-queue)
+  * [carp-framework-queue](./carp-framework/carp-framework-queue)。延迟队列
   * [carp-framework-pubsub](./carp-framework/carp-framework-pubsub)
   * [carp-framework-task](./carp-framework/carp-framework-task)
 * web 应用
