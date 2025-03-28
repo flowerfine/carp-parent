@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.framework.queue.kekio.annotation;
 
+import cn.sliew.carp.framework.queue.kekio.configuration.KekioObjectMapperConfiguration;
 import cn.sliew.carp.framework.queue.kekio.configuration.KekioQueueAutoConfiguration;
 import org.springframework.context.annotation.Import;
 
@@ -26,7 +27,7 @@ import java.lang.annotation.*;
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
-@Import({KekioQueueAutoConfiguration.class})
+@Import({KekioObjectMapperConfiguration.class, KekioQueueAutoConfiguration.class})
 public @interface EnableKekioQueue {
 
 }

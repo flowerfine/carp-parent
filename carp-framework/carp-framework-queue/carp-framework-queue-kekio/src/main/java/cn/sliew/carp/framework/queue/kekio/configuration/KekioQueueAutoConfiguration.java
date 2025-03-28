@@ -29,6 +29,7 @@ import cn.sliew.carp.framework.queue.kekio.redis.JedisQueue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -93,6 +94,7 @@ public class KekioQueueAutoConfiguration {
     @ConditionalOnProperty(prefix = KekioQueueProperties.PREFIX, value = "type", havingValue = "JEDIS", matchIfMissing = true)
     public JedisQueue jedisKekioQueue(
             Pool<Jedis> jedisPool,
+            @Qualifier(KekioObjectMapperConfiguration.KEKIO_OBJECT_MAPPER) ObjectMapper objectMapper,
             QueueExecutor queueExecutor,
             Collection<MessageHandler<?>> handlers,
             List<Queue.DeadMessageCallback> deadMessageHandlers,
@@ -102,7 +104,7 @@ public class KekioQueueAutoConfiguration {
         return new JedisQueue(
                 jedisPool,
                 properties.getName(),
-                new ObjectMapper(),
+                objectMapper,
                 queueExecutor,
                 handlers,
                 deadMessageHandlers,
@@ -122,6 +124,7 @@ public class KekioQueueAutoConfiguration {
     @ConditionalOnProperty(prefix = KekioQueueProperties.PREFIX, value = "type", havingValue = "JEDIS", matchIfMissing = true)
     public JedisClusterQueue jedisClusterKekioQueue(
             JedisCluster jedisCluster,
+            @Qualifier(KekioObjectMapperConfiguration.KEKIO_OBJECT_MAPPER) ObjectMapper objectMapper,
             QueueExecutor queueExecutor,
             Collection<MessageHandler<?>> handlers,
             List<Queue.DeadMessageCallback> deadMessageHandlers,
@@ -131,7 +134,7 @@ public class KekioQueueAutoConfiguration {
         return new JedisClusterQueue(
                 jedisCluster,
                 properties.getName(),
-                new ObjectMapper(),
+                objectMapper,
                 queueExecutor,
                 handlers,
                 deadMessageHandlers,
