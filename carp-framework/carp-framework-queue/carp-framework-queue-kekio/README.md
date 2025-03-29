@@ -8,6 +8,83 @@
   - 增加 `carp.framework.queue.kekio` 配置。具体查看 `KekioQueueAutoConfiguration` 和 `KekioObjectMapperConfiguration`
 - 添加 `@EnableKekioQueue` 注解
 
+### Mem
+
+```yaml
+carp.framework:
+  queue.kekio:
+  	name: kekio
+    type: JEDIS
+    object-mapper:
+      messagePackages:
+        - cn.sliew.carp.framework.queue.kekio.message
+        - cn.sliew.quoll.kekio.service.message   # 自定义 message package 路径
+```
+
+### Redis
+
+#### Standalone
+
+增加配置
+
+```yaml
+# standalone
+carp.framework:
+  queue.kekio:
+  	name: kekio
+    type: JEDIS
+    object-mapper:
+      messagePackages:
+        - cn.sliew.carp.framework.queue.kekio.message
+        - cn.sliew.quoll.kekio.service.message   # 自定义 message package 路径
+```
+
+增加 Jedis 声明
+
+```java
+@Configuration
+@AutoConfigureBefore(KekioQueueAutoConfiguration.class)
+public class KekioConfig {
+
+    @Bean
+    public JedisPool jedisPool() {
+        GenericObjectPoolConfig<Jedis> poolConfig = new GenericObjectPoolConfig<>();
+        poolConfig.setJmxNameBase("jedisPool");
+        poolConfig.setJmxNamePrefix("jedis");
+        poolConfig.setJmxEnabled(false);
+        poolConfig.setMinIdle(1);
+        poolConfig.setMaxIdle(3);
+        poolConfig.setMaxTotal(10);
+
+        HostAndPort hostAndPort = new HostAndPort("localhost", 6379);
+        JedisClientConfig config = DefaultJedisClientConfig.builder()
+                .clientName("kekio")
+                .database(3)
+                .password("123456")
+                .build();
+        return new JedisPool(poolConfig, hostAndPort, config);
+    }
+}
+```
+
+#### redis-cluster
+
+增加配置
+
+```yaml
+# redis-cluster
+carp.framework:
+  queue.kekio:
+  	name: kekio
+    type: JEDIS_CLUSTER
+    object-mapper:
+      messagePackages:
+        - cn.sliew.carp.framework.queue.kekio.message
+        - cn.sliew.quoll.kekio.service.message   # 自定义 message package 路径
+```
+
+同样增加 JedisCluster 声明
+
 ## Kekio介绍
 
 Kekio 是一个分布式延迟队列库，支持 at-least-once 投递，属于 [Spinnaker](https://github.com/spinnaker) 项目的一部分，用于 [Orca](https://github.com/spinnaker/orca) 作为内部的队列服务。

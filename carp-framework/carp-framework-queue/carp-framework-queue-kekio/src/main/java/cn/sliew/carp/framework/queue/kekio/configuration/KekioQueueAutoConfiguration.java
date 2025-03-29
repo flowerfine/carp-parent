@@ -17,7 +17,6 @@
  */
 package cn.sliew.carp.framework.queue.kekio.configuration;
 
-import cn.sliew.carp.framework.queue.kekio.MessageHandler;
 import cn.sliew.carp.framework.queue.kekio.Queue;
 import cn.sliew.carp.framework.queue.kekio.QueueExecutor;
 import cn.sliew.carp.framework.queue.kekio.ThreadPoolQueueExecutor;
@@ -37,12 +36,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.util.Pool;
 
 import java.time.Duration;
-import java.util.Collection;
 import java.util.List;
 
 @AutoConfiguration
@@ -72,17 +70,15 @@ public class KekioQueueAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = KekioQueueProperties.PREFIX, value = "type", havingValue = "MEM", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = KekioQueueProperties.PREFIX, value = "type", havingValue = "MEM", matchIfMissing = false)
     public InMemoryQueue inMemoryKekioQueue(
             QueueExecutor queueExecutor,
-            Collection<MessageHandler<?>> handlers,
             List<Queue.DeadMessageCallback> deadMessageHandlers,
             EventPublisher eventPublisher,
             MeterRegistry meterRegistry
     ) {
         return new InMemoryQueue(
                 queueExecutor,
-                handlers,
                 deadMessageHandlers,
                 eventPublisher,
                 meterRegistry,
@@ -95,12 +91,11 @@ public class KekioQueueAutoConfiguration {
 
     @Bean
     @ConditionalOnBean(Pool.class)
-    @ConditionalOnProperty(prefix = KekioQueueProperties.PREFIX, value = "type", havingValue = "JEDIS", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = KekioQueueProperties.PREFIX, value = "type", havingValue = "JEDIS", matchIfMissing = false)
     public JedisQueue jedisKekioQueue(
-            Pool<Jedis> jedisPool,
+            JedisPool jedisPool,
             @Qualifier(KekioObjectMapperConfiguration.KEKIO_OBJECT_MAPPER) ObjectMapper objectMapper,
             QueueExecutor queueExecutor,
-            Collection<MessageHandler<?>> handlers,
             List<Queue.DeadMessageCallback> deadMessageHandlers,
             EventPublisher eventPublisher,
             MeterRegistry meterRegistry
@@ -110,7 +105,6 @@ public class KekioQueueAutoConfiguration {
                 properties.getName(),
                 objectMapper,
                 queueExecutor,
-                handlers,
                 deadMessageHandlers,
                 eventPublisher,
                 meterRegistry,
@@ -125,12 +119,11 @@ public class KekioQueueAutoConfiguration {
 
     @Bean
     @ConditionalOnBean(JedisCluster.class)
-    @ConditionalOnProperty(prefix = KekioQueueProperties.PREFIX, value = "type", havingValue = "JEDIS", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = KekioQueueProperties.PREFIX, value = "type", havingValue = "JEDIS_CLUSTER", matchIfMissing = false)
     public JedisClusterQueue jedisClusterKekioQueue(
             JedisCluster jedisCluster,
             @Qualifier(KekioObjectMapperConfiguration.KEKIO_OBJECT_MAPPER) ObjectMapper objectMapper,
             QueueExecutor queueExecutor,
-            Collection<MessageHandler<?>> handlers,
             List<Queue.DeadMessageCallback> deadMessageHandlers,
             EventPublisher eventPublisher,
             MeterRegistry meterRegistry
@@ -140,7 +133,6 @@ public class KekioQueueAutoConfiguration {
                 properties.getName(),
                 objectMapper,
                 queueExecutor,
-                handlers,
                 deadMessageHandlers,
                 eventPublisher,
                 meterRegistry,

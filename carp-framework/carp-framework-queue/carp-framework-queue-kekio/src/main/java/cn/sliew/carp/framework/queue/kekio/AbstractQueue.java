@@ -25,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
 import java.time.temporal.TemporalAmount;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -38,7 +37,6 @@ public abstract class AbstractQueue implements Queue {
     private ReentrantLock lifecycleLock = new ReentrantLock();
 
     private QueueExecutor queueExecutor;
-    private Collection<MessageHandler<?>> handlers;
     protected final List<DeadMessageCallback> deadMessageHandlers;
     protected final EventPublisher publisher;
     private MeterRegistry meterRegistry;
@@ -53,7 +51,7 @@ public abstract class AbstractQueue implements Queue {
 
     public AbstractQueue(
             QueueExecutor queueExecutor,
-            Collection<MessageHandler<?>> handlers,
+
             List<DeadMessageCallback> deadMessageHandlers,
             EventPublisher publisher,
             MeterRegistry meterRegistry,
@@ -64,7 +62,6 @@ public abstract class AbstractQueue implements Queue {
             TemporalAmount ackTimeout
     ) {
         this.queueExecutor = queueExecutor;
-        this.handlers = handlers;
         this.deadMessageHandlers = deadMessageHandlers;
         this.publisher = publisher;
         this.meterRegistry = meterRegistry;
@@ -82,7 +79,6 @@ public abstract class AbstractQueue implements Queue {
             if (!isRunning()) {
                 this.processor = new QueueProcessor(this,
                         queueExecutor,
-                        handlers,
                         publisher,
                         deadMessageHandlers,
                         fillExecutorEachCycle,

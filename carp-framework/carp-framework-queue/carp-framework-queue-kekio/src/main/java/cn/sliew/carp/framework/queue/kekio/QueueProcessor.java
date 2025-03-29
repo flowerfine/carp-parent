@@ -18,6 +18,7 @@
 package cn.sliew.carp.framework.queue.kekio;
 
 import cn.hutool.core.thread.ThreadUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import cn.sliew.carp.framework.queue.kekio.message.AttemptsAttribute;
 import cn.sliew.carp.framework.queue.kekio.message.Message;
 import cn.sliew.carp.framework.queue.kekio.metrics.EventPublisher;
@@ -41,7 +42,7 @@ public class QueueProcessor implements InitializingBean, DisposableBean {
 
     private Queue queue;
     private QueueExecutor<?> executor;
-    private final Collection<MessageHandler<?>> handlers;
+    private final Collection<MessageHandler> handlers;
     private EventPublisher publisher;
     private List<Queue.DeadMessageCallback> deadMessageHandlers;
     private Boolean fillExecutorEachCycle;
@@ -49,12 +50,11 @@ public class QueueProcessor implements InitializingBean, DisposableBean {
     private Duration requeueMaxJitter;
 
     private final Random random = new Random();
-    private final Map<Class<? extends Message>, MessageHandler<?>> handlerCache = new HashMap<>();
+    private final Map<Class<? extends Message>, MessageHandler> handlerCache = new HashMap<>();
     private ScheduledThreadPoolExecutor scheduledExecutor;
 
     public QueueProcessor(Queue queue,
                           QueueExecutor<?> executor,
-                          Collection<MessageHandler<?>> handlers,
                           EventPublisher publisher,
                           List<Queue.DeadMessageCallback> deadMessageHandlers,
                           Boolean fillExecutorEachCycle,
@@ -62,7 +62,7 @@ public class QueueProcessor implements InitializingBean, DisposableBean {
                           Duration requeueMaxJitter) {
         this.queue = queue;
         this.executor = executor;
-        this.handlers = handlers;
+        this.handlers = new ArrayList<>(SpringUtil.getBeansOfType(MessageHandler.class).values());
         this.publisher = publisher;
         this.deadMessageHandlers = deadMessageHandlers;
         this.fillExecutorEachCycle = Objects.nonNull(fillExecutorEachCycle) ? fillExecutorEachCycle : true;

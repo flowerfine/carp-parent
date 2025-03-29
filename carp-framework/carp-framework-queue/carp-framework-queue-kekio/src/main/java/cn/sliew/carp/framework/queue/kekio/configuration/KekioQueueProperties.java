@@ -27,7 +27,7 @@ public class KekioQueueProperties {
     public static final String PREFIX = "carp.framework.queue.kekio";
 
     private KekioQueueType type;
-    private String name;
+    private String name = "kekio-queue";
 
     public static enum KekioQueueType {
         MEM, JEDIS, JEDIS_CLUSTER

@@ -20,7 +20,6 @@ package cn.sliew.carp.framework.queue.kekio.memory;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.sliew.carp.framework.common.util.UUIDUtil;
 import cn.sliew.carp.framework.queue.kekio.AbstractQueue;
-import cn.sliew.carp.framework.queue.kekio.MessageHandler;
 import cn.sliew.carp.framework.queue.kekio.Queue;
 import cn.sliew.carp.framework.queue.kekio.QueueExecutor;
 import cn.sliew.carp.framework.queue.kekio.message.Message;
@@ -38,7 +37,6 @@ import org.springframework.beans.factory.InitializingBean;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.TemporalAmount;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.DelayQueue;
@@ -55,8 +53,8 @@ public class InMemoryQueue extends AbstractQueue implements MonitorableQueue, In
     private final DelayQueue<Envelope> queue = new DelayQueue<>();
     private final DelayQueue<Envelope> unacked = new DelayQueue<>();
 
-    public InMemoryQueue(QueueExecutor queueExecutor, Collection<MessageHandler<?>> handlers, List<DeadMessageCallback> deadMessageHandlers, EventPublisher eventPublisher, MeterRegistry meterRegistry, Boolean fillExecutorEachCycle, Duration requeueDelay, Duration requeueMaxJitter, Boolean canPollMany, TemporalAmount ackTimeout) {
-        super(queueExecutor, handlers, deadMessageHandlers, eventPublisher, meterRegistry, fillExecutorEachCycle, requeueDelay, requeueMaxJitter, canPollMany, ackTimeout);
+    public InMemoryQueue(QueueExecutor queueExecutor, List<DeadMessageCallback> deadMessageHandlers, EventPublisher eventPublisher, MeterRegistry meterRegistry, Boolean fillExecutorEachCycle, Duration requeueDelay, Duration requeueMaxJitter, Boolean canPollMany, TemporalAmount ackTimeout) {
+        super(queueExecutor, deadMessageHandlers, eventPublisher, meterRegistry, fillExecutorEachCycle, requeueDelay, requeueMaxJitter, canPollMany, ackTimeout);
     }
 
     @Override
