@@ -69,11 +69,18 @@ public enum SecurityUtil {
 
     public static String getUserId(HandshakeData data, String userIdKey) {
         String userIdString = null;
+
         // authToken
         Object authToken = data.getAuthToken();
         if (Objects.nonNull(authToken)) {
             userIdString = getUserIdFromAuthToken(authToken, userIdKey);
         }
+        if (StringUtils.hasText(userIdString)) {
+            return userIdString;
+        }
+
+        // query
+        userIdString = data.getSingleUrlParam(userIdKey);
         if (StringUtils.hasText(userIdString)) {
             return userIdString;
         }

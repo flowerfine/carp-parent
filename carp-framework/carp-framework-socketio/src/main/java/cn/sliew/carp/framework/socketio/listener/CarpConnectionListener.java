@@ -19,6 +19,8 @@ package cn.sliew.carp.framework.socketio.listener;
 
 import cn.sliew.carp.framework.common.security.CarpSecurityContext;
 import cn.sliew.carp.framework.common.security.OnlineUserInfo;
+import cn.sliew.carp.framework.common.security.SecurityConstants;
+import cn.sliew.carp.framework.socketio.util.SecurityUtil;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIONamespace;
 import org.apache.commons.lang3.StringUtils;
@@ -60,7 +62,7 @@ public interface CarpConnectionListener {
             userId = onlineUserInfo.getUserId().toString();
         }
         if (StringUtils.isBlank(userId)) {
-            userId = client.getHandshakeData().getSingleUrlParam("userId");
+            userId = SecurityUtil.getUserId(client.getHandshakeData(), SecurityConstants.AUTHORIZATION_USER_ID_KEY);
         }
         if (StringUtils.isBlank(userId)) {
             userId = client.getSessionId().toString();
