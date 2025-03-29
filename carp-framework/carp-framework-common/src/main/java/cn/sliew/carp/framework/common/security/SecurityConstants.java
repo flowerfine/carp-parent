@@ -21,4 +21,5 @@ public enum SecurityConstants {
     ;
 
     public static final String AUTHORIZATION_TOKEN_KEY = "u_token";
+    public static final String AUTHORIZATION_USER_ID_KEY = "userId";
 }
