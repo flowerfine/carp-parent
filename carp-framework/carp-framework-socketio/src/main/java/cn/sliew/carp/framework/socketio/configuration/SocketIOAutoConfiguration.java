@@ -18,6 +18,7 @@
 package cn.sliew.carp.framework.socketio.configuration;
 
 import cn.sliew.carp.framework.socketio.annotation.CarpSocketIoNamespace;
+import cn.sliew.carp.framework.socketio.listener.SocketIOConnectionManager;
 import com.corundumstudio.socketio.AuthorizationListener;
 import com.corundumstudio.socketio.SocketConfig;
 import com.corundumstudio.socketio.SocketIOServer;
@@ -46,6 +47,11 @@ public class SocketIOAutoConfiguration {
     private SocketIOProperties properties;
 
     @Bean
+    public SocketIOConnectionManager socketIOConnectionManager(RedissonClient redissonClient) {
+        return new SocketIOConnectionManager(redissonClient);
+    }
+
+    @Bean
     @ConditionalOnBean(RedissonClient.class)
     public RedissonStoreFactory redissonStoreFactory(RedissonClient redissonClient) {
         return new RedissonStoreFactory(redissonClient);
@@ -69,7 +75,9 @@ public class SocketIOAutoConfiguration {
         SocketConfig socketConfig = new SocketConfig();
         socketConfig.setReuseAddress(true);
         config.setSocketConfig(socketConfig);
-        return new SocketIOServer(config);
+        SocketIOServer socketIOServer = new SocketIOServer(config);
+
+        return socketIOServer;
     }
 
     @Bean

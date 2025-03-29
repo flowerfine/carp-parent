@@ -17,41 +17,71 @@
  */
 package cn.sliew.carp.framework.socketio.listener;
 
-import cn.sliew.milky.common.util.MapUtil;
+import cn.sliew.carp.framework.common.util.KeyUtil;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import org.apache.commons.collections4.CollectionUtils;
+import org.redisson.api.RMap;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentMap;
 
-public class SocketIOConnectionManager implements DisposableBean {
+public class SocketIOConnectionManager implements InitializingBean, DisposableBean {
 
-    private static final ConcurrentMap<String, List<UUID>> USER_SESSIONID_MAP = Maps.newConcurrentMap();
+    private static RMap<String, List<UUID>> USER_SESSIONID_MAP = null;
+
+    private RedissonClient redissonClient;
+
+    public SocketIOConnectionManager(RedissonClient redissonClient) {
+        this.redissonClient = redissonClient;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        SocketIOConnectionManager.USER_SESSIONID_MAP = redissonClient.getMap(KeyUtil.buildCacheKey("socket.io.user2sessionIds"));
+    }
 
     @Override
     public void destroy() throws Exception {
-        USER_SESSIONID_MAP.clear();
+        if (Objects.nonNull(USER_SESSIONID_MAP)) {
+            USER_SESSIONID_MAP.destroy();
+        }
     }
 
     public static void addSessionId(String userId, UUID sessionId) {
-        MapUtil.computeIfAbsent(USER_SESSIONID_MAP, userId, k -> Lists.newArrayList()).add(sessionId);
+        RMap<String, List<UUID>> sessionMap = getSessionMap();
+        if (sessionMap.containsKey(userId)) {
+            List<UUID> sessionIds = sessionMap.get(userId);
+            sessionIds.add(sessionId);
+        } else {
+            sessionMap.put(userId, Lists.newArrayList(sessionId));
+        }
     }
 
     public static void removeSessionId(String userId, UUID sessionId) {
-        if (USER_SESSIONID_MAP.containsKey(userId)) {
-            List<UUID> sessionIds = USER_SESSIONID_MAP.get(userId);
+        RMap<String, List<UUID>> sessionMap = getSessionMap();
+        if (sessionMap.containsKey(userId)) {
+            List<UUID> sessionIds = sessionMap.get(userId);
             sessionIds.remove(sessionId);
             if (CollectionUtils.isEmpty(sessionIds)) {
-                USER_SESSIONID_MAP.remove(userId);
+                sessionMap.remove(userId);
             }
         }
     }
 
     public static List<UUID> getSessionIds(String userId) {
-        return USER_SESSIONID_MAP.getOrDefault(userId, Collections.emptyList());
+        RMap<String, List<UUID>> sessionMap = getSessionMap();
+        return sessionMap.getOrDefault(userId, Collections.emptyList());
+    }
+
+    private static RMap<String, List<UUID>> getSessionMap() {
+        if (Objects.isNull(USER_SESSIONID_MAP)) {
+            throw new IllegalStateException("USER_SESSIONID_MAP not initialized");
+        }
+        return USER_SESSIONID_MAP;
     }
 }

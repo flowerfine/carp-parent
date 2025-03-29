@@ -19,8 +19,6 @@ package cn.sliew.carp.framework.socketio.listener;
 
 import cn.sliew.carp.framework.common.security.CarpSecurityContext;
 import cn.sliew.carp.framework.common.security.OnlineUserInfo;
-import cn.sliew.milky.common.util.JacksonUtil;
-import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIONamespace;
 import org.apache.commons.lang3.StringUtils;
@@ -39,19 +37,10 @@ public interface CarpConnectionListener {
 
     void onDisConnect(SocketIOClient client);
 
-    default void onBroadcast(SocketIOClient client, AckRequest request, String data) {
-        if (StringUtils.isBlank(data)) {
-            return;
-        }
-        BroadcastMessage message = JacksonUtil.parseJsonString(data, BroadcastMessage.class);
-        List<UUID> sessionIds = SocketIOConnectionManager.getSessionIds(message.getUserId());
-        sessionIds.forEach(sessionId -> {
-            SocketIOClient socketIOClient = getNamespace().getClient(sessionId);
-            if (Objects.nonNull(socketIOClient)) {
-                socketIOClient.sendEvent(message.getName(), message.getData());
-            }
-        });
-        request.sendAckData("ok");
+    default void sendBroadcastMessage(String userId, String name, Object data) {
+        List<UUID> sessionIds = SocketIOConnectionManager.getSessionIds(userId);
+        getNamespace().getBroadcastOperations()
+                .sendEvent(name, client -> !sessionIds.contains(client.getSessionId()), data);
     }
 
     default void connect(SocketIOClient client) {

@@ -148,6 +148,15 @@ class WorkflowDeployHandler implements WorkflowHandler {
 
 ### netty-socketio 广播
 
+Socket.IO 广播消息是服务端特性，服务端向所有连接的客户端推送消息：
+
+* 服务端单机部署，客户端都连接在同一个服务端。广播消息会发送至所有客户端
+* 服务端集群部署，客户端分布在服务端集群各个服务器上，广播消息会在服务端集群内广播，服务端集群各自向连接的客户端发送消息。参考：
+  * [Using multiple nodes](https://socket.io/docs/v4/using-multiple-nodes/)
+  * [With multiple Socket.IO servers](https://socket.io/docs/v4/broadcasting-events/#with-multiple-socketio-servers)
+
+netty-socketio 使用：
+
 * 集成 redisson 或 hazelcast。
 * 发送广播消息
 
@@ -155,10 +164,9 @@ class WorkflowDeployHandler implements WorkflowHandler {
 SocketIOServer server = ...;
 SocketIONamespace namespace = server.addNamespace("/test");
 
-// 发送广播消息
-namespace.getBroadcastOperations().sendEvent(eventKey, data);
-
-// 处理广播消息
-namespace.getClient(sessionId).sendEvent(eventKey, data);
+// 发送广播消息。获取用户关联的 sessionIds，然后发送
+List<UUID> sessionIds = SocketIOConnectionManager.getSessionIds(userId);
+getNamespace().getBroadcastOperations()
+        .sendEvent(name, client -> !sessionIds.contains(client.getSessionId()), data);
 ```
 
