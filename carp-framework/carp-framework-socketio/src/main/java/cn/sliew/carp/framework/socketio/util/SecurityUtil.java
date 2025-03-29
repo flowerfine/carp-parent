@@ -28,7 +28,6 @@ import java.util.Objects;
 public enum SecurityUtil {
     ;
 
-
     public static String getAuthToken(HandshakeData data, String tokenKey) {
         String authTokenString = null;
         // authToken
@@ -72,6 +71,19 @@ public enum SecurityUtil {
         String userIdString = null;
         // authToken
         Object authToken = data.getAuthToken();
+        if (Objects.nonNull(authToken)) {
+            userIdString = getUserIdFromAuthToken(authToken, userIdKey);
+        }
+        if (StringUtils.hasText(userIdString)) {
+            return userIdString;
+        }
+        return null;
+    }
+
+
+    public static String getUserIdFromAuthToken(Object authToken, String userIdKey) {
+        String userIdString = null;
+        // authToken
         if (Objects.nonNull(authToken)) {
             if (authToken instanceof Map<?, ?> authTokenMap) {
                 userIdString = (String) authTokenMap.get(userIdKey);
