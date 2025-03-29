@@ -18,6 +18,7 @@
 package cn.sliew.carp.framework.queue.kekio.message;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.Getter;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -30,6 +31,7 @@ public abstract class Message implements Serializable {
     public static final String JSON_NAME_PROPERTY = "kind";
     public static final Long DEFAULT_ACK_TIMEOUT_MS = Duration.ofSeconds(5L).toMillis();
 
+    @Getter
     private final List<Attribute> attributes = new ArrayList<>();
 
     @SuppressWarnings("unchecked")
