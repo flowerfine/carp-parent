@@ -34,7 +34,7 @@ public enum SecurityUtil {
         Object authToken = data.getAuthToken();
         if (Objects.nonNull(authToken)) {
             if (authToken instanceof Map<?, ?> authTokenMap) {
-                authTokenString = (String) authTokenMap.get(tokenKey);
+                authTokenString = String.valueOf(authTokenMap.get(tokenKey));
             }
         }
         if (StringUtils.hasText(authTokenString)) {
@@ -93,7 +93,7 @@ public enum SecurityUtil {
         // authToken
         if (Objects.nonNull(authToken)) {
             if (authToken instanceof Map<?, ?> authTokenMap) {
-                userIdString = (String) authTokenMap.get(userIdKey);
+                userIdString = String.valueOf(authTokenMap.get(userIdKey));
             }
         }
         if (StringUtils.hasText(userIdString)) {
