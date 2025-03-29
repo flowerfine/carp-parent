@@ -25,10 +25,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.util.ClassUtils;
 
@@ -37,6 +37,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Slf4j
+@AutoConfiguration
 @EnableConfigurationProperties(KekioObjectMapperSubtypeProperties.class)
 public class KekioObjectMapperConfiguration {
 
