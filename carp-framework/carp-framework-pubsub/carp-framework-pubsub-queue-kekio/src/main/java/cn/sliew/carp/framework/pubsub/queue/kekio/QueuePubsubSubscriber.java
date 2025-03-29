@@ -15,11 +15,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.pubsub.event;
+package cn.sliew.carp.framework.pubsub.queue.kekio;
 
-import cn.sliew.carp.framework.pf4j.internal.CarpExtensionPoint;
+import cn.sliew.carp.framework.pubsub.model.PubsubSubscriber;
+import cn.sliew.carp.framework.queue.kekio.MessageHandler;
+import lombok.Getter;
 
-public interface EventListener extends CarpExtensionPoint {
+public class QueuePubsubSubscriber implements PubsubSubscriber {
 
-    void processEvent(Event event);
+    private String group;
+    @Getter
+    private MessageHandler messageHandler;
+
+    public QueuePubsubSubscriber(String group, MessageHandler messageHandler) {
+        this.group = group;
+        this.messageHandler = messageHandler;
+    }
+
+    @Override
+    public String getSystem() {
+        return QueuePubsubChannelFactory.SYSTEM;
+    }
+
+    @Override
+    public String getSubscription() {
+        return group;
+    }
+
+    @Override
+    public String getName() {
+        return group;
+    }
 }

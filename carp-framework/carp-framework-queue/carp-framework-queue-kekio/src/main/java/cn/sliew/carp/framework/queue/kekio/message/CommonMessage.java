@@ -15,20 +15,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.pubsub.event;
+package cn.sliew.carp.framework.queue.kekio.message;
 
 import cn.sliew.carp.framework.common.util.UUIDUtil;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Singular;
+import lombok.extern.jackson.Jacksonized;
 
 import java.util.Map;
 
-@Data
-public class Event {
+@Getter
+@Builder(toBuilder = true)
+@Jacksonized
+@AllArgsConstructor
+public class CommonMessage extends Message {
 
-    private Metadata details;
-    private Map<String, Object> content;
-    private String rawContent;
-    private Map<String, Object> payload;
-
-    private String eventId = UUIDUtil.randomUUId();
+    @Builder.Default
+    private String id = UUIDUtil.randomUUId();
+    private String topic;
+    private byte[] body;
+    @Singular
+    private Map<String, Object> headers;
 }

@@ -15,23 +15,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.pubsub.model;
+package cn.sliew.carp.framework.pubsub.annotation;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import org.springframework.stereotype.Component;
 
-import java.util.Map;
+import java.lang.annotation.*;
 
-@Getter
-@Builder
-@AllArgsConstructor
-public class MessageDescription {
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Component
+public @interface PubsubListener {
 
-    private String system;
-    private String subscription;
-    private Map<String, String> attributes;
-    private String payload;
-    private int ackDeadlineSeconds;
-    private Integer retentionDeadlineSeconds;
+    String queue();
+
+    String group();
 }

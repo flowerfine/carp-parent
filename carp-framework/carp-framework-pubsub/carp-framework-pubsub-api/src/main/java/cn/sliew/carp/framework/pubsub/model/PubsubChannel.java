@@ -17,9 +17,21 @@
  */
 package cn.sliew.carp.framework.pubsub.model;
 
-public interface Acknowledger<S, T> {
+import org.springframework.context.SmartLifecycle;
 
-    void ack(S subscriptionInformation, T message);
+import java.time.Duration;
 
-    void nack(S subscriptionInformation, T message);
+public interface PubsubChannel extends SmartLifecycle {
+
+    String getName();
+
+    void register(PubsubSubscriber subscriber);
+
+    void remove(PubsubSubscriber subscriber);
+
+    default void push(String message) {
+        push(message, Duration.ZERO);
+    }
+
+    void push(String message, Duration delay);
 }

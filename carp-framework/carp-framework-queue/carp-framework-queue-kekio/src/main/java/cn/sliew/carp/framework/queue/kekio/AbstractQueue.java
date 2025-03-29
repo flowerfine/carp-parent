@@ -21,20 +21,17 @@ import cn.sliew.carp.framework.queue.kekio.metrics.EventPublisher;
 import cn.sliew.carp.framework.queue.kekio.metrics.MonitorableQueue;
 import cn.sliew.carp.framework.queue.kekio.metrics.QueueMonitor;
 import io.micrometer.core.instrument.MeterRegistry;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
 import java.time.temporal.TemporalAmount;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.locks.ReentrantLock;
 
 @Slf4j
-public abstract class AbstractQueue implements Queue {
+public abstract class AbstractQueue extends AbstractLifecycle implements Queue {
 
-    private AtomicBoolean running = new AtomicBoolean(false);
-    private ReentrantLock lifecycleLock = new ReentrantLock();
 
     private QueueExecutor queueExecutor;
     protected final List<DeadMessageCallback> deadMessageHandlers;
@@ -46,12 +43,12 @@ public abstract class AbstractQueue implements Queue {
     protected final Boolean canPollMany;
     protected final TemporalAmount ackTimeout;
 
+    @Getter
     private QueueProcessor processor;
     private QueueMonitor monitor;
 
     public AbstractQueue(
             QueueExecutor queueExecutor,
-
             List<DeadMessageCallback> deadMessageHandlers,
             EventPublisher publisher,
             MeterRegistry meterRegistry,
@@ -73,54 +70,28 @@ public abstract class AbstractQueue implements Queue {
     }
 
     @Override
-    public void start() {
-        this.lifecycleLock.lock();
-        try {
-            if (!isRunning()) {
-                this.processor = new QueueProcessor(this,
-                        queueExecutor,
-                        publisher,
-                        deadMessageHandlers,
-                        fillExecutorEachCycle,
-                        requeueDelay,
-                        requeueMaxJitter
-                );
-                this.processor.afterPropertiesSet();
-                if (this instanceof MonitorableQueue monitorableQueue) {
-                    this.monitor = new QueueMonitor(meterRegistry, monitorableQueue);
-                    this.monitor.afterPropertiesSet();
-                }
-
-                running.compareAndSet(false, true);
-            }
-        } catch (Exception e) {
-            log.error("Start queue error", e);
-        } finally {
-            this.lifecycleLock.unlock();
+    protected void doStart() throws Exception {
+        this.processor = new QueueProcessor(this,
+                queueExecutor,
+                publisher,
+                deadMessageHandlers,
+                fillExecutorEachCycle,
+                requeueDelay,
+                requeueMaxJitter
+        );
+        this.processor.afterPropertiesSet();
+        if (this instanceof MonitorableQueue monitorableQueue) {
+            this.monitor = new QueueMonitor(meterRegistry, monitorableQueue);
+            this.monitor.afterPropertiesSet();
         }
     }
 
     @Override
-    public void stop() {
-        if (isRunning()) {
-            this.lifecycleLock.lock();
-            try {
-                this.processor.destroy();
-                if (Objects.nonNull(this.monitor)) {
-                    this.monitor.destroy();
-                }
-                running.compareAndSet(true, false);
-            } catch (Exception e) {
-                log.error("Stop queue error", e);
-            } finally {
-                this.lifecycleLock.unlock();
-            }
+    protected void doStop() throws Exception {
+        this.processor.destroy();
+        if (Objects.nonNull(this.monitor)) {
+            this.monitor.destroy();
         }
-    }
-
-    @Override
-    public boolean isRunning() {
-        return running.get();
     }
 
 }

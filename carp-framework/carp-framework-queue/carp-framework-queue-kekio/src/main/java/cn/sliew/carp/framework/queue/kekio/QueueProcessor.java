@@ -53,6 +53,7 @@ public class QueueProcessor implements InitializingBean, DisposableBean {
     private final Map<Class<? extends Message>, MessageHandler> handlerCache = new HashMap<>();
     private ScheduledThreadPoolExecutor scheduledExecutor;
 
+
     public QueueProcessor(Queue queue,
                           QueueExecutor<?> executor,
                           EventPublisher publisher,
@@ -60,9 +61,27 @@ public class QueueProcessor implements InitializingBean, DisposableBean {
                           Boolean fillExecutorEachCycle,
                           Duration requeueDelay,
                           Duration requeueMaxJitter) {
+        this(queue,
+                executor,
+                new ArrayList<>(SpringUtil.getBeansOfType(MessageHandler.class).values()),
+                publisher,
+                deadMessageHandlers,
+                fillExecutorEachCycle,
+                requeueDelay,
+                requeueMaxJitter);
+    }
+
+    public QueueProcessor(Queue queue,
+                          QueueExecutor<?> executor,
+                          Collection<MessageHandler> handlers,
+                          EventPublisher publisher,
+                          List<Queue.DeadMessageCallback> deadMessageHandlers,
+                          Boolean fillExecutorEachCycle,
+                          Duration requeueDelay,
+                          Duration requeueMaxJitter) {
         this.queue = queue;
         this.executor = executor;
-        this.handlers = new ArrayList<>(SpringUtil.getBeansOfType(MessageHandler.class).values());
+        this.handlers = new ArrayList<>(handlers);
         this.publisher = publisher;
         this.deadMessageHandlers = deadMessageHandlers;
         this.fillExecutorEachCycle = Objects.nonNull(fillExecutorEachCycle) ? fillExecutorEachCycle : true;
@@ -152,5 +171,13 @@ public class QueueProcessor implements InitializingBean, DisposableBean {
                 .filter(handler -> handler.getMessageType().isAssignableFrom(key))
                 .findFirst()
                 .orElse(null));
+    }
+
+    public void addMessageHandler(MessageHandler<?> handler) {
+        handlers.add(handler);
+    }
+
+    public void removeMessageHandler(MessageHandler<?> handler) {
+        handlers.remove(handler);
     }
 }

@@ -17,14 +17,26 @@
  */
 package cn.sliew.carp.framework.pubsub.model;
 
-import cn.sliew.carp.framework.pubsub.event.Event;
+import cn.sliew.milky.common.util.MapUtil;
 
-/**
- * Interface for creating an Event from a MessageDescription. In general, a PubsubSubscriber is
- * responsible for creating a MessageDescription from an incoming pubsub message; an EventCreator is
- * then used to create an echo Event from that MessageDescription.
- */
-public interface EventCreator {
+import java.util.Collection;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
-    Event createEvent(MessageDescription description);
+public abstract class AbstractPubsubChannelFactory extends AbstractLifecycle implements PubsubChannelFactory {
+
+    private ConcurrentMap<String, PubsubChannel> registry = new ConcurrentHashMap<>();
+
+    @Override
+    public PubsubChannel get(String name) {
+        MapUtil.computeIfAbsent(registry, name, (key) -> doCreate(name));
+        return null;
+    }
+
+    @Override
+    public Collection<PubsubChannel> getAll() {
+        return registry.values();
+    }
+
+    protected abstract PubsubChannel doCreate(String name);
 }

@@ -15,29 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.pubsub.event;
+package cn.sliew.carp.framework.pubsub.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+public abstract class AbstractPubsubChannel extends AbstractLifecycle implements PubsubChannel {
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
-/**
- * Represents event metadata
- */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Metadata {
-
-    private String _content_id;
-    private String source;
-    private String type;
-    private String timestamp = Long.toString(new Date().getTime());
-    private Map<String, String> attributes;
-    private TreeMap<String, List<String>> requestHeaders = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 }

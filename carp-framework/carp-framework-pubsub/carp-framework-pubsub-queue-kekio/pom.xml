@@ -22,16 +22,21 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp-framework</artifactId>
+        <artifactId>carp-framework-pubsub</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-framework-pubsub</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>carp-framework-pubsub-queue-kekio</artifactId>
 
-    <modules>
-        <module>carp-framework-pubsub-api</module>
-        <module>carp-framework-pubsub-queue-kekio</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-pubsub-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-queue-kekio</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

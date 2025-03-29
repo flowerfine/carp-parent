@@ -220,7 +220,12 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>carp-framework-pubsub</artifactId>
+                <artifactId>carp-framework-pubsub-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-framework-pubsub-queue-kekio</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
