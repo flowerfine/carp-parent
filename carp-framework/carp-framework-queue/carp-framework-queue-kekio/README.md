@@ -13,7 +13,7 @@
 ```yaml
 carp.framework:
   queue.kekio:
-  	name: kekio
+    name: kekio
     type: JEDIS
     object-mapper:
       messagePackages:
@@ -31,7 +31,7 @@ carp.framework:
 # standalone
 carp.framework:
   queue.kekio:
-  	name: kekio
+    name: kekio
     type: JEDIS
     object-mapper:
       messagePackages:
@@ -75,7 +75,7 @@ public class KekioConfig {
 # redis-cluster
 carp.framework:
   queue.kekio:
-  	name: kekio
+    name: kekio
     type: JEDIS_CLUSTER
     object-mapper:
       messagePackages:
