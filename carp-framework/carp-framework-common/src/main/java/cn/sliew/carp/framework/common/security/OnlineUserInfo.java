@@ -24,6 +24,7 @@ import lombok.Data;
 @Data
 public class OnlineUserInfo {
 
+    private String token;
     private Long userId;
     private CarpSecUserType type;
     private String userName;
