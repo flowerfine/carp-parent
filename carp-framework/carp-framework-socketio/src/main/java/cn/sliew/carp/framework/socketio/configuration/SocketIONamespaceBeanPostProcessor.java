@@ -70,7 +70,7 @@ public class SocketIONamespaceBeanPostProcessor implements BeanPostProcessor {
         CarpSocketIoNamespace annotation = AnnotationUtils.findAnnotation(beanClass, CarpSocketIoNamespace.class);
         if (Objects.isNull(annotation)) {
             socketIOServer.addListeners(bean, beanClass);
-            log.debug("Socket.IO {} bean listeners added to default namespace", beanName);
+            log.debug("Socket.IO [{}] bean listeners added to [default] namespace", beanName);
         } else {
             if (socketIOServer.getAllNamespaces().contains(annotation.value()) == false) {
                 socketIOServer.addNamespace(annotation.value());
@@ -80,7 +80,7 @@ public class SocketIONamespaceBeanPostProcessor implements BeanPostProcessor {
                 listener.setNamespace(namespace);
             }
             namespace.addListeners(bean, beanClass);
-            log.debug("Socket.IO {} bean listeners added to {} namespace", beanName, annotation.value());
+            log.debug("Socket.IO [{}] bean listeners added to [{}] namespace", beanName, annotation.value());
         }
     }
 
