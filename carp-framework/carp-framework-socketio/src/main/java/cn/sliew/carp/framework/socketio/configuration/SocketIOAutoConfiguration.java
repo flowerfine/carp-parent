@@ -18,7 +18,8 @@
 package cn.sliew.carp.framework.socketio.configuration;
 
 import cn.sliew.carp.framework.socketio.annotation.CarpSocketIoNamespace;
-import cn.sliew.carp.framework.socketio.listener.SocketIOConnectionManager;
+import cn.sliew.carp.framework.socketio.repository.DefaultSocketIORepository;
+import cn.sliew.carp.framework.socketio.repository.SocketIORepository;
 import com.corundumstudio.socketio.AuthorizationListener;
 import com.corundumstudio.socketio.SocketConfig;
 import com.corundumstudio.socketio.SocketIOServer;
@@ -45,11 +46,6 @@ public class SocketIOAutoConfiguration {
 
     @Autowired
     private SocketIOProperties properties;
-
-    @Bean
-    public SocketIOConnectionManager socketIOConnectionManager(RedissonClient redissonClient) {
-        return new SocketIOConnectionManager(redissonClient);
-    }
 
     @Bean
     @ConditionalOnBean(RedissonClient.class)
@@ -81,9 +77,16 @@ public class SocketIOAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnBean(RedissonClient.class)
+    public SocketIORepository socketIORepository(RedissonClient redissonClient, SocketIOServer socketIOServer) {
+        return new DefaultSocketIORepository(redissonClient, socketIOServer);
+    }
+
+    @Bean
     @ConditionalOnMissingBean(SpringAnnotationScanner.class)
     @ConditionalOnClass(CarpSocketIoNamespace.class)
-    public SocketIONamespaceBeanPostProcessor socketIONamespaceBeanPostProcessor(SocketIOServer socketIOServer) {
-        return new SocketIONamespaceBeanPostProcessor(socketIOServer);
+    public SocketIONamespaceBeanPostProcessor socketIONamespaceBeanPostProcessor(SocketIOServer socketIOServer, SocketIORepository socketIORepository) {
+        return new SocketIONamespaceBeanPostProcessor(socketIOServer, socketIORepository);
     }
+
 }

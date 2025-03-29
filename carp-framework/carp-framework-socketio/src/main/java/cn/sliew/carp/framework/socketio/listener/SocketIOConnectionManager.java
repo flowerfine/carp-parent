@@ -30,6 +30,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * 防止出现单账号多地同时登录现象
+ */
 public class SocketIOConnectionManager implements InitializingBean, DisposableBean {
 
     private static RMap<String, List<UUID>> USER_SESSIONID_MAP = null;

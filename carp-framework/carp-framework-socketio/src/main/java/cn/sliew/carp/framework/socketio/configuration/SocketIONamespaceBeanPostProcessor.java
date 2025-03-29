@@ -19,6 +19,7 @@ package cn.sliew.carp.framework.socketio.configuration;
 
 import cn.sliew.carp.framework.socketio.annotation.CarpSocketIoNamespace;
 import cn.sliew.carp.framework.socketio.listener.CarpConnectionListener;
+import cn.sliew.carp.framework.socketio.repository.SocketIORepository;
 import com.corundumstudio.socketio.SocketIONamespace;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.OnConnect;
@@ -46,13 +47,15 @@ public class SocketIONamespaceBeanPostProcessor implements BeanPostProcessor {
             Arrays.asList(OnConnect.class, OnDisconnect.class, OnEvent.class);
 
     private final SocketIOServer socketIOServer;
+    private final SocketIORepository socketIORepository;
     private Class originalBeanClass;
     private Object originalBean;
     private String originalBeanName;
 
-    public SocketIONamespaceBeanPostProcessor(SocketIOServer socketIOServer) {
+    public SocketIONamespaceBeanPostProcessor(SocketIOServer socketIOServer, SocketIORepository socketIORepository) {
         super();
         this.socketIOServer = socketIOServer;
+        this.socketIORepository = socketIORepository;
     }
 
     @Override
@@ -78,11 +81,13 @@ public class SocketIONamespaceBeanPostProcessor implements BeanPostProcessor {
             SocketIONamespace namespace = socketIOServer.getNamespace(annotation.value());
             if (bean instanceof CarpConnectionListener listener) {
                 listener.setNamespace(namespace);
+                listener.setRepository(socketIORepository);
             }
             namespace.addListeners(bean, beanClass);
             log.debug("Socket.IO [{}] bean listeners added to [{}] namespace", beanName, annotation.value());
         }
     }
+
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {

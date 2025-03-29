@@ -20,6 +20,7 @@ package cn.sliew.carp.framework.socketio.listener;
 import cn.sliew.carp.framework.common.security.CarpSecurityContext;
 import cn.sliew.carp.framework.common.security.OnlineUserInfo;
 import cn.sliew.carp.framework.common.security.SecurityConstants;
+import cn.sliew.carp.framework.socketio.repository.SocketIORepository;
 import cn.sliew.carp.framework.socketio.util.SecurityUtil;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIONamespace;
@@ -35,24 +36,31 @@ public interface CarpConnectionListener {
 
     SocketIONamespace getNamespace();
 
+    void setRepository(SocketIORepository repository);
+
+    SocketIORepository getRepository();
+
     void onConnect(SocketIOClient client);
 
     void onDisConnect(SocketIOClient client);
 
     default void sendBroadcastMessage(String userId, String name, Object data) {
-        List<UUID> sessionIds = SocketIOConnectionManager.getSessionIds(userId);
+        String namespace = getNamespace().getName();
+        List<UUID> sessionIds = getRepository().getSessionIds(namespace, userId);
         getNamespace().getBroadcastOperations()
                 .sendEvent(name, client -> !sessionIds.contains(client.getSessionId()), data);
     }
 
     default void connect(SocketIOClient client) {
+        String namespace =getNamespace().getName();
         String userId = getUserId(client);
-        SocketIOConnectionManager.addSessionId(userId, client.getSessionId());
+        getRepository().addSessionId(namespace, userId, client.getSessionId());
     }
 
     default void disconnect(SocketIOClient client) {
+        String namespace =getNamespace().getName();
         String userId = getUserId(client);
-        SocketIOConnectionManager.removeSessionId(userId, client.getSessionId());
+        getRepository().removeSessionId(namespace, userId, client.getSessionId());
     }
 
     default String getUserId(SocketIOClient client) {
