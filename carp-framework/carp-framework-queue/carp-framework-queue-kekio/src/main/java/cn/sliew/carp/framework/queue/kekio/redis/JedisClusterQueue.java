@@ -39,12 +39,12 @@ public class JedisClusterQueue extends RedisQueue<JedisCluster> {
 
     private final JedisCluster jedisCluster;
 
-    public JedisClusterQueue(JedisCluster jedisCluster, String queueName, ObjectMapper mapper, QueueExecutor queueExecutor, List<DeadMessageCallback> deadMessageHandlers, EventPublisher publisher, MeterRegistry meterRegistry, Boolean fillExecutorEachCycle, Duration requeueDelay, Duration requeueMaxJitter, Boolean canPollMany, TemporalAmount ackTimeout, Integer lockTtlSeconds) {
-        super(queueName, mapper, queueExecutor, deadMessageHandlers, publisher, meterRegistry, fillExecutorEachCycle, requeueDelay, requeueMaxJitter, canPollMany, ackTimeout, lockTtlSeconds);
+    public JedisClusterQueue(JedisCluster jedisCluster, ObjectMapper mapper, String name, QueueExecutor queueExecutor, List<DeadMessageCallback> deadMessageHandlers, EventPublisher publisher, MeterRegistry meterRegistry, Boolean fillExecutorEachCycle, Duration requeueDelay, Duration requeueMaxJitter, Boolean canPollMany, TemporalAmount ackTimeout, Integer lockTtlSeconds) {
+        super(mapper, name, queueExecutor, deadMessageHandlers, publisher, meterRegistry, fillExecutorEachCycle, requeueDelay, requeueMaxJitter, canPollMany, ackTimeout, lockTtlSeconds);
         this.jedisCluster = jedisCluster;
 
         cacheScript();
-        log.info("Configured {} queue: {}", getClass().getName(), queueName);
+        log.info("Configured {} queue: {}", getClass().getName(), name);
     }
 
     @Override

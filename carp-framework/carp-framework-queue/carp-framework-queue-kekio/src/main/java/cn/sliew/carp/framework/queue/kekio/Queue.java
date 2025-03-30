@@ -32,6 +32,8 @@ public interface Queue extends SmartLifecycle {
      */
     int MAX_RETRIES = 5;
 
+    String getName();
+
     /**
      * Polls the queue for ready messages.
      * <p>

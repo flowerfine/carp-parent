@@ -49,8 +49,6 @@ import java.util.function.Predicate;
 @Slf4j
 public abstract class RedisQueue<CLIENT extends JedisCommands> extends AbstractRedisQueue<CLIENT> {
 
-    private final String queueName;
-
     private final String queueKey;
     private final String unackedKey;
     private final String messagesKey;
@@ -59,15 +57,14 @@ public abstract class RedisQueue<CLIENT extends JedisCommands> extends AbstractR
 
     private String readMessageWithLockScriptSha;
 
-    public RedisQueue(String queueName, ObjectMapper mapper, QueueExecutor queueExecutor, List<DeadMessageCallback> deadMessageHandlers, EventPublisher publisher, MeterRegistry meterRegistry, Boolean fillExecutorEachCycle, Duration requeueDelay, Duration requeueMaxJitter, Boolean canPollMany, TemporalAmount ackTimeout, Integer lockTtlSeconds) {
-        super(mapper, queueExecutor, deadMessageHandlers, publisher, meterRegistry, fillExecutorEachCycle, requeueDelay, requeueMaxJitter, canPollMany, ackTimeout, lockTtlSeconds);
-        this.queueName = queueName;
+    public RedisQueue(ObjectMapper mapper, String name,  QueueExecutor queueExecutor, List<DeadMessageCallback> deadMessageHandlers, EventPublisher publisher, MeterRegistry meterRegistry, Boolean fillExecutorEachCycle, Duration requeueDelay, Duration requeueMaxJitter, Boolean canPollMany, TemporalAmount ackTimeout, Integer lockTtlSeconds) {
+        super(mapper, name, queueExecutor, deadMessageHandlers, publisher, meterRegistry, fillExecutorEachCycle, requeueDelay, requeueMaxJitter, canPollMany, ackTimeout, lockTtlSeconds);
 
-        this.queueKey = KeyUtil.buildKey("kekio-queue.v1",queueName, "queue");
-        this.unackedKey = KeyUtil.buildKey("kekio-queue.v1",queueName, "unacked");
-        this.messagesKey = KeyUtil.buildKey("kekio-queue.v1",queueName, "messages");
-        this.locksKey = KeyUtil.buildKey("kekio-queue.v1",queueName, "locks");
-        this.attemptsKey =  KeyUtil.buildKey("kekio-queue.v1",queueName, "attempts");
+        this.queueKey = KeyUtil.buildKey("kekio-queue.v1",name, "queue");
+        this.unackedKey = KeyUtil.buildKey("kekio-queue.v1",name, "unacked");
+        this.messagesKey = KeyUtil.buildKey("kekio-queue.v1",name, "messages");
+        this.locksKey = KeyUtil.buildKey("kekio-queue.v1",name, "locks");
+        this.attemptsKey =  KeyUtil.buildKey("kekio-queue.v1",name, "attempts");
     }
 
     @Override

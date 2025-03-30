@@ -19,6 +19,8 @@ package cn.sliew.carp.framework.queue.kekio.metrics;
 
 import cn.hutool.core.thread.ThreadUtil;
 import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Tag;
+import io.micrometer.core.instrument.Tags;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -34,19 +36,21 @@ import java.util.concurrent.atomic.AtomicReference;
 public class QueueMonitor implements InitializingBean, DisposableBean {
 
     private final MonitorableQueue queue;
+    private final Iterable<Tag> tags;
     private final AtomicReference<MonitorableQueue.QueueState> _lastState;
 
     private ScheduledThreadPoolExecutor scheduledExecutor;
 
     public QueueMonitor(MeterRegistry registry, MonitorableQueue queue) {
         this.queue = queue;
+        this.tags = Tags.of("queue", queue.getName());
         this._lastState = new AtomicReference<>(new MonitorableQueue.QueueState(0, 0, 0));
 
         // 设置各种监控指标
-        registry.gauge("queue.depth", this, monitor -> monitor.getLastState().getDepth());
-        registry.gauge("queue.unacked.depth", this, monitor -> monitor.getLastState().getUnacked());
-        registry.gauge("queue.ready.depth", this, monitor -> monitor.getLastState().getReady());
-        registry.gauge("queue.orphaned.messages", this, monitor -> monitor.getLastState().getOrphaned());
+        registry.gauge("queue.depth", tags, this, monitor -> monitor.getLastState().getDepth());
+        registry.gauge("queue.unacked.depth", tags, this, monitor -> monitor.getLastState().getUnacked());
+        registry.gauge("queue.ready.depth", tags, this, monitor -> monitor.getLastState().getReady());
+        registry.gauge("queue.orphaned.messages", tags, this, monitor -> monitor.getLastState().getOrphaned());
     }
 
     public MonitorableQueue.QueueState getLastState() {

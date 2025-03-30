@@ -53,8 +53,8 @@ public class InMemoryQueue extends AbstractQueue implements MonitorableQueue, In
     private final DelayQueue<Envelope> queue = new DelayQueue<>();
     private final DelayQueue<Envelope> unacked = new DelayQueue<>();
 
-    public InMemoryQueue(QueueExecutor queueExecutor, List<DeadMessageCallback> deadMessageHandlers, EventPublisher eventPublisher, MeterRegistry meterRegistry, Boolean fillExecutorEachCycle, Duration requeueDelay, Duration requeueMaxJitter, Boolean canPollMany, TemporalAmount ackTimeout) {
-        super(queueExecutor, deadMessageHandlers, eventPublisher, meterRegistry, fillExecutorEachCycle, requeueDelay, requeueMaxJitter, canPollMany, ackTimeout);
+    public InMemoryQueue(String name, QueueExecutor queueExecutor, List<DeadMessageCallback> deadMessageHandlers, EventPublisher eventPublisher, MeterRegistry meterRegistry, Boolean fillExecutorEachCycle, Duration requeueDelay, Duration requeueMaxJitter, Boolean canPollMany, TemporalAmount ackTimeout) {
+        super(name, queueExecutor, deadMessageHandlers, eventPublisher, meterRegistry, fillExecutorEachCycle, requeueDelay, requeueMaxJitter, canPollMany, ackTimeout);
     }
 
     @Override

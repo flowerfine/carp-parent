@@ -71,6 +71,7 @@ public class KekioQueueAutoConfiguration {
             MeterRegistry meterRegistry
     ) {
         return new InMemoryQueue(
+                properties.getName(),
                 queueExecutor,
                 deadMessageHandlers,
                 new QueueMetricsPublisher(meterRegistry, properties.getName()),
@@ -94,8 +95,8 @@ public class KekioQueueAutoConfiguration {
     ) {
         return new JedisQueue(
                 jedisPool,
-                properties.getName(),
                 objectMapper,
+                properties.getName(),
                 queueExecutor,
                 deadMessageHandlers,
                 new QueueMetricsPublisher(meterRegistry, properties.getName()),
@@ -121,8 +122,8 @@ public class KekioQueueAutoConfiguration {
     ) {
         return new JedisClusterQueue(
                 jedisCluster,
-                properties.getName(),
                 objectMapper,
+                properties.getName(),
                 queueExecutor,
                 deadMessageHandlers,
                 new QueueMetricsPublisher(meterRegistry, properties.getName()),

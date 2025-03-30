@@ -32,7 +32,7 @@ import java.util.Objects;
 @Slf4j
 public abstract class AbstractQueue extends AbstractLifecycle implements Queue {
 
-
+    private final String name;
     private QueueExecutor queueExecutor;
     protected final List<DeadMessageCallback> deadMessageHandlers;
     protected final EventPublisher publisher;
@@ -48,6 +48,7 @@ public abstract class AbstractQueue extends AbstractLifecycle implements Queue {
     private QueueMonitor monitor;
 
     public AbstractQueue(
+            String name,
             QueueExecutor queueExecutor,
             List<DeadMessageCallback> deadMessageHandlers,
             EventPublisher publisher,
@@ -58,6 +59,7 @@ public abstract class AbstractQueue extends AbstractLifecycle implements Queue {
             Boolean canPollMany,
             TemporalAmount ackTimeout
     ) {
+        this.name = name;
         this.queueExecutor = queueExecutor;
         this.deadMessageHandlers = deadMessageHandlers;
         this.publisher = publisher;
@@ -94,4 +96,8 @@ public abstract class AbstractQueue extends AbstractLifecycle implements Queue {
         }
     }
 
+    @Override
+    public String getName() {
+        return name;
+    }
 }
