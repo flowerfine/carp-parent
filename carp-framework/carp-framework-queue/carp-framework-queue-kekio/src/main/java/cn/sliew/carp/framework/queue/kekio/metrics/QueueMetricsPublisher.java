@@ -40,11 +40,11 @@ public class QueueMetricsPublisher implements EventPublisher {
         this._lastQueuePoll = new AtomicReference<>(Instant.now());
         this._lastRetryPoll = new AtomicReference<>(Instant.now());
 
-        registry.gauge("queue.last.poll.age", tags,
+        registry.gauge(QueueMonitor.METRICS_PREFIX + "queue.last.poll.age", tags,
                 this,
                 self -> Duration.between(self.getLastQueuePoll(), Instant.now()).toMillis());
 
-        registry.gauge("queue.last.retry.check.age", tags,
+        registry.gauge(QueueMonitor.METRICS_PREFIX + "queue.last.retry.check.age", tags,
                 this,
                 self -> Duration.between(self.getLastRetryPoll(), Instant.now()).toMillis());
     }
@@ -77,41 +77,41 @@ public class QueueMetricsPublisher implements EventPublisher {
     }
 
     private Timer getMessageLagTimer() {
-        return registry.timer("queue.message.lag", tags);
+        return registry.timer(QueueMonitor.METRICS_PREFIX + "queue.message.lag", tags);
     }
 
 
     private Counter getMessagePushedCounter() {
-        return registry.counter("queue.pushed.messages", tags);
+        return registry.counter(QueueMonitor.METRICS_PREFIX + "queue.pushed.messages", tags);
     }
 
     private Counter getMessageAcknowledgedCounter() {
-        return registry.counter("queue.acknowledged.messages", tags);
+        return registry.counter(QueueMonitor.METRICS_PREFIX + "queue.acknowledged.messages", tags);
     }
 
     private Counter getMessageRetriedCounter() {
-        return registry.counter("queue.retried.messages", tags);
+        return registry.counter(QueueMonitor.METRICS_PREFIX + "queue.retried.messages", tags);
     }
 
     private Counter getMessageDeadCounter() {
-        return registry.counter("queue.dead.messages", tags);
+        return registry.counter(QueueMonitor.METRICS_PREFIX + "queue.dead.messages", tags);
     }
 
     private Counter getMessageDuplicateCounter(QueueEvent.MessageDuplicate event) {
-        return registry.counter("queue.duplicate.messages",
+        return registry.counter(QueueMonitor.METRICS_PREFIX + "queue.duplicate.messages",
                 Tags.concat(tags, "messageType", event.getPayload().getClass().getSimpleName()));
     }
 
     private Counter getLockFailedCounter() {
-        return registry.counter("queue.lock.failed", tags);
+        return registry.counter(QueueMonitor.METRICS_PREFIX + "queue.lock.failed", tags);
     }
 
     private Counter getMessageRescheduledCounter() {
-        return registry.counter("queue.reschedule.succeeded", tags);
+        return registry.counter(QueueMonitor.METRICS_PREFIX + "queue.reschedule.succeeded", tags);
     }
 
     private Counter getMessageNotFoundCounter() {
-        return registry.counter("queue.message.notfound", tags);
+        return registry.counter(QueueMonitor.METRICS_PREFIX + "queue.message.notfound", tags);
     }
 
     public Instant getLastQueuePoll() {

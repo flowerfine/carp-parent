@@ -35,6 +35,8 @@ import java.util.concurrent.atomic.AtomicReference;
 @Slf4j
 public class QueueMonitor implements InitializingBean, DisposableBean {
 
+    static final String METRICS_PREFIX = "carp.kekio.";
+
     private final MonitorableQueue queue;
     private final Iterable<Tag> tags;
     private final AtomicReference<MonitorableQueue.QueueState> _lastState;
@@ -47,10 +49,10 @@ public class QueueMonitor implements InitializingBean, DisposableBean {
         this._lastState = new AtomicReference<>(new MonitorableQueue.QueueState(0, 0, 0));
 
         // 设置各种监控指标
-        registry.gauge("queue.depth", tags, this, monitor -> monitor.getLastState().getDepth());
-        registry.gauge("queue.unacked.depth", tags, this, monitor -> monitor.getLastState().getUnacked());
-        registry.gauge("queue.ready.depth", tags, this, monitor -> monitor.getLastState().getReady());
-        registry.gauge("queue.orphaned.messages", tags, this, monitor -> monitor.getLastState().getOrphaned());
+        registry.gauge(METRICS_PREFIX + "queue.depth", tags, this, monitor -> monitor.getLastState().getDepth());
+        registry.gauge(METRICS_PREFIX + "queue.unacked.depth", tags, this, monitor -> monitor.getLastState().getUnacked());
+        registry.gauge(METRICS_PREFIX + "queue.ready.depth", tags, this, monitor -> monitor.getLastState().getReady());
+        registry.gauge(METRICS_PREFIX + "queue.orphaned.messages", tags, this, monitor -> monitor.getLastState().getOrphaned());
     }
 
     public MonitorableQueue.QueueState getLastState() {
