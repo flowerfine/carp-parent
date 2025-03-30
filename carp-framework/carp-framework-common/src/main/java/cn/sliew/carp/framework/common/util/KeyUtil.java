@@ -31,6 +31,11 @@ public enum KeyUtil {
     private static final String NAMESPACE_LOCK = "lock";
     private static final String SEPARATOR = ":";
 
+    public static String buildKey(@NotBlank String tag, Object... obj) {
+        checkArgument(StringUtils.isNotBlank(tag), "tag must not blank");
+        return buildKey(addPrefix(APPLICATION, null, tag, SEPARATOR), SEPARATOR, obj);
+    }
+
     public static String buildCacheKey(@NotBlank String tag, Object... obj) {
         checkArgument(StringUtils.isNotBlank(tag), "tag must not blank");
         return buildKey(addPrefix(APPLICATION, NAMESPACE_CACHE, tag, SEPARATOR), SEPARATOR, obj);
@@ -42,7 +47,11 @@ public enum KeyUtil {
     }
 
     private static String addPrefix(String application, String namespace, String tag, String separator) {
-        return String.format("%s%s%s%s%s", application, separator, namespace, separator, tag);
+        if (StringUtils.isNotBlank(namespace)) {
+            return String.format("%s%s%s%s%s", application, separator, namespace, separator, tag);
+        } else {
+            return String.format("%s%s%s", application, separator, tag);
+        }
     }
 
     private static String buildKey(@NotBlank String tag, String separator, Object... obj) {

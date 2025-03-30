@@ -1,6 +1,12 @@
 # Queue Frameowrk Kekio
 
-[spinnaker](https://github.com/spinnaker) 中 [orca](https://github.com/spinnaker/orca) 服务的 kekio 延迟队列。orca 相关依赖使用 springboot 2.7x，与 carp 使用的 springboot 3.3x 依赖存在兼容问题，无法直接加入 kekio 依赖至 pom.xml 中使用，需迁移过来。
+[Spinnaker](https://github.com/spinnaker) 中 [Orca](https://github.com/spinnaker/orca) 服务的 kekio 延迟队列。orca 相关依赖使用 springboot 2.7x，与 carp 使用的 springboot 3.3x 依赖存在兼容问题，无法直接加入 kekio 依赖至 pom.xml 中使用，需迁移过来。
+
+Kekio 并不是一个通用的延迟队列库实现，它专为 [Orca](https://github.com/spinnaker/orca) 而设计，但仍然是一个良好的经过生产验证的延迟队列库。它具有以下缺陷：
+
+* API 定义不够通用。存在部分 API 为 Orca 功能设计
+* 消息序列化。强依赖 [Jackson](https://github.com/FasterXML/jackson)，在内部处理延迟消息时使用的是 lua 脚本，内部有解析 json 的行为，限定了 redis 中存储的消息体必需为 json。在路由延迟消息至 `MessageHandler` 时，依赖 `Message` 实现类名，`Message` 实现类依赖 jackson 序列化。
+* 应用共享。在 Orca 中整个应用（支持集群部署）共享一个队列，不同的 `Message` 会按照具体的 `Message.class` 路由到不同的 `MessageHandler`。如果想达到像 `RocketMQ` 或 `Pulsar` 类似的消息队列，不同的业务使用不同的 topic，topic 内的消息都是同一类，需在应用中创建多个 Kekio Queue 实例。创建多个 Kekio Queue 实例又会造成一些 metrics 指标采集重复
 
 ## 使用指南
 
@@ -93,8 +99,6 @@ carp.framework:
 Kekio 是一个分布式延迟队列库，支持 at-least-once 投递，属于 [Spinnaker](https://github.com/spinnaker) 项目的一部分，用于 [Orca](https://github.com/spinnaker/orca) 作为内部的队列服务。
 
 Kekio 一开始有一个独立的仓库：[Kekio](https://github.com/spinnaker/keiko)，现在已经是只读状态，代码也迁移到了 [Orca](https://github.com/spinnaker/orca) 仓库中。但是 Kekio 部分代码变动不大。
-
-Kekio 并不是一个通用的延迟队列实现，它专为 [Orca](https://github.com/spinnaker/orca) 而设计，消息序列化、API 定义不够通用。在 Orca 中整个应用（支持集群部署）共享一个队列，不同的 `Message` 会按照具体的 `Message.class` 路由到不同的 `MessageHandler`。如果想达到像 `RocketMQ` 或 `Pulsar` 类似的消息队列，不同的业务使用不同的 topic，topic 内的消息都是同一类，需在应用中创建多个 Kekio Queue 实例。
 
 kekio 提供了 3 种实现：
 

@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.framework.queue.kekio.redis;
 
+import cn.sliew.carp.framework.common.util.KeyUtil;
 import cn.sliew.carp.framework.queue.kekio.Queue;
 import cn.sliew.carp.framework.queue.kekio.QueueExecutor;
 import cn.sliew.carp.framework.queue.kekio.message.AttemptsAttribute;
@@ -62,11 +63,11 @@ public abstract class RedisQueue<CLIENT extends JedisCommands> extends AbstractR
         super(mapper, queueExecutor, deadMessageHandlers, publisher, meterRegistry, fillExecutorEachCycle, requeueDelay, requeueMaxJitter, canPollMany, ackTimeout, lockTtlSeconds);
         this.queueName = queueName;
 
-        this.queueKey = "{" + queueName + "}.queue";
-        this.unackedKey = "{" + queueName + "}.unacked";
-        this.messagesKey = "{" + queueName + "}.messages";
-        this.locksKey = "{" + queueName + "}.locks";
-        this.attemptsKey = "{" + queueName + "}.attempts";
+        this.queueKey = KeyUtil.buildKey(queueName, "queue");
+        this.unackedKey = KeyUtil.buildKey(queueName, "unacked");
+        this.messagesKey = KeyUtil.buildKey(queueName, "messages");
+        this.locksKey = KeyUtil.buildKey(queueName, "locks");
+        this.attemptsKey =  KeyUtil.buildKey(queueName, "attempts");
     }
 
     @Override

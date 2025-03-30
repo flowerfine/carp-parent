@@ -19,6 +19,7 @@ package cn.sliew.carp.framework.queue.kekio.metrics;
 
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -50,10 +51,10 @@ public class QueueMetricsPublisher implements EventPublisher {
     public void publishEvent(QueueEvent event) {
         if (event == QueueEvent.QueuePolled) {
             _lastQueuePoll.set(Instant.now());
-        } else if (event instanceof QueueEvent.MessageProcessing mp) {
-            registry.timer("queue.message.lag").record(mp.getLag().toMillis(), TimeUnit.MILLISECONDS);
         } else if (event == QueueEvent.RetryPolled) {
             _lastRetryPoll.set(Instant.now());
+        } else if (event instanceof QueueEvent.MessageProcessing mp) {
+            getMessageLagTimer().record(mp.getLag().toMillis(), TimeUnit.MILLISECONDS);
         } else if (event instanceof QueueEvent.MessagePushed) {
             getMessagePushedCounter().increment();
         } else if (event == QueueEvent.MessageAcknowledged) {
@@ -71,6 +72,10 @@ public class QueueMetricsPublisher implements EventPublisher {
         } else if (event instanceof QueueEvent.MessageNotFound) {
             getMessageNotFoundCounter().increment();
         }
+    }
+
+    private Timer getMessageLagTimer() {
+        return registry.timer("queue.message.lag");
     }
 
 
