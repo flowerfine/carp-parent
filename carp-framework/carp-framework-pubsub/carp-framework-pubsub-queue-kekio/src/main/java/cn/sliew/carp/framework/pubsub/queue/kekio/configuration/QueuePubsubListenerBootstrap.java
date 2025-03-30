@@ -19,7 +19,7 @@ package cn.sliew.carp.framework.pubsub.queue.kekio.configuration;
 
 import cn.hutool.extra.spring.SpringUtil;
 import cn.sliew.carp.framework.pubsub.annotation.PubsubListener;
-import cn.sliew.carp.framework.pubsub.model.PubsubChannelFactory;
+import cn.sliew.carp.framework.pubsub.queue.kekio.QueuePubsubChannelFactory;
 import cn.sliew.carp.framework.pubsub.queue.kekio.QueuePubsubSubscriber;
 import cn.sliew.carp.framework.queue.kekio.MessageHandler;
 import org.springframework.aop.support.AopUtils;
@@ -34,7 +34,7 @@ import java.util.Map;
 public class QueuePubsubListenerBootstrap implements ApplicationRunner {
 
     @Autowired
-    private PubsubChannelFactory pubsubChannelFactory;
+    private QueuePubsubChannelFactory pubsubChannelFactory;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {

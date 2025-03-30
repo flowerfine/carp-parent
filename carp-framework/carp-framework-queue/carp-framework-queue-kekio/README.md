@@ -13,6 +13,7 @@
 ```yaml
 carp.framework:
   queue.kekio:
+    enabled: true
     name: kekio
     type: JEDIS
     object-mapper:
@@ -31,6 +32,7 @@ carp.framework:
 # standalone
 carp.framework:
   queue.kekio:
+    enabled: true
     name: kekio
     type: JEDIS
     object-mapper:
@@ -75,6 +77,7 @@ public class KekioConfig {
 # redis-cluster
 carp.framework:
   queue.kekio:
+    enabled: true
     name: kekio
     type: JEDIS_CLUSTER
     object-mapper:
@@ -91,7 +94,7 @@ Kekio 是一个分布式延迟队列库，支持 at-least-once 投递，属于 [
 
 Kekio 一开始有一个独立的仓库：[Kekio](https://github.com/spinnaker/keiko)，现在已经是只读状态，代码也迁移到了 [Orca](https://github.com/spinnaker/orca) 仓库中。但是 Kekio 部分代码变动不大。
 
-Kekio 并不是一个通用的延迟队列实现，它专为 [Orca](https://github.com/spinnaker/orca) 而设计，消息序列化、API 定义不够通用。
+Kekio 并不是一个通用的延迟队列实现，它专为 [Orca](https://github.com/spinnaker/orca) 而设计，消息序列化、API 定义不够通用。在 Orca 中整个应用（支持集群部署）共享一个队列，不同的 `Message` 会按照具体的 `Message.class` 路由到不同的 `MessageHandler`。如果想达到像 `RocketMQ` 或 `Pulsar` 类似的消息队列，不同的业务使用不同的 topic，topic 内的消息都是同一类，需在应用中创建多个 Kekio Queue 实例。
 
 kekio 提供了 3 种实现：
 
@@ -99,7 +102,7 @@ kekio 提供了 3 种实现：
 * redis。基于 [jedis](https://github.com/redis/jedis) 实现，支持 standalone 和 redis-cluster 2 种模式。
 * jdbc。支持 MySQL 和 PostgreSQL
 
-本模块支持 memory 和 redis 2 种实现，不支持 jdbc
+本模块支持 memory 和 redis 2 种实现，不支持 jdbc。
 
 ### 核心概念
 

@@ -26,6 +26,7 @@ public class KekioQueueProperties {
 
     public static final String PREFIX = "carp.framework.queue.kekio";
 
+    private boolean enabled = false;
     private KekioQueueType type;
     private String name = "kekio-queue";
 

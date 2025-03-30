@@ -18,6 +18,7 @@
 package cn.sliew.carp.framework.queue.kekio.message;
 
 import cn.sliew.carp.framework.common.util.UUIDUtil;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,6 +30,7 @@ import java.util.Map;
 @Getter
 @Builder(toBuilder = true)
 @Jacksonized
+@JsonTypeName("common")
 @AllArgsConstructor
 public class CommonMessage extends Message {
 

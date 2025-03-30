@@ -29,8 +29,7 @@ public abstract class AbstractPubsubChannelFactory extends AbstractLifecycle imp
 
     @Override
     public PubsubChannel get(String name) {
-        MapUtil.computeIfAbsent(registry, name, (key) -> doCreate(name));
-        return null;
+        return MapUtil.computeIfAbsent(registry, name, (key) -> doCreate(name));
     }
 
     @Override

@@ -41,7 +41,7 @@ import java.util.Set;
 @EnableConfigurationProperties(KekioObjectMapperSubtypeProperties.class)
 public class KekioObjectMapperConfiguration {
 
-    static final String KEKIO_OBJECT_MAPPER = "cn.sliew.carp.framework.queue.kekio.configuration.KekioObjectMapper";
+    public static final String KEKIO_OBJECT_MAPPER = "cn.sliew.carp.framework.queue.kekio.configuration.KekioObjectMapper";
 
     @Autowired
     private KekioObjectMapperSubtypeProperties properties;

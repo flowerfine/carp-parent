@@ -38,13 +38,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.util.Pool;
 
 import java.time.Duration;
 import java.util.List;
 
 @AutoConfiguration
 @AutoConfigureAfter(KekioObjectMapperConfiguration.class)
+@ConditionalOnProperty(prefix = KekioQueueProperties.PREFIX, value = "enabled", havingValue = "true", matchIfMissing = false)
 @EnableConfigurationProperties(KekioQueueProperties.class)
 public class KekioQueueAutoConfiguration {
 
@@ -90,7 +90,7 @@ public class KekioQueueAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnBean(Pool.class)
+    @ConditionalOnBean(JedisPool.class)
     @ConditionalOnProperty(prefix = KekioQueueProperties.PREFIX, value = "type", havingValue = "JEDIS", matchIfMissing = false)
     public JedisQueue jedisKekioQueue(
             JedisPool jedisPool,
