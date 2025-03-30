@@ -17,9 +17,7 @@
  */
 package cn.sliew.carp.framework.queue.kekio.metrics;
 
-import io.micrometer.core.instrument.Counter;
-import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.core.instrument.Timer;
+import io.micrometer.core.instrument.*;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -29,20 +27,24 @@ import java.util.concurrent.atomic.AtomicReference;
 public class QueueMetricsPublisher implements EventPublisher {
 
     private final MeterRegistry registry;
+    private final String queueName;
+    private final Iterable<Tag> tags;
 
     private final AtomicReference<Instant> _lastQueuePoll;
     private final AtomicReference<Instant> _lastRetryPoll;
 
-    public QueueMetricsPublisher(MeterRegistry registry) {
+    public QueueMetricsPublisher(MeterRegistry registry, String queueName) {
         this.registry = registry;
+        this.queueName = queueName;
+        this.tags = Tags.of("queue", queueName);
         this._lastQueuePoll = new AtomicReference<>(Instant.now());
         this._lastRetryPoll = new AtomicReference<>(Instant.now());
 
-        registry.gauge("queue.last.poll.age",
+        registry.gauge("queue.last.poll.age", tags,
                 this,
                 self -> Duration.between(self.getLastQueuePoll(), Instant.now()).toMillis());
 
-        registry.gauge("queue.last.retry.check.age",
+        registry.gauge("queue.last.retry.check.age", tags,
                 this,
                 self -> Duration.between(self.getLastRetryPoll(), Instant.now()).toMillis());
     }
@@ -75,41 +77,41 @@ public class QueueMetricsPublisher implements EventPublisher {
     }
 
     private Timer getMessageLagTimer() {
-        return registry.timer("queue.message.lag");
+        return registry.timer("queue.message.lag", tags);
     }
 
 
     private Counter getMessagePushedCounter() {
-        return registry.counter("queue.pushed.messages");
+        return registry.counter("queue.pushed.messages", tags);
     }
 
     private Counter getMessageAcknowledgedCounter() {
-        return registry.counter("queue.acknowledged.messages");
+        return registry.counter("queue.acknowledged.messages", tags);
     }
 
     private Counter getMessageRetriedCounter() {
-        return registry.counter("queue.retried.messages");
+        return registry.counter("queue.retried.messages", tags);
     }
 
     private Counter getMessageDeadCounter() {
-        return registry.counter("queue.dead.messages");
+        return registry.counter("queue.dead.messages", tags);
     }
 
     private Counter getMessageDuplicateCounter(QueueEvent.MessageDuplicate event) {
         return registry.counter("queue.duplicate.messages",
-                "messageType", event.getPayload().getClass().getSimpleName());
+                Tags.concat(tags, "messageType", event.getPayload().getClass().getSimpleName()));
     }
 
     private Counter getLockFailedCounter() {
-        return registry.counter("queue.lock.failed");
+        return registry.counter("queue.lock.failed", tags);
     }
 
     private Counter getMessageRescheduledCounter() {
-        return registry.counter("queue.reschedule.succeeded");
+        return registry.counter("queue.reschedule.succeeded", tags);
     }
 
     private Counter getMessageNotFoundCounter() {
-        return registry.counter("queue.message.notfound");
+        return registry.counter("queue.message.notfound", tags);
     }
 
     public Instant getLastQueuePoll() {

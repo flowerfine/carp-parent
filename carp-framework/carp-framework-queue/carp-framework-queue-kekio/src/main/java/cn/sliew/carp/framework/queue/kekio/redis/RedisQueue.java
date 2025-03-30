@@ -63,11 +63,11 @@ public abstract class RedisQueue<CLIENT extends JedisCommands> extends AbstractR
         super(mapper, queueExecutor, deadMessageHandlers, publisher, meterRegistry, fillExecutorEachCycle, requeueDelay, requeueMaxJitter, canPollMany, ackTimeout, lockTtlSeconds);
         this.queueName = queueName;
 
-        this.queueKey = KeyUtil.buildKey(queueName, "queue");
-        this.unackedKey = KeyUtil.buildKey(queueName, "unacked");
-        this.messagesKey = KeyUtil.buildKey(queueName, "messages");
-        this.locksKey = KeyUtil.buildKey(queueName, "locks");
-        this.attemptsKey =  KeyUtil.buildKey(queueName, "attempts");
+        this.queueKey = KeyUtil.buildKey("kekio-queue.v1",queueName, "queue");
+        this.unackedKey = KeyUtil.buildKey("kekio-queue.v1",queueName, "unacked");
+        this.messagesKey = KeyUtil.buildKey("kekio-queue.v1",queueName, "messages");
+        this.locksKey = KeyUtil.buildKey("kekio-queue.v1",queueName, "locks");
+        this.attemptsKey =  KeyUtil.buildKey("kekio-queue.v1",queueName, "attempts");
     }
 
     @Override

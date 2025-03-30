@@ -22,7 +22,7 @@ import cn.sliew.carp.framework.pubsub.model.PubsubChannel;
 import cn.sliew.carp.framework.pubsub.model.PubsubChannelFactory;
 import cn.sliew.carp.framework.queue.kekio.Queue;
 import cn.sliew.carp.framework.queue.kekio.QueueExecutor;
-import cn.sliew.carp.framework.queue.kekio.metrics.EventPublisher;
+import cn.sliew.carp.framework.queue.kekio.metrics.QueueMetricsPublisher;
 import cn.sliew.carp.framework.queue.kekio.redis.JedisQueue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -42,7 +42,6 @@ public class QueuePubsubChannelFactory extends AbstractPubsubChannelFactory impl
     private final ObjectMapper objectMapper;
     private final QueueExecutor queueExecutor;
     private final List<Queue.DeadMessageCallback> deadMessageHandlers;
-    private final EventPublisher publisher;
     private final MeterRegistry meterRegistry;
 
     public QueuePubsubChannelFactory(
@@ -50,14 +49,12 @@ public class QueuePubsubChannelFactory extends AbstractPubsubChannelFactory impl
             ObjectMapper objectMapper,
             QueueExecutor queueExecutor,
             List<Queue.DeadMessageCallback> deadMessageHandlers,
-            EventPublisher publisher,
             MeterRegistry meterRegistry
     ) {
         this.jedisPool = jedisPool;
         this.objectMapper = objectMapper;
         this.queueExecutor = queueExecutor;
         this.deadMessageHandlers = deadMessageHandlers;
-        this.publisher = publisher;
         this.meterRegistry = meterRegistry;
     }
 
@@ -93,7 +90,7 @@ public class QueuePubsubChannelFactory extends AbstractPubsubChannelFactory impl
                 objectMapper,
                 queueExecutor,
                 deadMessageHandlers,
-                publisher,
+                new QueueMetricsPublisher(meterRegistry, name),
                 meterRegistry,
                 null,
                 null,

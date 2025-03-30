@@ -43,7 +43,6 @@ public class QueuePubsubAutoConfiguration {
             @Qualifier(KekioObjectMapperConfiguration.KEKIO_OBJECT_MAPPER) ObjectMapper objectMapper,
             QueueExecutor queueExecutor,
             List<Queue.DeadMessageCallback> deadMessageHandlers,
-            EventPublisher eventPublisher,
             MeterRegistry meterRegistry
     ) {
         return new QueuePubsubChannelFactory(
@@ -51,7 +50,6 @@ public class QueuePubsubAutoConfiguration {
                 objectMapper,
                 queueExecutor,
                 deadMessageHandlers,
-                eventPublisher,
                 meterRegistry);
     }
 }

@@ -21,7 +21,6 @@ import cn.sliew.carp.framework.queue.kekio.Queue;
 import cn.sliew.carp.framework.queue.kekio.QueueExecutor;
 import cn.sliew.carp.framework.queue.kekio.ThreadPoolQueueExecutor;
 import cn.sliew.carp.framework.queue.kekio.memory.InMemoryQueue;
-import cn.sliew.carp.framework.queue.kekio.metrics.EventPublisher;
 import cn.sliew.carp.framework.queue.kekio.metrics.QueueMetricsPublisher;
 import cn.sliew.carp.framework.queue.kekio.redis.JedisClusterQueue;
 import cn.sliew.carp.framework.queue.kekio.redis.JedisQueue;
@@ -65,22 +64,16 @@ public class KekioQueueAutoConfiguration {
     }
 
     @Bean
-    public EventPublisher eventPublisher(MeterRegistry registry) {
-        return new QueueMetricsPublisher(registry);
-    }
-
-    @Bean
     @ConditionalOnProperty(prefix = KekioQueueProperties.PREFIX, value = "type", havingValue = "MEM", matchIfMissing = false)
     public InMemoryQueue inMemoryKekioQueue(
             QueueExecutor queueExecutor,
             List<Queue.DeadMessageCallback> deadMessageHandlers,
-            EventPublisher eventPublisher,
             MeterRegistry meterRegistry
     ) {
         return new InMemoryQueue(
                 queueExecutor,
                 deadMessageHandlers,
-                eventPublisher,
+                new QueueMetricsPublisher(meterRegistry, properties.getName()),
                 meterRegistry,
                 null,
                 null,
@@ -97,7 +90,6 @@ public class KekioQueueAutoConfiguration {
             @Qualifier(KekioObjectMapperConfiguration.KEKIO_OBJECT_MAPPER) ObjectMapper objectMapper,
             QueueExecutor queueExecutor,
             List<Queue.DeadMessageCallback> deadMessageHandlers,
-            EventPublisher eventPublisher,
             MeterRegistry meterRegistry
     ) {
         return new JedisQueue(
@@ -106,7 +98,7 @@ public class KekioQueueAutoConfiguration {
                 objectMapper,
                 queueExecutor,
                 deadMessageHandlers,
-                eventPublisher,
+                new QueueMetricsPublisher(meterRegistry, properties.getName()),
                 meterRegistry,
                 null,
                 null,
@@ -125,7 +117,6 @@ public class KekioQueueAutoConfiguration {
             @Qualifier(KekioObjectMapperConfiguration.KEKIO_OBJECT_MAPPER) ObjectMapper objectMapper,
             QueueExecutor queueExecutor,
             List<Queue.DeadMessageCallback> deadMessageHandlers,
-            EventPublisher eventPublisher,
             MeterRegistry meterRegistry
     ) {
         return new JedisClusterQueue(
@@ -134,7 +125,7 @@ public class KekioQueueAutoConfiguration {
                 objectMapper,
                 queueExecutor,
                 deadMessageHandlers,
-                eventPublisher,
+                new QueueMetricsPublisher(meterRegistry, properties.getName()),
                 meterRegistry,
                 null,
                 null,
