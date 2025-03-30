@@ -22,7 +22,6 @@ import cn.sliew.carp.framework.pubsub.queue.kekio.QueuePubsubChannelFactory;
 import cn.sliew.carp.framework.queue.kekio.Queue;
 import cn.sliew.carp.framework.queue.kekio.QueueExecutor;
 import cn.sliew.carp.framework.queue.kekio.configuration.KekioObjectMapperConfiguration;
-import cn.sliew.carp.framework.queue.kekio.metrics.EventPublisher;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Qualifier;
