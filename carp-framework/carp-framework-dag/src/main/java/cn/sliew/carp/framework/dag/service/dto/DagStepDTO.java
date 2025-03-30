@@ -50,6 +50,9 @@ public class DagStepDTO extends BaseDTO {
     @Schema(description = "body")
     private JsonNode body;
 
+    @Schema(description = "context")
+    private JsonNode context;
+
     @Schema(description = "输入参数")
     private JsonNode inputs;
 

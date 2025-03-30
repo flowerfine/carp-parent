@@ -468,6 +468,7 @@ create table carp_dag_step
     dag_config_step_id bigint      not null comment '步骤id',
     uuid               varchar(36) not null comment 'instance id',
     body               text,
+    context            text,
     inputs             text comment '输入参数',
     outputs            text comment '输出参数',
     status             varchar(32) comment '状态',

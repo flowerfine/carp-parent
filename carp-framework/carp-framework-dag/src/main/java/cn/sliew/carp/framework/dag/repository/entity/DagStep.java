@@ -45,6 +45,9 @@ public class DagStep extends BaseAuditDO {
     @TableField("body")
     private String body;
 
+    @TableField("context")
+    private String context;
+
     @TableField("inputs")
     private String inputs;
 

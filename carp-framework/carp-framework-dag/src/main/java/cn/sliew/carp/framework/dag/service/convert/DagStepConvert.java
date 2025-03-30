@@ -46,6 +46,9 @@ public interface DagStepConvert extends BaseConvert<DagStep, DagStepDTO> {
         if (dto.getBody() != null) {
             entity.setBody(dto.getBody().toString());
         }
+        if (dto.getContext() != null) {
+            entity.setContext(dto.getContext().toString());
+        }
         if (dto.getInputs() != null) {
             entity.setInputs(dto.getInputs().toString());
         }
@@ -67,6 +70,9 @@ public interface DagStepConvert extends BaseConvert<DagStep, DagStepDTO> {
         dto.setDagConfigStep(dagConfigStep);
         if (StringUtils.hasText(entity.getBody())) {
             dto.setBody(JacksonUtil.toJsonNode(entity.getBody()));
+        }
+        if (StringUtils.hasText(entity.getContext())) {
+            dto.setContext(JacksonUtil.toJsonNode(entity.getContext()));
         }
         if (StringUtils.hasText(entity.getInputs())) {
             dto.setInputs(JacksonUtil.toJsonNode(entity.getInputs()));
