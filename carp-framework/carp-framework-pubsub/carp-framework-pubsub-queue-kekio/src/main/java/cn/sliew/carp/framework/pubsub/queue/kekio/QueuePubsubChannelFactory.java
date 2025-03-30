@@ -86,8 +86,8 @@ public class QueuePubsubChannelFactory extends AbstractPubsubChannelFactory impl
     protected PubsubChannel doCreate(String name) {
         JedisQueue jedisQueue = new JedisQueue(
                 jedisPool,
-                name,
                 objectMapper,
+                name,
                 queueExecutor,
                 deadMessageHandlers,
                 new QueueMetricsPublisher(meterRegistry, name),
