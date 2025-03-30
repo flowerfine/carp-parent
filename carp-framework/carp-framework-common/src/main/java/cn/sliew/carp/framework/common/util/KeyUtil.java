@@ -55,9 +55,9 @@ public enum KeyUtil {
     }
 
     private static String buildKey(@NotBlank String tag, String separator, Object... obj) {
-        String.join(separator);
         StringBuilder key = new StringBuilder(tag);
         if (ArrayUtils.isNotEmpty(obj)) {
+            key.append(separator);
             for (int i = 0; i < obj.length; i++) {
                 if (i == obj.length - 1) {
                     key.append(obj[i]);
