@@ -1,6 +1,8 @@
 # PubSub Framework
 
-Simple pubsub framework support [Kafka](https://kafka.apache.org/)、[RocketMQ](https://rocketmq.apache.org/).
+发布-订阅框架，对常见消息队列、发布-订阅方案提供封装，方便在不同实现方案间迁移：
+
+* [carp-framework-pubsub-queue-kekio](./carp-framework-pubsub-queue-kekio)。基于 [carp-framework-queue-kekio](../carp-framework-queue/carp-framework-queue-kekio) 封装
 
 ## Contents
 
