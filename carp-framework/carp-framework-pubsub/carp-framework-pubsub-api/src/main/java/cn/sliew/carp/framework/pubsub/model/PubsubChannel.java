@@ -29,9 +29,9 @@ public interface PubsubChannel extends SmartLifecycle {
 
     void remove(PubsubSubscriber subscriber);
 
-    default void push(String message) {
+    default void push(Object message) {
         push(message, Duration.ZERO);
     }
 
-    void push(String message, Duration delay);
+    void push(Object message, Duration delay);
 }

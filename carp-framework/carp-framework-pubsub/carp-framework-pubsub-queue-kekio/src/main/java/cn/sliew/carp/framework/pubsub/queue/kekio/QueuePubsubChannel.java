@@ -17,6 +17,8 @@
  */
 package cn.sliew.carp.framework.pubsub.queue.kekio;
 
+import cn.sliew.carp.framework.common.serder.SerDer;
+import cn.sliew.carp.framework.common.serder.jdk.JdkSerDerFactory;
 import cn.sliew.carp.framework.pubsub.model.AbstractPubsubChannel;
 import cn.sliew.carp.framework.pubsub.model.PubsubChannel;
 import cn.sliew.carp.framework.pubsub.model.PubsubSubscriber;
@@ -25,7 +27,6 @@ import cn.sliew.carp.framework.queue.kekio.Queue;
 import cn.sliew.carp.framework.queue.kekio.QueueProcessor;
 import cn.sliew.carp.framework.queue.kekio.message.CommonMessage;
 
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
 public class QueuePubsubChannel extends AbstractPubsubChannel implements PubsubChannel {
@@ -59,9 +60,10 @@ public class QueuePubsubChannel extends AbstractPubsubChannel implements PubsubC
     }
 
     @Override
-    public void push(String message, Duration delay) {
+    public void push(Object message, Duration delay) {
+        SerDer serDer = JdkSerDerFactory.INSTANCE.getInstance();
         CommonMessage commonMessage = CommonMessage.builder()
-                .body(message.getBytes(StandardCharsets.UTF_8))
+                .body(serDer.serialize(message))
                 .build();
         queue.push(commonMessage, delay);
     }
