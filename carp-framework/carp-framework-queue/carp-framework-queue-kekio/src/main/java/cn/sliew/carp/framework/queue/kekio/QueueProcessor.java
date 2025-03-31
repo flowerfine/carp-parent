@@ -23,6 +23,7 @@ import cn.sliew.carp.framework.queue.kekio.message.AttemptsAttribute;
 import cn.sliew.carp.framework.queue.kekio.message.Message;
 import cn.sliew.carp.framework.queue.kekio.metrics.EventPublisher;
 import cn.sliew.carp.framework.queue.kekio.metrics.QueueEvent;
+import cn.sliew.milky.common.util.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.DisposableBean;
@@ -81,7 +82,7 @@ public class QueueProcessor implements InitializingBean, DisposableBean {
                           Duration requeueMaxJitter) {
         this.queue = queue;
         this.executor = executor;
-        this.handlers = new ArrayList<>(handlers);
+        this.handlers = CollectionUtils.isEmpty(handlers) ? new ArrayList<>() : new ArrayList<>(handlers);
         this.publisher = publisher;
         this.deadMessageHandlers = deadMessageHandlers;
         this.fillExecutorEachCycle = Objects.nonNull(fillExecutorEachCycle) ? fillExecutorEachCycle : true;
@@ -127,7 +128,7 @@ public class QueueProcessor implements InitializingBean, DisposableBean {
     }
 
     private final Queue.QueueCallback callback = (message, ack) -> {
-        log.info("Received message {}", message);
+        log.debug("Received message, queue: {}, message: {}", queue.getName(), JacksonUtil.toJsonString(message));
         MessageHandler<?> handler = handlerFor(message);
         if (handler != null) {
             try {
