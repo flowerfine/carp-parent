@@ -26,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
 import java.time.temporal.TemporalAmount;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,7 +34,8 @@ import java.util.Objects;
 public abstract class AbstractQueue extends AbstractLifecycle implements Queue {
 
     private final String name;
-    private QueueExecutor queueExecutor;
+    private final QueueExecutor queueExecutor;
+    private final Collection<MessageHandler> handlers;
     protected final List<DeadMessageCallback> deadMessageHandlers;
     protected final EventPublisher publisher;
     private MeterRegistry meterRegistry;
@@ -50,6 +52,7 @@ public abstract class AbstractQueue extends AbstractLifecycle implements Queue {
     public AbstractQueue(
             String name,
             QueueExecutor queueExecutor,
+            Collection<MessageHandler> handlers,
             List<DeadMessageCallback> deadMessageHandlers,
             EventPublisher publisher,
             MeterRegistry meterRegistry,
@@ -61,6 +64,7 @@ public abstract class AbstractQueue extends AbstractLifecycle implements Queue {
     ) {
         this.name = name;
         this.queueExecutor = queueExecutor;
+        this.handlers = handlers;
         this.deadMessageHandlers = deadMessageHandlers;
         this.publisher = publisher;
         this.meterRegistry = meterRegistry;
@@ -75,6 +79,7 @@ public abstract class AbstractQueue extends AbstractLifecycle implements Queue {
     protected void doStart() throws Exception {
         this.processor = new QueueProcessor(this,
                 queueExecutor,
+                handlers,
                 publisher,
                 deadMessageHandlers,
                 fillExecutorEachCycle,

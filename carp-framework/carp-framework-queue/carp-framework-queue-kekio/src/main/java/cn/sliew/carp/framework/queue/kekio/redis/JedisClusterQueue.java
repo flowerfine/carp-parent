@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.framework.queue.kekio.redis;
 
+import cn.sliew.carp.framework.queue.kekio.MessageHandler;
 import cn.sliew.carp.framework.queue.kekio.QueueExecutor;
 import cn.sliew.carp.framework.queue.kekio.metrics.EventPublisher;
 import cn.sliew.milky.common.function.CheckedConsumer;
@@ -31,6 +32,7 @@ import redis.clients.jedis.util.JedisClusterCRC16;
 
 import java.time.Duration;
 import java.time.temporal.TemporalAmount;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 
@@ -39,8 +41,8 @@ public class JedisClusterQueue extends RedisQueue<JedisCluster> {
 
     private final JedisCluster jedisCluster;
 
-    public JedisClusterQueue(JedisCluster jedisCluster, ObjectMapper mapper, String name, QueueExecutor queueExecutor, List<DeadMessageCallback> deadMessageHandlers, EventPublisher publisher, MeterRegistry meterRegistry, Boolean fillExecutorEachCycle, Duration requeueDelay, Duration requeueMaxJitter, Boolean canPollMany, TemporalAmount ackTimeout, Integer lockTtlSeconds) {
-        super(mapper, name, queueExecutor, deadMessageHandlers, publisher, meterRegistry, fillExecutorEachCycle, requeueDelay, requeueMaxJitter, canPollMany, ackTimeout, lockTtlSeconds);
+    public JedisClusterQueue(JedisCluster jedisCluster, ObjectMapper mapper, String name, QueueExecutor queueExecutor, Collection<MessageHandler> handlers, List<DeadMessageCallback> deadMessageHandlers, EventPublisher publisher, MeterRegistry meterRegistry, Boolean fillExecutorEachCycle, Duration requeueDelay, Duration requeueMaxJitter, Boolean canPollMany, TemporalAmount ackTimeout, Integer lockTtlSeconds) {
+        super(mapper, name, queueExecutor, handlers, deadMessageHandlers, publisher, meterRegistry, fillExecutorEachCycle, requeueDelay, requeueMaxJitter, canPollMany, ackTimeout, lockTtlSeconds);
         this.jedisCluster = jedisCluster;
 
         cacheScript();

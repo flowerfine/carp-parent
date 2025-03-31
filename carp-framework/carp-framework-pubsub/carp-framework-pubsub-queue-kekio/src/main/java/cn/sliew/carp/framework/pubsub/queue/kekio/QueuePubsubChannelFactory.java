@@ -89,6 +89,7 @@ public class QueuePubsubChannelFactory extends AbstractPubsubChannelFactory impl
                 objectMapper,
                 name,
                 queueExecutor,
+                null,
                 deadMessageHandlers,
                 new QueueMetricsPublisher(meterRegistry, name),
                 meterRegistry,

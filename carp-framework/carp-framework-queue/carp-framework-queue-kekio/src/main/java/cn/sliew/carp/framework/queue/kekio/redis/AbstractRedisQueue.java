@@ -18,6 +18,7 @@
 package cn.sliew.carp.framework.queue.kekio.redis;
 
 import cn.sliew.carp.framework.queue.kekio.AbstractQueue;
+import cn.sliew.carp.framework.queue.kekio.MessageHandler;
 import cn.sliew.carp.framework.queue.kekio.QueueExecutor;
 import cn.sliew.carp.framework.queue.kekio.message.Message;
 import cn.sliew.carp.framework.queue.kekio.metrics.EventPublisher;
@@ -78,8 +79,8 @@ public abstract class AbstractRedisQueue<CLIENT extends JedisCommands> extends A
         });
     }
 
-    protected AbstractRedisQueue(ObjectMapper mapper, String name, QueueExecutor queueExecutor, List<DeadMessageCallback> deadMessageHandlers, EventPublisher publisher, MeterRegistry meterRegistry, Boolean fillExecutorEachCycle, Duration requeueDelay, Duration requeueMaxJitter, Boolean canPollMany, TemporalAmount ackTimeout, Integer lockTtlSeconds) {
-        super(name, queueExecutor, deadMessageHandlers, publisher, meterRegistry, fillExecutorEachCycle, requeueDelay, requeueMaxJitter, canPollMany, ackTimeout);
+    protected AbstractRedisQueue(ObjectMapper mapper, String name, QueueExecutor queueExecutor, Collection<MessageHandler> handlers, List<DeadMessageCallback> deadMessageHandlers, EventPublisher publisher, MeterRegistry meterRegistry, Boolean fillExecutorEachCycle, Duration requeueDelay, Duration requeueMaxJitter, Boolean canPollMany, TemporalAmount ackTimeout, Integer lockTtlSeconds) {
+        super(name, queueExecutor, handlers, deadMessageHandlers, publisher, meterRegistry, fillExecutorEachCycle, requeueDelay, requeueMaxJitter, canPollMany, ackTimeout);
         this.lockTtlSeconds = Objects.nonNull(lockTtlSeconds) ? lockTtlSeconds : 10;
         this.mapper = mapper;
 
