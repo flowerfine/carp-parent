@@ -93,7 +93,9 @@ public class DAG<N> {
         DAG<N> ancestor = new DAG<>();
         ancestor.addNode(node);
         addToAncestor(ancestor, node);
-        return ancestor.topologySort();
+        List<N> topologySort = ancestor.topologySort();
+        topologySort.remove(node);
+        return topologySort;
     }
 
     private void addToAncestor(DAG<N> dag, N node) {
@@ -113,7 +115,9 @@ public class DAG<N> {
         DAG<N> children = new DAG<>();
         children.addNode(node);
         addToChildren(children, node);
-        return children.topologySort();
+        List<N> topologySort = children.topologySort();
+        topologySort.remove(node);
+        return topologySort;
     }
 
     private void addToChildren(DAG<N> dag, N node) {
