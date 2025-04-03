@@ -15,36 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.pf4j.api;
-
-import jakarta.annotation.Nonnull;
-
-import java.lang.annotation.*;
+package cn.sliew.carp.framework.pf4j.api.sdks;
 
 /**
- * Denotes that a class provides extension configuration. For example:
+ * Marker interface for service-specific SDKs.
  *
- * <pre>{@code
- * &#064;ExtensionConfiguration("my-extension")
- * public class MyExtensionConfiguration {
- *   private String someProperty;
- * }
- * }</pre>
+ * <p>A service may expose additional SDKs that are specific to itself.
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-@Documented
-@Deprecated
-public @interface ExtensionConfiguration {
-
-    /**
-     * The property value of the extension configuration. For example, if set to `netflix.orca-stage`
-     * the corresponding config coordinates would be:
-     *
-     * <p>`carp.extensibility.plugins.pluginId.extensions.netflix.orca-stage.config`
-     *
-     * @return
-     */
-    @Nonnull
-    String value();
-}
+public interface ServiceSdk {}

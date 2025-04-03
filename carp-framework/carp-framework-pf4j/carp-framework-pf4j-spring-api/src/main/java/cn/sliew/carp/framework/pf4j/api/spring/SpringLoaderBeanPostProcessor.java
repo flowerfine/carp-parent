@@ -84,11 +84,11 @@ public class SpringLoaderBeanPostProcessor implements BeanPostProcessor {
                 if (def.getBeanClassName() != null) {
                     klass = pluginContext.getClassLoader().loadClass(def.getBeanClassName());
                 }
-                log.debug("Adding bean {} to application context", beanName);
+                log.debug("Adding plugin bean {} to application context", beanName);
                 beanPromoter.promote(beanName, bean, klass, def.isPrimary());
             }
         } catch (ClassNotFoundException e) {
-            log.error("Error loading class for bean {}", beanName, e);
+            log.error("Error loading plugin class for bean {}", beanName, e);
         }
         return bean;
     }

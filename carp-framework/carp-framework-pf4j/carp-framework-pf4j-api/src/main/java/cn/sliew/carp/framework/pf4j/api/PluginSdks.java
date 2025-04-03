@@ -17,34 +17,35 @@
  */
 package cn.sliew.carp.framework.pf4j.api;
 
+import cn.sliew.carp.framework.pf4j.api.sdks.ServiceSdk;
 import jakarta.annotation.Nonnull;
 
-import java.lang.annotation.*;
-
 /**
- * Denotes that a class provides extension configuration. For example:
+ * A convenience interface for accessing plugin SDK services.
+ *
+ * <p>If an extension needs any services, this interface can be included as a constructor parameter
+ * and the implementation will be injected into the extension.
  *
  * <pre>{@code
- * &#064;ExtensionConfiguration("my-extension")
- * public class MyExtensionConfiguration {
- *   private String someProperty;
+ * public class MyExtension {
+ *
+ *   private final PluginSdks pluginSdks;
+ *
+ *   public MyExtension(PluginSdks pluginSdks) {
+ *     this.pluginSdks = pluginSdks;
+ *   }
  * }
  * }</pre>
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-@Documented
-@Deprecated
-public @interface ExtensionConfiguration {
+public interface PluginSdks {
 
     /**
-     * The property value of the extension configuration. For example, if set to `netflix.orca-stage`
-     * the corresponding config coordinates would be:
+     * Entry point for service-specific SDKs.
      *
-     * <p>`carp.extensibility.plugins.pluginId.extensions.netflix.orca-stage.config`
+     * <p>A service may register its own specialized SDK to help plugin developers write extensions.
      *
-     * @return
+     * @param <T> The service SDK type. There will only be one of these per-service.
      */
     @Nonnull
-    String value();
+    <T extends ServiceSdk> T serviceSdk(@Nonnull Class<T> type);
 }
