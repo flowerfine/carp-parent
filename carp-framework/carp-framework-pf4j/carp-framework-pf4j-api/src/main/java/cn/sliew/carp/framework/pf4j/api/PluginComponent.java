@@ -15,20 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.pf4j.spring;
+package cn.sliew.carp.framework.pf4j.api;
+
+import java.lang.annotation.*;
 
 /**
- * bean promoter
+ * Marks a class within a plugin as one that is candidate for dependency injection.
  */
-public interface BeanPromoter {
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@Documented
+public @interface PluginComponent {
 
-    /**
-     * promote bean
-     *
-     * @param beanName  bean
-     * @param bean      bean instance
-     * @param beanClass bean class
-     * @param isPrimary is primary
-     */
-    void promote(String beanName, Object bean, Class beanClass, boolean isPrimary);
+    String value() default "";
 }

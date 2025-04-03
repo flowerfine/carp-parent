@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.pf4j.internal;
+package cn.sliew.carp.framework.pf4j.api.internal;
 
 import org.pf4j.ExtensionPoint;
 
@@ -35,7 +35,7 @@ public interface CarpExtensionPoint extends ExtensionPoint {
     }
 
     /**
-     * Spinnaker extension points are typically proxied to provide some extension invocation
+     * Carp extension points are typically proxied to provide some extension invocation
      * instrumentation (logging, metrics, etc). To get the extension class type, use this method
      * instead of {@code #getClass()}.
      *

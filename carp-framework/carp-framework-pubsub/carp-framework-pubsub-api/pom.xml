@@ -31,7 +31,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>carp-framework-pf4j</artifactId>
+            <artifactId>carp-framework-pf4j-api</artifactId>
         </dependency>
     </dependencies>
 

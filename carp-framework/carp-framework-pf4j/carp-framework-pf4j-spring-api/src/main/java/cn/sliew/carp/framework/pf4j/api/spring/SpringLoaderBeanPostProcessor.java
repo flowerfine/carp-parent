@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.pf4j.spring;
+package cn.sliew.carp.framework.pf4j.api.spring;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;

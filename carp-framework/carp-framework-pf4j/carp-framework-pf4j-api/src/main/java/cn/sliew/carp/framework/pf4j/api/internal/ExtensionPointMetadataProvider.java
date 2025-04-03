@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.pf4j.internal;
+package cn.sliew.carp.framework.pf4j.api.internal;
 
 import java.lang.reflect.Proxy;
 

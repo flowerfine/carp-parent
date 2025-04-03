@@ -15,16 +15,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.pf4j;
+package cn.sliew.carp.framework.pf4j.api;
 
 import java.lang.annotation.*;
 
 /**
- * Marks a class within a plugin as one that is candidate for dependency injection.
+ * Denotes that a class provides plugin configuration. Classes annotated with {@link PluginConfiguration}
+ * can be injected via the Plugin constructor or the Extension Point constructor.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Documented
-public @interface PluginComponent {
+public @interface PluginConfiguration {
+
+    /**
+     * The property value of the configuration.
+     *
+     * <p>If the configuration is for an extension point and the config is `stage-extension`, the
+     * corresponding config coordinates would be:
+     *
+     * <p>`carp.extensibility.plugins.pluginId.extensions.stage-extension.config`
+     *
+     * <p>If the configuration is for an plugin the config is `http-client`, the corresponding config
+     * coordinates would be:
+     *
+     * <p>`carp.extensibility.plugins.pluginId.http-client.config`
+     *
+     * @return
+     */
     String value() default "";
 }

@@ -215,7 +215,12 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>carp-framework-pf4j</artifactId>
+                <artifactId>carp-framework-pf4j-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-framework-pf4j-spring-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

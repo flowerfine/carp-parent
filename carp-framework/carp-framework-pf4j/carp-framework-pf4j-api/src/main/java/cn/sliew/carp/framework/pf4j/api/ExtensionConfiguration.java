@@ -15,27 +15,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.pf4j.internal;
+package cn.sliew.carp.framework.pf4j.api;
 
-import java.lang.reflect.InvocationHandler;
+import javax.annotation.Nonnull;
+import java.lang.annotation.*;
 
 /**
- * When proxying an extension class, implement this interface to provide a mechanism to obtain the
- * underlying proxied class.
+ * Denotes that a class provides extension configuration. For example:
+ *
+ * <pre>{@code
+ * &#064;ExtensionConfiguration("my-extension")
+ * public class MyExtensionConfiguration {
+ *   private String someProperty;
+ * }
+ * }</pre>
  */
-public interface ExtensionInvocationHandler extends InvocationHandler {
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@Documented
+@Deprecated
+public @interface ExtensionConfiguration {
 
     /**
-     * Get the plugin ID of the proxied extension point.
+     * The property value of the extension configuration. For example, if set to `netflix.orca-stage`
+     * the corresponding config coordinates would be:
      *
-     * @return plugin id
-     */
-    String getPluginId();
-
-    /**
-     * Get the proxy target class.
+     * <p>`carp.extensibility.plugins.pluginId.extensions.netflix.orca-stage.config`
      *
-     * @return target class
+     * @return
      */
-    Class<? extends CarpExtensionPoint> getTargetClass();
+    @Nonnull
+    String value();
 }
