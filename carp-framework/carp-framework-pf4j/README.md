@@ -32,6 +32,33 @@ kork 基于 pf4j 开发，增强了 pf4j-spring 和 pf4j-update 功能
 
 插件即可以运行在 JVM 内通过方法调用，也可以通过 RPC 调用。
 
+#### PluginRef
+
+本地开发支持
+
+#### V1 vs. V2
+
+v1 版本
+
+v2 版本
+
+#### Update
+
+todo
+
+#### API vs. Spring API
+
+API 方式使用 pf4j 支持。
+
+Spring API 方式支持额外扫描 bean，加载 spring 配置类：
+
+* 这里的 spring 指的是 plugin `ApplicationContext`。plugin 内部启动了一个新的 `ApplicationContext`，并将应用程序的 spring `ApplicationContext` 设置为 `parent`。
+  * 通过 `ClassLoader` 和 `SpringContext` 隔离避免 class 冲突和 bean 冲突的思路，可以参考：[1.3.1 架构原理](https://koupleless.io/docs/introduction/architecture/arch-principle/)
+* 标记 `@ExposeToApp` 和 `@RestController` 的类会通过注册为 bean。
+* 可直接提供 class，注册到 spring 中。
+
+
+
 ## 开发方式
 
 * `ExtensionPoint`。定义接口，标记为 `ExtensionPoint`。提供 `ExtensionPoint` 标记接口实现
@@ -44,7 +71,6 @@ kork 基于 pf4j 开发，增强了 pf4j-spring 和 pf4j-update 功能
   * 添加配置。在主应用程序中引入配置 `PluginsAutoConfiguration`
 * API 模块。保持最小依赖。可以包含接口、POJO，也可以包含 `api`、`implementation` 和 `runtime` 等模块都需要用到的依赖。
   * 定义 `ExtensionPoint` 接口
-  * 
 
 ## 资源信息
 
