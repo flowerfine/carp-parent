@@ -39,8 +39,8 @@ public class CarpPluginFactory implements PluginFactory {
     private final List<SdkFactory> pluginSdkFactories;
 
     /**
-     * @param configFactory
-     * @param pluginSdkFactories
+     * @param configFactory      the config factory
+     * @param pluginSdkFactories the sdk factories
      */
     public CarpPluginFactory(
             ConfigFactory configFactory,

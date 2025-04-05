@@ -34,8 +34,8 @@ import java.util.stream.Collectors;
  * <p>
  * Version requirements are in the format of "{service}{constraint}", where:
  * <p>
- * `service` is the service name that is supported by a plugin
- * `constraint` is a semVer expression to be constrained ( >=1.5.0 , >=1.0.0 & <2.0.0)
+ *  -`service` is the service name that is supported by a plugin
+ *  -`constraint` is a semVer expression to be constrained ( >=1.5.0)
  */
 public class VersionRequirementsParser {
 

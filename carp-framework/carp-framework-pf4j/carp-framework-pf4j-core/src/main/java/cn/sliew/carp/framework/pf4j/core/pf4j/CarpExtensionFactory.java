@@ -36,9 +36,9 @@ public class CarpExtensionFactory implements ExtensionFactory {
     /**
      * Constructor.
      *
-     * @param pluginManager
-     * @param configFactory
-     * @param pluginSdkFactories
+     * @param pluginManager      the plugin manager
+     * @param configFactory      the config factory
+     * @param pluginSdkFactories the plugin sdk factories
      */
     public CarpExtensionFactory(
             CarpPluginManager pluginManager,

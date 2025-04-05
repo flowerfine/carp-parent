@@ -56,6 +56,7 @@ public class CanonicalPluginId {
      * Returns a boolean of whether or not the given {@param pluginId} is correctly formed.
      *
      * @param pluginId The plugin ID to validate.
+     * @return
      */
     public static boolean isValid(String pluginId) {
         return pattern.matcher(pluginId).matches();
@@ -74,6 +75,7 @@ public class CanonicalPluginId {
 
     /**
      * @param pluginId
+     * @return
      */
     public static CanonicalPluginId parse(String pluginId) {
         Matcher matcher = pattern.matcher(pluginId);
@@ -88,6 +90,11 @@ public class CanonicalPluginId {
      */
     public static class MalformedPluginIdException extends RuntimeException {
 
+        /**
+         * Constructor.
+         *
+         * @param pluginId
+         */
         public MalformedPluginIdException(String pluginId) {
             super(String.format("Plugin '%s' does not conform to Carp's Canonical Plugin ID. " +
                     "Canonical IDs must follow a '{namespace}.{pluginId}' format (%s).", pluginId, pattern));
