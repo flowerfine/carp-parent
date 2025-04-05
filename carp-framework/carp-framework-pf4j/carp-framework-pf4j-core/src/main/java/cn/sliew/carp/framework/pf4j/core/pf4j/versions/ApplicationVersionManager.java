@@ -34,6 +34,9 @@ public class ApplicationVersionManager implements VersionManager {
 
     private final String applicationName;
 
+    /**
+     * @param applicationName
+     */
     public ApplicationVersionManager(String applicationName) {
         this.applicationName = applicationName;
     }

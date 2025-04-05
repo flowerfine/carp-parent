@@ -33,6 +33,13 @@ public class CarpExtensionFactory implements ExtensionFactory {
     private ConfigFactory configFactory;
     private List<SdkFactory> pluginSdkFactories;
 
+    /**
+     * Constructor.
+     *
+     * @param pluginManager
+     * @param configFactory
+     * @param pluginSdkFactories
+     */
     public CarpExtensionFactory(
             CarpPluginManager pluginManager,
             ConfigFactory configFactory,

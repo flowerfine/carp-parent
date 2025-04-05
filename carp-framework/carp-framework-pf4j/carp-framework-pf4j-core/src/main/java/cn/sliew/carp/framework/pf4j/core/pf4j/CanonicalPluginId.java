@@ -54,6 +54,8 @@ public class CanonicalPluginId {
 
     /**
      * Returns a boolean of whether or not the given {@param pluginId} is correctly formed.
+     *
+     * @param pluginId The plugin ID to validate.
      */
     public static boolean isValid(String pluginId) {
         return pattern.matcher(pluginId).matches();
@@ -61,13 +63,18 @@ public class CanonicalPluginId {
 
     /**
      * Validates the given {@param pluginId}, throwing an exception if the ID is malformed.
+     *
+     * @param pluginId The plugin ID to validate.
      */
     public static void validate(String pluginId) {
         if (!isValid(pluginId)) {
-            throw new  MalformedPluginIdException(pluginId);
+            throw new MalformedPluginIdException(pluginId);
         }
     }
 
+    /**
+     * @param pluginId
+     */
     public static CanonicalPluginId parse(String pluginId) {
         Matcher matcher = pattern.matcher(pluginId);
         if (matcher.matches()) {
@@ -76,6 +83,9 @@ public class CanonicalPluginId {
         return null;
     }
 
+    /**
+     * Thrown when a plugin ID is malformed.
+     */
     public static class MalformedPluginIdException extends RuntimeException {
 
         public MalformedPluginIdException(String pluginId) {
