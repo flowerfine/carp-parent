@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
  * Decorates the default {@link PluginDescriptor} with additional Carp-specific metadata.
  */
 @Getter
+@Setter
 public class UnsafePluginDescriptor extends DefaultPluginDescriptor {
 
     /**
