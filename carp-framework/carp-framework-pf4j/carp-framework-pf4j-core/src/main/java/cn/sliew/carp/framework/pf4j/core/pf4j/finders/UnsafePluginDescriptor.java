@@ -31,21 +31,20 @@ import java.util.stream.Collectors;
  * Decorates the default {@link PluginDescriptor} with additional Carp-specific metadata.
  */
 @Getter
-@Setter
 public class UnsafePluginDescriptor extends DefaultPluginDescriptor {
-
-    private String pluginId;
-    private String pluginDescription;
-    private String pluginClass;
-    private String version;
-    private String requires;
-    private String provider;
-    private String license;
 
     /**
      * If set to true, a plugin will be created using the parent application ClassLoader.
      */
     private Boolean unsafe = false;
+
+    public UnsafePluginDescriptor() {
+        super();
+    }
+
+    public UnsafePluginDescriptor(String pluginId, String pluginDescription, String pluginClass, String version, String requires, String provider, String license) {
+        super(pluginId, pluginDescription, pluginClass, version, requires, provider, license);
+    }
 
     // Jackson compatible private setter
     private void setDependencies(List<PluginDependency> dependencies) {
@@ -62,17 +61,17 @@ public class UnsafePluginDescriptor extends DefaultPluginDescriptor {
         if (!super.equals(o)) return false;
         UnsafePluginDescriptor that = (UnsafePluginDescriptor) o;
         return Objects.equals(unsafe, that.unsafe) &&
-                Objects.equals(pluginId, that.pluginId) &&
-                Objects.equals(pluginDescription, that.pluginDescription) &&
-                Objects.equals(pluginClass, that.pluginClass) &&
-                Objects.equals(version, that.version) &&
-                Objects.equals(requires, that.requires) &&
-                Objects.equals(provider, that.provider) &&
-                Objects.equals(license, that.license);
+                Objects.equals(getPluginId(), that.getPluginId()) &&
+                Objects.equals(getPluginDescription(), that.getPluginDescription()) &&
+                Objects.equals(getPluginClass(), that.getPluginClass()) &&
+                Objects.equals(getVersion(), that.getVersion()) &&
+                Objects.equals(getRequires(), that.getRequires()) &&
+                Objects.equals(getProvider(), that.getProvider()) &&
+                Objects.equals(getLicense(), that.getLicense());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(unsafe, pluginId, pluginDescription, pluginClass, version, requires, provider, license);
+        return Objects.hash(unsafe, getPluginId(), getPluginDescription(), getPluginClass(), getVersion(), getRequires(), getProvider(), getLicense());
     }
 }
