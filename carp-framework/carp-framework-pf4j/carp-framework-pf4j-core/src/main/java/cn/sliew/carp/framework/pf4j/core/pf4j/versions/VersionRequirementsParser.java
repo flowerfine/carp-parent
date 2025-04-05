@@ -34,8 +34,8 @@ import java.util.stream.Collectors;
  * <p>
  * Version requirements are in the format of "{service}{constraint}", where:
  * <p>
- *  -`service` is the service name that is supported by a plugin
- *  -`constraint` is a semVer expression to be constrained ( >=1.5.0)
+ * -`service` is the service name that is supported by a plugin
+ * -`constraint` is a semVer expression to be constrained ( >=1.5.0)
  */
 public class VersionRequirementsParser {
 
@@ -70,6 +70,9 @@ public class VersionRequirementsParser {
 
     /**
      * Parse a list of comma-delimited versions.
+     *
+     * @param version version
+     * @return
      */
     public static List<VersionRequirements> parseAll(String version) {
         return Arrays.stream(version.split(","))
@@ -80,6 +83,9 @@ public class VersionRequirementsParser {
 
     /**
      * Convert a list of {@link VersionRequirements} into a string.
+     *
+     * @param requirements requirements
+     * @return
      */
     public static String stringify(List<VersionRequirements> requirements) {
         return requirements.stream()
@@ -107,6 +113,10 @@ public class VersionRequirementsParser {
      * Thrown when a given version requirement is invalid.
      */
     public static class InvalidPluginVersionRequirementException extends RuntimeException {
+
+        /**
+         * @param version version
+         */
         public InvalidPluginVersionRequirementException(String version) {
             super("The provided version requirement '" +
                     version +
