@@ -17,76 +17,39 @@
  */
 package cn.sliew.carp.framework.queue.kekio.configuration;
 
-import cn.sliew.milky.common.util.JacksonUtil;
-import com.fasterxml.jackson.annotation.JsonTypeName;
+import cn.sliew.carp.framework.spring.jackson.ObjectMapperSubtypeConfigurer;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.NamedType;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.type.filter.AssignableTypeFilter;
-import org.springframework.util.ClassUtils;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 @Slf4j
 @AutoConfiguration
 @EnableConfigurationProperties(KekioObjectMapperSubtypeProperties.class)
-public class KekioObjectMapperConfiguration {
-
-    public static final String KEKIO_OBJECT_MAPPER = "cn.sliew.carp.framework.queue.kekio.configuration.KekioObjectMapper";
+public class KekioObjectMapperConfiguration implements InitializingBean {
 
     @Autowired
     private KekioObjectMapperSubtypeProperties properties;
+    @Autowired
+    private ObjectMapper mapper;
 
-    @Bean(name = KEKIO_OBJECT_MAPPER)
-    public ObjectMapper kekioObjectMapper() {
-        ObjectMapper mapper = JacksonUtil.getMapper().copy();
-        registerSubtypes(mapper, properties.getMessageRootType(), properties.getMessagePackages());
-        registerSubtypes(mapper, properties.getAttributeRootType(), properties.getAttributePackages());
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        ObjectMapperSubtypeConfigurer subtypeConfigurer = new ObjectMapperSubtypeConfigurer(false);
 
-        properties.getExtraSubtypes().forEach((rootType, subtypePackages) -> {
-            registerSubtypes(mapper, rootType, subtypePackages);
+//        subtypeConfigurer.registerSubtype(mapper, new StringSubtypeLocator(properties.getMessageRootType(), properties.getMessagePackages()));
+//        subtypeConfigurer.registerSubtype(mapper, new StringSubtypeLocator(properties.getAttributeRootType(), properties.getAttributePackages()));
+//        properties.getExtraSubtypes().forEach((rootType, subtypePackages) -> {
+//            subtypeConfigurer.registerSubtype(mapper, new StringSubtypeLocator(rootType, subtypePackages));
+//        });
+
+        subtypeConfigurer.registerSubtype(mapper, properties.getMessageSubtypeLocator());
+        subtypeConfigurer.registerSubtype(mapper, properties.getAttributeSubtypeLocator());
+        properties.getExtraSubtypeLocators().forEach(subtypeLocator -> {
+            subtypeConfigurer.registerSubtype(mapper, subtypeLocator);
         });
-        return mapper;
-    }
-
-    private void registerSubtypes(ObjectMapper mapper, String rootType, List<String> subtypePackages) {
-        Class rootTypeClass = getRootTypeClass(rootType);
-        subtypePackages.forEach(it -> mapper.registerSubtypes(findSubtypes(rootTypeClass, it)));
-    }
-
-    private NamedType[] findSubtypes(Class rootTypeClass, String packageName) {
-        ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
-        provider.addIncludeFilter(new AssignableTypeFilter(rootTypeClass));
-
-        Set<BeanDefinition> candidateComponents = provider.findCandidateComponents(packageName);
-        return candidateComponents.stream().map(it -> {
-            if (StringUtils.isNotBlank(it.getBeanClassName())) {
-                Class<?> clazz = ClassUtils.resolveClassName(it.getBeanClassName(), ClassUtils.getDefaultClassLoader());
-                JsonTypeName annotation = clazz.getAnnotation(JsonTypeName.class);
-                if (Objects.nonNull(annotation)) {
-                    if (StringUtils.isBlank(annotation.value())) {
-                        throw new RuntimeException(
-                                String.format("Subtype %s does not have a JsonTypeName", clazz.getSimpleName()));
-                    }
-                    log.info("Registering subtype of {}: {} to KekioObjectMapper", clazz.getSimpleName(), annotation.value());
-                    return new NamedType(clazz, annotation.value());
-                }
-            }
-            return null;
-        }).filter(it -> Objects.nonNull(it)).toArray(NamedType[]::new);
-    }
-
-    private Class getRootTypeClass(String name) {
-        return ClassUtils.resolveClassName(name, ClassUtils.getDefaultClassLoader());
     }
 
 }

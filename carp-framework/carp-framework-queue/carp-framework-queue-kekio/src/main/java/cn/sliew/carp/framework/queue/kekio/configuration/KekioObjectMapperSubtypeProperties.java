@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.framework.queue.kekio.configuration;
 
+import cn.sliew.carp.framework.spring.jackson.StringSubtypeLocator;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.Getter;
@@ -32,6 +33,10 @@ import java.util.Map;
 public class KekioObjectMapperSubtypeProperties {
 
     public static final String PREFIX = KekioQueueProperties.PREFIX + ".object-mapper";
+
+    private StringSubtypeLocator messageSubtypeLocator;
+    private StringSubtypeLocator attributeSubtypeLocator;
+    private List<StringSubtypeLocator> extraSubtypeLocators = Lists.newArrayList();
 
     private String messageRootType = "cn.sliew.carp.framework.queue.kekio.message.Message";
     private List<String> messagePackages = Lists.newArrayList("cn.sliew.carp.framework.queue.kekio.message");

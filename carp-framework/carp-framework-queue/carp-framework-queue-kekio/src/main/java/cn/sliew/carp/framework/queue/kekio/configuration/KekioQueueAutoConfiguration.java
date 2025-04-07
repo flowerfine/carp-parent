@@ -28,7 +28,6 @@ import cn.sliew.carp.framework.queue.kekio.redis.JedisQueue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -92,7 +91,7 @@ public class KekioQueueAutoConfiguration {
     @ConditionalOnProperty(prefix = KekioQueueProperties.PREFIX, value = "type", havingValue = "JEDIS", matchIfMissing = false)
     public JedisQueue jedisKekioQueue(
             JedisPool jedisPool,
-            @Qualifier(KekioObjectMapperConfiguration.KEKIO_OBJECT_MAPPER) ObjectMapper objectMapper,
+            ObjectMapper objectMapper,
             QueueExecutor queueExecutor,
             Collection<MessageHandler> handlers,
             List<Queue.DeadMessageCallback> deadMessageHandlers,
@@ -121,7 +120,7 @@ public class KekioQueueAutoConfiguration {
     @ConditionalOnProperty(prefix = KekioQueueProperties.PREFIX, value = "type", havingValue = "JEDIS_CLUSTER", matchIfMissing = false)
     public JedisClusterQueue jedisClusterKekioQueue(
             JedisCluster jedisCluster,
-            @Qualifier(KekioObjectMapperConfiguration.KEKIO_OBJECT_MAPPER) ObjectMapper objectMapper,
+            ObjectMapper objectMapper,
             QueueExecutor queueExecutor,
             Collection<MessageHandler> handlers,
             List<Queue.DeadMessageCallback> deadMessageHandlers,

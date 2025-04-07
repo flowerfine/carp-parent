@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.framework.pf4j.core.events;
 
+import cn.sliew.carp.framework.pf4j.core.remote.RemoteExtensionConfig;
 import cn.sliew.carp.framework.pf4j.core.update.release.remote.RemotePluginInfoReleaseCache;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;

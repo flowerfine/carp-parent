@@ -17,11 +17,13 @@
  */
 package cn.sliew.carp.framework.pf4j.core.update;
 
+import cn.sliew.carp.framework.pf4j.core.remote.RemoteExtensionConfig;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 import org.pf4j.update.PluginInfo;
 import org.pf4j.update.UpdateRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,6 +63,10 @@ public class CarpPluginInfo extends PluginInfo {
          */
         private boolean preferred = false;
 
-        // todo remove remoteExtension
+        /**
+         * Any remote extension configs attached to the plugin.
+         */
+        private List<RemoteExtensionConfig> remoteExtensions = new ArrayList<>();
+
     }
 }

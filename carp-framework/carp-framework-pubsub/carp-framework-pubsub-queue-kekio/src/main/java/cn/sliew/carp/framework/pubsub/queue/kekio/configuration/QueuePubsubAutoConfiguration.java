@@ -24,7 +24,6 @@ import cn.sliew.carp.framework.queue.kekio.QueueExecutor;
 import cn.sliew.carp.framework.queue.kekio.configuration.KekioObjectMapperConfiguration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.core.instrument.MeterRegistry;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -39,7 +38,7 @@ public class QueuePubsubAutoConfiguration {
     @ConditionalOnMissingBean(PubsubChannelFactory.class)
     public QueuePubsubChannelFactory queuePubsubChannelFactory(
             JedisPool jedisPool,
-            @Qualifier(KekioObjectMapperConfiguration.KEKIO_OBJECT_MAPPER) ObjectMapper objectMapper,
+            ObjectMapper objectMapper,
             QueueExecutor queueExecutor,
             List<Queue.DeadMessageCallback> deadMessageHandlers,
             MeterRegistry meterRegistry
