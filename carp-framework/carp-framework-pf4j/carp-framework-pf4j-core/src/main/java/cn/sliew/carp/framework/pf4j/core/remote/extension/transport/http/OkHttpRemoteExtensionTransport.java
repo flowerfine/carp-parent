@@ -22,8 +22,7 @@ import cn.sliew.carp.framework.pf4j.core.remote.extension.transport.RemoteExtens
 import cn.sliew.carp.framework.pf4j.core.remote.extension.transport.RemoteExtensionQuery;
 import cn.sliew.carp.framework.pf4j.core.remote.extension.transport.RemoteExtensionResponse;
 import cn.sliew.carp.framework.pf4j.core.remote.extension.transport.RemoteExtensionTransport;
-import cn.sliew.milky.common.exception.Rethrower;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
@@ -37,7 +36,6 @@ import java.util.Map;
  * An HTTP {@link RemoteExtensionTransport}, OkHttp for the client.
  */
 public class OkHttpRemoteExtensionTransport implements RemoteExtensionTransport {
-
 
     private final MediaType APPLICATION_JSON = MediaType.parse("application/json");
 
@@ -62,7 +60,7 @@ public class OkHttpRemoteExtensionTransport implements RemoteExtensionTransport 
                 .url(encodedUrl)
                 .headers(buildHeaders(httpConfig.getHeaders().getInvokeHeaders()))
                 .post(RequestBody.create(
-                        toJsonString(remoteExtensionPayload),
+                        JacksonUtil.toJsonString(objectMapper, remoteExtensionPayload),
                         APPLICATION_JSON))
                 .build();
 
@@ -82,7 +80,7 @@ public class OkHttpRemoteExtensionTransport implements RemoteExtensionTransport 
                 .url(encodedUrl)
                 .headers(buildHeaders(httpConfig.getHeaders().getWriteHeaders()))
                 .post(RequestBody.create(
-                        toJsonString(remoteExtensionPayload),
+                        JacksonUtil.toJsonString(objectMapper, remoteExtensionPayload),
                         APPLICATION_JSON))
                 .build();
 
@@ -91,7 +89,7 @@ public class OkHttpRemoteExtensionTransport implements RemoteExtensionTransport 
                 String reason = response.body() != null ? response.body().string() : "Unknown reason: " + response.code();
                 throw new OkHttpRemoteExtensionTransportException(reason);
             }
-            return objectMapper.readValue(response.body().string(), RemoteExtensionResponse.class);
+            return JacksonUtil.parseJsonString(objectMapper, response.body().string(), RemoteExtensionResponse.class);
         } catch (IOException e) {
             throw new OkHttpRemoteExtensionTransportException(e);
         }
@@ -110,7 +108,7 @@ public class OkHttpRemoteExtensionTransport implements RemoteExtensionTransport 
                 String reason = response.body() != null ? response.body().string() : "Unknown reason: " + response.code();
                 throw new OkHttpRemoteExtensionTransportException(reason);
             }
-            return objectMapper.readValue(response.body().string(), RemoteExtensionResponse.class);
+            return JacksonUtil.parseJsonString(objectMapper, response.body().string(), RemoteExtensionResponse.class);
         } catch (IOException e) {
             throw new OkHttpRemoteExtensionTransportException(e);
         }
@@ -138,15 +136,6 @@ public class OkHttpRemoteExtensionTransport implements RemoteExtensionTransport 
     private Map<String, String> toParams(RemoteExtensionQuery query) {
         return objectMapper.convertValue(query, new TypeReference<Map<String, String>>() {
         });
-    }
-
-    private String toJsonString(Object object) {
-        try {
-            return objectMapper.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            Rethrower.throwAs(e);
-            return null;
-        }
     }
 
     /**

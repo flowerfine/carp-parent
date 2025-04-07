@@ -39,6 +39,8 @@ mvn clean deploy -B -U -T 4C -Dfast -DskipTests -Pdist -Poss-release -Dgpg.passp
 | -N   | --non-                 | 表示不递归子模块                                             |
 | -rf  | --resume-frm           | 表示从指定模块开始继续处理                                   |
 
+注意：如果在发布到 maven 中央仓库的时候遇到构建卡住：`Waiting for other projects build to finish...`，可能是构建异常导致的。在构建的时候，开了多线程构建，如果项目构建异常，有时候会导致构建卡住而没有错误信息。此时可临时将多线程构建改为单线程构建，查看一下是否有错误信息。因为在 release 前还会运行 ci 流程，ci 流程无异常，release 流程卡住，那么大概率代码构建没有问题，release 时需生成 javadocs，有一定概率是生成 javadocs 异常。
+
 ## Tag
 
 ```shell
