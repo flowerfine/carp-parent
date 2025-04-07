@@ -31,7 +31,6 @@
 
     <modules>
         <module>carp-framework-pf4j-api</module>
-        <module>carp-framework-pf4j-spring-api</module>
         <module>carp-framework-pf4j-core</module>
     </modules>
 
