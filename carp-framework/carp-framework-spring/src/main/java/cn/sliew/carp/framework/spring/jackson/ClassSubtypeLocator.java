@@ -18,14 +18,20 @@
 package cn.sliew.carp.framework.spring.jackson;
 
 import cn.sliew.carp.framework.common.jackson.subtype.SubtypeLocator;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
+@Setter
+@NoArgsConstructor
 public class ClassSubtypeLocator implements SubtypeLocator {
 
-    private final Class<?> rootType;
-    private final List<String> searchPackages;
+    private Class<?> rootType;
+    private List<String> searchPackages;
 
+    @JsonCreator
     public ClassSubtypeLocator(Class<?> rootType, List<String> searchPackages) {
         this.rootType = rootType;
         this.searchPackages = searchPackages;
