@@ -18,13 +18,14 @@
 package cn.sliew.carp.framework.pf4j.core.remote;
 
 import cn.sliew.carp.framework.common.jackson.subtype.SubtypeLocator;
+import cn.sliew.carp.framework.feign.endpoint.DefaultServiceEndpoint;
 import cn.sliew.carp.framework.pf4j.core.events.RemotePluginConfigChanged;
 import cn.sliew.carp.framework.pf4j.core.remote.extension.RemoteExtension;
 import cn.sliew.carp.framework.pf4j.core.remote.extension.RemoteExtensionPointDefinition;
 import cn.sliew.carp.framework.spring.jackson.ObjectMapperSubtypeConfigurer;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import okhttp3.OkHttpClient;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.ApplicationListener;
 
@@ -36,29 +37,28 @@ import java.util.Set;
  * Listen for remote plugin configuration changes, instantiate {@link RemotePlugin} and {@link RemoteExtension}
  * objects as necessary, and add or remove the plugins from the remote plugin cache.
  */
+@Slf4j
 public class RemotePluginConfigChangedListener implements ApplicationListener<RemotePluginConfigChanged> {
 
-    private static final Logger log = LoggerFactory.getLogger(RemotePluginConfigChangedListener.class);
-
-    private final ObjectProvider<ObjectMapper> objectMapperProvider;
-    private final ObjectProvider<OkHttpClientProvider> okHttpClientProvider;
+    private final ObjectMapper objectMapper;
+    private final OkHttpClient okHttpClient;
     private final RemotePluginsCache remotePluginsCache;
     private final List<RemoteExtensionPointDefinition> remoteExtensionPointDefinitions;
 
     public RemotePluginConfigChangedListener(
-            ObjectProvider<ObjectMapper> objectMapperProvider,
+            ObjectMapper objectMapper,
             ObjectProvider<List<SubtypeLocator>> subtypeLocatorsProvider,
-            ObjectProvider<OkHttpClientProvider> okHttpClientProvider,
+            OkHttpClient okHttpClient,
             RemotePluginsCache remotePluginsCache,
             List<RemoteExtensionPointDefinition> remoteExtensionPointDefinitions) {
-        this.objectMapperProvider = objectMapperProvider;
-        this.okHttpClientProvider = okHttpClientProvider;
+        this.objectMapper = objectMapper;
+        this.okHttpClient = okHttpClient;
         this.remotePluginsCache = remotePluginsCache;
         this.remoteExtensionPointDefinitions = remoteExtensionPointDefinitions;
 
         List<SubtypeLocator> subtypeLocators = subtypeLocatorsProvider.getIfAvailable();
         if (subtypeLocators != null && !subtypeLocators.isEmpty()) {
-            new ObjectMapperSubtypeConfigurer(true).registerSubtypes(objectMapperProvider.getObject(), subtypeLocators);
+            new ObjectMapperSubtypeConfigurer(true).registerSubtypes(objectMapper, subtypeLocators);
         }
     }
 
@@ -83,6 +83,7 @@ public class RemotePluginConfigChangedListener implements ApplicationListener<Re
             // Configure HTTP if it is available since it is the only configurable transport right now.
             OkHttpRemoteExtensionTransport remoteExtensionTransport;
             if (!remoteExtensionConfig.getTransport().getHttp().getUrl().isEmpty()) {
+
                 var client = okHttpClientProvider.getObject().getClient(
                         new DefaultServiceEndpoint(
                                 remoteExtensionConfig.getId(),
