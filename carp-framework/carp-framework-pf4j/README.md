@@ -25,17 +25,24 @@ kork 基于 pf4j 开发，着重增强了开发体验和使用体验。
 
 #### PluginRef
 
-在开发插件时，pf4j 体验不佳，需用户打包插件 -> 将打包插件放入插件目录 -> 启动应用 -> 测试插件，流程较为繁琐。
+在开发插件时，pf4j 体验不佳，需经历：打包插件 -> 将打包插件放入插件目录 -> 启动应用 -> 测试插件，流程较为繁琐。
 
 kork 提供了 `PluginRef` 功能，用户可定义 [test.plugin-ref](https://github.com/spinnaker/kork/blob/master/kork-plugins/src/test/resources/test.plugin-ref) 文件，指定插件 [testplugin/plugin.properties](https://github.com/spinnaker/kork/blob/master/kork-plugins/src/test/resources/testplugin/plugin.properties) 位置。应用只需提供 `.plugin-ref` 和 `.properties` 文件，无需重新打包插件 -> 将打包插件放入插件目录，可直接启动应用，测试插件。
 
 #### Unsafe
 
-kork 提供了 `unsafe` 概念。在 pf4j 中，每个插件使用单独的 `ClassLoader` 加载插件，避免 class 冲突。kork 支持将 Extension 注册为 spring 中 bean，为每个插件创建了 `ApplicationContext`，设置应用本身的 `ApplicationContext` 为插件的 `ApplicationContext` 的 `parent`。通过 `ClassLoader` 和 `SpringContext` 隔离避免 class 冲突和 bean 冲突的思路，可以参考：[1.3.1 架构原理](https://koupleless.io/docs/introduction/architecture/arch-principle/)。
+kork 提供了 `unsafe` 概念。在 pf4j 和 kork 中均对 class 隔离做了支持，避免 class 冲突。
 
-pf4j 和 kork 都保证了 class 安全，kork 额外保证了 bean 安全。默认情况下插件是 **safe** 的。
+* pf4j
+  * 每个插件使用单独的 `ClassLoader` 加载插件，避免 class 冲突。
+* kork。
+  * 每个插件使用单独的 `ClassLoader` 加载插件，避免 class 冲突。
+  * 每个插件使用单独的 spring `ApplicationContext`，避免 bean 冲突。kork 支持将 Extension 注册为 spring 中 bean。kork 会设置应用本身的 `ApplicationContext` 为插件的 `ApplicationContext` 的 `parent`。
+  * 通过 `ClassLoader` 和 `SpringContext` 隔离避免 class 冲突和 bean 冲突的思路，可以参考：[1.3.1 架构原理](https://koupleless.io/docs/introduction/architecture/arch-principle/)。
 
-kork 支持使用应用本身的 `ClassLoader` 加载 plugin，这种方式存在一定 class 冲突风险。当插件被标记为 `unsafe` 时即表明不为插件创建单独的 `ClassLoader`，转而使用应用的 `ClassLoader` 加载。
+pf4j 和 kork 都保证了 class 安全，kork 额外保证了 bean 安全。默认情况下插件是 **safe** 的，不存在 class 冲突。
+
+当插件被标记为 `unsafe` 时即表明不为插件创建单独的 `ClassLoader`，转而使用应用的 `ClassLoader` 加载，插件存在一定 class 冲突风险，是 **unsafe** 的。
 
 #### Config
 
