@@ -17,7 +17,6 @@
  */
 package cn.sliew.carp.framework.pf4j.core.spring;
 
-import cn.sliew.carp.framework.pf4j.api.spring.PrivilegedSpringPlugin;
 import cn.sliew.carp.framework.pf4j.core.config.ConfigFactory;
 import cn.sliew.carp.framework.pf4j.core.pf4j.Util;
 import cn.sliew.carp.framework.pf4j.core.sdks.SdkFactory;
@@ -32,10 +31,10 @@ import java.util.List;
 /**
  * Creates a {@link Plugin}.
  * <p>
- * If the plugin is not a {@link PrivilegedSpringPlugin}, a {@link PluginContainer} will be created instead which
- * initializes and wires up the plugin's Spring ApplicationContext. This {@link PluginContainer} is an
- * implementation detail of the framework itself and hides the fact that Spring is used for plugin
- * configuration, component discovery and creation, and as well as extension promotion to the service.
+ * A {@link PluginContainer} will be created instead which initializes and wires up the plugin's
+ * Spring ApplicationContext. This {@link PluginContainer} is an implementation detail of
+ * the framework itself and hides the fact that Spring is used for plugin configuration,
+ * component discovery and creation, and as well as extension promotion to the service.
  */
 @Slf4j
 public class SpringPluginFactory implements PluginFactory {
@@ -74,13 +73,6 @@ public class SpringPluginFactory implements PluginFactory {
                 pluginWrapper
         );
 
-        // PrivilegedSpringPlugin does _kind of_ the same thing as PluginContainer, but the two are incompatible.
-        // PluginContainer attempts to offer some of the convenience that PrivilegedSpringPlugin does, but without using
-        // Spring itself as an API contract.
-        if (!(actualPlugin instanceof PrivilegedSpringPlugin)) {
-            return new PluginContainer(actualPlugin, serviceApplicationContext);
-        } else {
-            return actualPlugin;
-        }
+        return actualPlugin;
     }
 }
