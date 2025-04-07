@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Selects a {@link PluginInfoRelease} based on which release has {@link CarpPluginInfo.CarpPluginRelease#isPreferred()}
+ * Selects a {@link PluginInfoRelease} based on which release has {@code CarpPluginInfo.CarpPluginRelease#isPreferred()}
  * set to true.
  */
 @Slf4j
