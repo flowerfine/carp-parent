@@ -29,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.ApplicationListener;
+import org.springframework.util.StringUtils;
 
 import java.util.HashSet;
 import java.util.List;
@@ -83,7 +84,7 @@ public class RemotePluginConfigChangedListener implements ApplicationListener<Re
             // TODO(jonsie): Support enabling/disabling transports in the config.
             // Configure HTTP if it is available since it is the only configurable transport right now.
             OkHttpRemoteExtensionTransport remoteExtensionTransport;
-            if (!remoteExtensionConfig.getTransport().getHttp().getUrl().isEmpty()) {
+            if (StringUtils.hasText(remoteExtensionConfig.getTransport().getHttp().getUrl())) {
                 remoteExtensionTransport = new OkHttpRemoteExtensionTransport(
                         objectMapper,
                         okHttpClient,

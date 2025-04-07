@@ -30,6 +30,8 @@ import org.pf4j.update.PluginInfo;
 import org.pf4j.update.UpdateManager;
 import org.pf4j.update.UpdateRepository;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -83,6 +85,16 @@ public class CarpUpdateMananger extends UpdateManager {
     }
 
     private Path download(PluginInfoRelease release) {
+        // This is a remote plugin only, do nothing here.
+        if (Objects.nonNull(release.getProps())) {
+            if (StringUtils.hasText(release.getProps().url) == false &&
+                    CollectionUtils.isEmpty(release.getProps().getRemoteExtensions()) == false) {
+                log.info("Nothing to download - plugin '{}' is a remote plugin and there is no in-process plugin binary.", release.getPluginId());
+                return null;
+            }
+        }
+
+
         String pluginId = release.getPluginId();
         CarpPluginInfo.CarpPluginRelease props = release.getProps();
 
