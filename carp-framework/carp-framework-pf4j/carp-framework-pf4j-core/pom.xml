@@ -37,6 +37,10 @@
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>carp-framework-spring</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>carp-framework-feign</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.pf4j</groupId>
