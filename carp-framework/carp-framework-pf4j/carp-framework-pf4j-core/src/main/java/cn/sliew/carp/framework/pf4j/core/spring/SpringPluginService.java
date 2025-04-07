@@ -18,7 +18,6 @@
 package cn.sliew.carp.framework.pf4j.core.spring;
 
 import cn.sliew.carp.framework.pf4j.api.internal.CarpExtensionPoint;
-import cn.sliew.carp.framework.pf4j.api.spring.PrivilegedSpringPlugin;
 import cn.sliew.carp.framework.pf4j.core.events.ExtensionCreated;
 import cn.sliew.carp.framework.pf4j.core.pf4j.CarpPluginManager;
 import cn.sliew.carp.framework.pf4j.core.pf4j.finders.UnsafePluginDescriptor;
@@ -113,10 +112,6 @@ public class SpringPluginService {
             // Perform additional work for Spring plugins; registering internal classes as beans where necessary
             pluginManager.getStartedPlugins().forEach(pluginWrapper -> {
                 Plugin plugin = pluginWrapper.getPlugin();
-                if (plugin instanceof PrivilegedSpringPlugin privilegedSpringPlugin) {
-                    privilegedSpringPlugin.registerBeanDefinitions(registry);
-                }
-
                 if (plugin instanceof PluginContainer container) {
                     String initializerBeanName = container.registerInitializer(registry);
                     registerProxies(container, registry, initializerBeanName);
