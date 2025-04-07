@@ -17,9 +17,10 @@
  */
 package cn.sliew.carp.framework.pf4j.spring;
 
-import cn.hutool.extra.spring.SpringUtil;
-import cn.sliew.carp.framework.pf4j.core.actuator.Pf4jPluginsEndpoint;
+import cn.sliew.carp.framework.pf4j.core.config.ConfigCoordinates;
 import cn.sliew.carp.framework.pf4j.core.config.ConfigFactory;
+import cn.sliew.carp.framework.pf4j.core.config.ConfigResolver;
+import cn.sliew.carp.framework.pf4j.core.config.SpringEnvironmentConfigResolver;
 import cn.sliew.carp.framework.pf4j.core.pf4j.CarpPluginManager;
 import cn.sliew.carp.framework.pf4j.core.pf4j.status.SpringPluginStatusProvider;
 import cn.sliew.carp.framework.pf4j.core.pf4j.status.SpringStrictPluginLoaderStatusProvider;
@@ -38,12 +39,17 @@ import cn.sliew.carp.framework.pf4j.core.update.props.PluginRepositoryProperties
 import cn.sliew.carp.framework.pf4j.core.update.release.provider.AggregatePluginInfoReleaseProvider;
 import cn.sliew.carp.framework.pf4j.core.update.release.provider.PluginInfoReleaseProvider;
 import cn.sliew.carp.framework.pf4j.core.update.release.remote.RemotePluginInfoReleaseCache;
+import cn.sliew.carp.framework.pf4j.core.update.release.source.LatestPluginInfoReleaseSource;
 import cn.sliew.carp.framework.pf4j.core.update.release.source.PluginInfoReleaseSource;
+import cn.sliew.carp.framework.pf4j.core.update.release.source.PreferredPluginInfoReleaseSource;
+import cn.sliew.carp.framework.pf4j.core.update.release.source.SpringPluginInfoReleaseSource;
 import cn.sliew.carp.framework.pf4j.core.update.repository.ConfigurableUpdateRepository;
 import cn.sliew.carp.framework.spring.dynamicconfig.DynamicConfigService;
+import cn.sliew.carp.framework.spring.dynamicconfig.SpringDynamicConfigService;
 import cn.sliew.carp.framework.spring.version.ServiceVersion;
 import cn.sliew.carp.framework.spring.version.SpringPackageVersionResolver;
 import cn.sliew.carp.framework.spring.version.VersionResolver;
+import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.pf4j.PluginFactory;
@@ -54,22 +60,56 @@ import org.pf4j.update.verifier.CompoundVerifier;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.bind.Binder;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
 @AutoConfigureAfter(RemotePluginsConfiguration.class)
 public class Pf4jAutoConfiguration {
+
+    @Bean
+    @ConditionalOnMissingBean(DynamicConfigService.class)
+    DynamicConfigService springTransientConfigService() {
+        return new SpringDynamicConfigService();
+    }
+
+    @Bean
+    PluginsConfigurationProperties pluginsConfigurationProperties(Environment environment) {
+        return Binder.get(environment)
+                .bind(PluginsConfigurationProperties.CONFIG_NAMESPACE, PluginsConfigurationProperties.class)
+                .orElseGet(PluginsConfigurationProperties::new);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(ConfigResolver.class)
+    public static ConfigResolver springEnvironmentConfigResolver(
+            ConfigurableEnvironment environment) {
+        return new SpringEnvironmentConfigResolver(environment);
+    }
+
+    @Bean
+    ConfigFactory configFactory(ConfigResolver configResolver) {
+        return new ConfigFactory(configResolver);
+    }
+
+    @Bean
+    public static Map<String, PluginRepositoryProperties> pluginRepositoriesConfig(
+            ConfigResolver configResolver) {
+        return configResolver.resolve(
+                new ConfigCoordinates.RepositoryConfigCoordinates(),
+                new TypeReference<HashMap<String, PluginRepositoryProperties>>() {
+                });
+    }
 
     @Bean
     @ConditionalOnMissingBean(VersionResolver.class)
@@ -85,9 +125,10 @@ public class Pf4jAutoConfiguration {
     }
 
     @Bean
-    public static VersionManager versionManager() {
+    public static VersionManager versionManager(ApplicationContext applicationContext) {
         return new ApplicationVersionManager(
-                Objects.requireNonNull(SpringUtil.getApplicationName()));
+                Objects.requireNonNull(
+                        applicationContext.getEnvironment().getProperty("spring.application.name")));
     }
 
     @Bean
@@ -140,6 +181,30 @@ public class Pf4jAutoConfiguration {
                 : Paths.get(pluginsConfigurationProperties.getPluginsRootPath()).toAbsolutePath();
     }
 
+    @Bean
+    public static PluginInfoReleaseSource springPluginInfoReleaseSource(
+            SpringPluginStatusProvider pluginStatusProvider) {
+        return new SpringPluginInfoReleaseSource(pluginStatusProvider);
+    }
+
+    @Bean
+    public static PluginInfoReleaseSource latestPluginInfoReleaseSource(
+            CarpUpdateMananger updateManager) {
+        return new LatestPluginInfoReleaseSource(updateManager, null);
+    }
+
+    @Bean
+    public static PluginInfoReleaseSource preferredPluginInfoReleaseSource() {
+        return new PreferredPluginInfoReleaseSource();
+    }
+
+    @Bean
+    public static PluginInfoReleaseProvider pluginInfoReleaseProvider(
+            List<PluginInfoReleaseSource> pluginInfoReleaseSources,
+            SpringStrictPluginLoaderStatusProvider springStrictPluginLoaderStatusProvider) {
+        return new AggregatePluginInfoReleaseProvider(
+                pluginInfoReleaseSources, springStrictPluginLoaderStatusProvider);
+    }
 
     /**
      * Not a static bean - see {@link RemotePluginsConfiguration}.
@@ -220,11 +285,11 @@ public class Pf4jAutoConfiguration {
         return new LogInvocationAspect();
     }
 
-    @Bean
+/*    @Bean
     public static Pf4jPluginsEndpoint installedPluginsEndpoint(
             CarpPluginManager pluginManager) {
         return new Pf4jPluginsEndpoint(pluginManager);
-    }
+    }*/
 
     @Bean
     public SpringPluginService spinnakerPluginService(
