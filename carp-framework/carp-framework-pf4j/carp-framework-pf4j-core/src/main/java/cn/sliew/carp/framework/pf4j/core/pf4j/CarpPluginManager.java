@@ -25,6 +25,7 @@ import cn.sliew.carp.framework.pf4j.core.pf4j.loaders.UnsafeDevelopmentPluginLoa
 import cn.sliew.carp.framework.pf4j.core.pf4j.loaders.UnsafeJarPluginLoader;
 import cn.sliew.carp.framework.pf4j.core.pf4j.repository.PluginRefPluginRepository;
 import cn.sliew.carp.framework.pf4j.core.sdks.SdkFactory;
+import cn.sliew.carp.framework.spring.version.ServiceVersion;
 import lombok.extern.slf4j.Slf4j;
 import org.pf4j.*;
 
@@ -37,6 +38,7 @@ import java.util.Map;
 @Slf4j
 public class CarpPluginManager extends DefaultPluginManager {
 
+    private ServiceVersion serviceVersion;
     private VersionManager versionManager;
     private PluginStatusProvider statusProvider;
     private ConfigFactory configFactory;
@@ -52,6 +54,7 @@ public class CarpPluginManager extends DefaultPluginManager {
      * @param pluginsRoots   The root path to search for in-process plugin artifacts.
      */
     public CarpPluginManager(
+            ServiceVersion serviceVersion,
             VersionManager versionManager,
             PluginStatusProvider statusProvider,
             ConfigFactory configFactory,
@@ -59,6 +62,7 @@ public class CarpPluginManager extends DefaultPluginManager {
             PluginFactory pluginFactory,
             Path... pluginsRoots) {
         super(pluginsRoots);
+        this.serviceVersion = serviceVersion;
         this.versionManager = versionManager;
         this.statusProvider = statusProvider;
         this.configFactory = configFactory;
