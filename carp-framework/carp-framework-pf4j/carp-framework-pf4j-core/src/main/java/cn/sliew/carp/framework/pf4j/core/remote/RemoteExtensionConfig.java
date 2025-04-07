@@ -17,7 +17,6 @@
  */
 package cn.sliew.carp.framework.pf4j.core.remote;
 
-import cn.sliew.carp.framework.pf4j.core.update.CarpPluginInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,7 +32,7 @@ import java.util.Map;
  * <p>This model is used by Carp to determine which extension points and services require
  * remote extension point configuration.
  *
- * <p>The plugin release {@link CarpPluginInfo.CarpPluginRelease#getRemoteExtensions()} field is used to inform
+ * <p>The plugin release {@code CarpPluginInfo.CarpPluginRelease#getRemoteExtensions()} field is used to inform
  * Carp which service to use in configuring the extension point {@link #type} and additionally
  * if the remote extension is compatible with the running version of the Carp service.
  */

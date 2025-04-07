@@ -56,7 +56,7 @@ public class CanonicalPluginId {
      * Returns a boolean of whether or not the given {@param pluginId} is correctly formed.
      *
      * @param pluginId The plugin ID to validate.
-     * @return
+     * @return boolean
      */
     public static boolean isValid(String pluginId) {
         return pattern.matcher(pluginId).matches();

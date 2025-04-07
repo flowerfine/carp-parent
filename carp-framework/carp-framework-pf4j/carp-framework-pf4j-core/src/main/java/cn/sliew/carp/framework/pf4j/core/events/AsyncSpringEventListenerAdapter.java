@@ -27,15 +27,20 @@ import org.springframework.scheduling.annotation.Async;
  */
 public class AsyncSpringEventListenerAdapter implements ApplicationListener<ApplicationEvent> {
 
-  private final SpringEventListenerAdapter adapter;
+    private final SpringEventListenerAdapter adapter;
 
-  public AsyncSpringEventListenerAdapter(CarpEventListener<?> eventListener) {
-    this.adapter = new SpringEventListenerAdapter(eventListener);
-  }
+    /**
+     * Constructor.
+     *
+     * @param eventListener
+     */
+    public AsyncSpringEventListenerAdapter(CarpEventListener<?> eventListener) {
+        this.adapter = new SpringEventListenerAdapter(eventListener);
+    }
 
-  @Async
-  @Override
-  public void onApplicationEvent(ApplicationEvent event) {
-    adapter.onApplicationEvent(event);
-  }
+    @Async
+    @Override
+    public void onApplicationEvent(ApplicationEvent event) {
+        adapter.onApplicationEvent(event);
+    }
 }

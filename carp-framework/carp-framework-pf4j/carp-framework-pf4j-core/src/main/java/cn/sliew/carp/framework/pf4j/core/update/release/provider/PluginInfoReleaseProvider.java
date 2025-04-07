@@ -34,6 +34,9 @@ public interface PluginInfoReleaseProvider {
 
     /**
      * Get plugin releases from a list of plugin info objects
+     *
+     * @param pluginInfo The list of plugin info objects to get releases for
+     * @return
      */
     Set<PluginInfoRelease> getReleases(List<CarpPluginInfo> pluginInfo);
 
@@ -41,6 +44,13 @@ public interface PluginInfoReleaseProvider {
      * Thrown when a requested plugin release is not found.
      */
     class PluginReleaseNotFoundException extends RuntimeException {
+
+        /**
+         * Constructor
+         *
+         * @param pluginId
+         * @param sources
+         */
         public PluginReleaseNotFoundException(String pluginId, List<PluginInfoReleaseSource> sources) {
             super("A release version of '" + pluginId + "' was not sourced from the provider sources '" + sources + "'");
         }

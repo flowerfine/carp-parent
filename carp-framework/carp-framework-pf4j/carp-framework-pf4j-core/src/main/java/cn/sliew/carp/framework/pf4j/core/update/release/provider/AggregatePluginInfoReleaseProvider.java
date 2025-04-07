@@ -35,6 +35,12 @@ public class AggregatePluginInfoReleaseProvider implements PluginInfoReleaseProv
     private final List<PluginInfoReleaseSource> pluginInfoReleaseSources;
     private final SpringStrictPluginLoaderStatusProvider strictPluginLoaderStatusProvider;
 
+    /**
+     * Constructor.
+     *
+     * @param pluginInfoReleaseSources
+     * @param strictPluginLoaderStatusProvider
+     */
     public AggregatePluginInfoReleaseProvider(
             List<PluginInfoReleaseSource> pluginInfoReleaseSources,
             SpringStrictPluginLoaderStatusProvider strictPluginLoaderStatusProvider) {
