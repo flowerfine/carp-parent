@@ -18,10 +18,11 @@
 package cn.sliew.carp.framework.pf4j.core.remote;
 
 import cn.sliew.carp.framework.common.jackson.subtype.SubtypeLocator;
-import cn.sliew.carp.framework.feign.endpoint.DefaultServiceEndpoint;
 import cn.sliew.carp.framework.pf4j.core.events.RemotePluginConfigChanged;
 import cn.sliew.carp.framework.pf4j.core.remote.extension.RemoteExtension;
+import cn.sliew.carp.framework.pf4j.core.remote.extension.RemoteExtensionPointConfig;
 import cn.sliew.carp.framework.pf4j.core.remote.extension.RemoteExtensionPointDefinition;
+import cn.sliew.carp.framework.pf4j.core.remote.extension.transport.http.OkHttpRemoteExtensionTransport;
 import cn.sliew.carp.framework.spring.jackson.ObjectMapperSubtypeConfigurer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -83,17 +84,9 @@ public class RemotePluginConfigChangedListener implements ApplicationListener<Re
             // Configure HTTP if it is available since it is the only configurable transport right now.
             OkHttpRemoteExtensionTransport remoteExtensionTransport;
             if (!remoteExtensionConfig.getTransport().getHttp().getUrl().isEmpty()) {
-
-                var client = okHttpClientProvider.getObject().getClient(
-                        new DefaultServiceEndpoint(
-                                remoteExtensionConfig.getId(),
-                                remoteExtensionConfig.getTransport().getHttp().getUrl(),
-                                remoteExtensionConfig.getTransport().getHttp().getConfig()
-                        )
-                );
                 remoteExtensionTransport = new OkHttpRemoteExtensionTransport(
-                        objectMapperProvider.getObject(),
-                        client,
+                        objectMapper,
+                        okHttpClient,
                         remoteExtensionConfig.getTransport().getHttp()
                 );
             } else {
@@ -105,14 +98,14 @@ public class RemotePluginConfigChangedListener implements ApplicationListener<Re
                     .findFirst()
                     .orElseThrow(() -> new RemoteExtensionDefinitionNotFound(remoteExtensionConfig.getType()));
 
-            Class<?> configType = remoteExtensionDefinition.configType();
+            Class<? extends RemoteExtensionPointConfig> configType = remoteExtensionDefinition.configType();
 
             remoteExtensions.add(
                     new RemoteExtension(
                             remoteExtensionConfig.getId(),
                             event.getPluginId(),
                             remoteExtensionDefinition.type(),
-                            objectMapperProvider.getObject().convertValue(remoteExtensionConfig.getConfig(), configType),
+                            objectMapper.convertValue(remoteExtensionConfig.getConfig(), configType),
                             remoteExtensionTransport
                     )
             );
