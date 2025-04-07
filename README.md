@@ -64,7 +64,7 @@ framework 提供常见功能模块以满足快速开发需求
 * [carp-framework-dag](./carp-framework/carp-framework-dag)
 * [carp-framework-license](./carp-framework/carp-framework-license)
 * [carp-framework-pekko](./carp-framework/carp-framework-pekko)
-* [carp-framework-pf4j](./carp-framework/carp-framework-pf4j)。copy [kork](https://github.com/spinnaker/kork) 的插件
+* [carp-framework-pf4j](./carp-framework/carp-framework-pf4j)。基于 [pf4j](https://github.com/pf4j/pf4j) 和 [kork](https://github.com/spinnaker/kork) 的插件模块
 
 ## 项目发版
 

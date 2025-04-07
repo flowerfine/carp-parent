@@ -1,12 +1,27 @@
 # Pf4j Framework
 
-plugin 模块，copy [kork](https://github.com/spinnaker/kork) 项目。基于 [pf4j](https://github.com/pf4j/pf4j) 开发，依赖项目列表：
+plugin 模块，基于 [pf4j](https://github.com/pf4j/pf4j) 开发，copy [kork](https://github.com/spinnaker/kork) 项目。
 
-* [pf4j](https://github.com/pf4j/pf4j)
-* [pf4j-spring](https://github.com/pf4j/pf4j-spring)
-* [pf4j-update](https://github.com/pf4j/pf4j-update)
+pf4j 项目列表：
 
-类似项目：[devops-framework/devops-plugin](https://github.com/bkdevops-projects/devops-framework/tree/master/devops-boot-project/devops-boot-core/devops-plugin)、[devops-boot-starter-plugin](https://bkdevops-projects.github.io/devops-framework/#/starter/devops-boot-starter-plugin)。
+* [pf4j](https://github.com/pf4j/pf4j)。插件接口，实现插件加载、卸载、启用、禁用、获取 Extension
+* [pf4j-spring](https://github.com/pf4j/pf4j-spring)。将 Extension 注册为 spring bean
+* [pf4j-update](https://github.com/pf4j/pf4j-update)。应用不重启，实现插件的动态更新
+
+类似项目：
+
+* [devops-framework](https://github.com/bkdevops-projects/devops-framework)。
+  * [devops-framework/devops-plugin](https://github.com/bkdevops-projects/devops-framework/tree/master/devops-boot-project/devops-boot-core/devops-plugin)
+  * [devops-boot-starter-plugin](https://bkdevops-projects.github.io/devops-framework/#/starter/devops-boot-starter-plugin)
+* [spring-plugin](https://github.com/spring-projects/spring-plugin)。本来已经停更了，但是又重新准备发版了。
+
+kork 项目为 spinnaker 提供了服务端插件解决方案，基于 pf4j 开发：
+
+* [Plugin Creator Guide](https://spinnaker.io/docs/guides/developer/plugin-creator/)
+* [Backend Service Extension Points](https://spinnaker.io/docs/guides/developer/plugin-creator/plugin-backend/)
+* [spinnaker-plugin-examples](https://github.com/spinnaker-plugin-examples)
+
+
 
 相对于 kork 项目，做了如下修改：
 
@@ -75,6 +90,4 @@ Spring API 方式支持额外扫描 bean，加载 spring 配置类：
 ## 资源信息
 
 * spinnaker
-  * [Plugin Creator Guide](https://spinnaker.io/docs/guides/developer/plugin-creator/)
-  * [Backend Service Extension Points](https://spinnaker.io/docs/guides/developer/plugin-creator/plugin-backend/)
-  * [spinnaker-plugin-examples](https://github.com/spinnaker-plugin-examples)
+  * 
