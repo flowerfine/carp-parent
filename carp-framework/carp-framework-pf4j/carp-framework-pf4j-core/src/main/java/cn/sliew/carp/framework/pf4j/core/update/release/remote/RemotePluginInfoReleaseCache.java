@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.framework.pf4j.core.update.release.remote;
 
+import cn.sliew.carp.framework.pf4j.core.events.RemotePluginConfigChanged;
 import cn.sliew.carp.framework.pf4j.core.pf4j.CarpPluginManager;
 import cn.sliew.carp.framework.pf4j.core.pf4j.status.SpringPluginStatusProvider;
 import cn.sliew.carp.framework.pf4j.core.update.CarpPluginInfo;
