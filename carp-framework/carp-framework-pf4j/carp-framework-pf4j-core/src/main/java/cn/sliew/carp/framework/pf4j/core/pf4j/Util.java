@@ -18,7 +18,6 @@
 package cn.sliew.carp.framework.pf4j.core.pf4j;
 
 import cn.hutool.core.util.ArrayUtil;
-import cn.sliew.carp.framework.pf4j.api.ExtensionConfiguration;
 import cn.sliew.carp.framework.pf4j.api.PluginConfiguration;
 import cn.sliew.carp.framework.pf4j.api.PluginSdks;
 import cn.sliew.carp.framework.pf4j.core.config.ConfigFactory;
@@ -93,12 +92,6 @@ public enum Util {
                                 pluginWrapper != null ? pluginWrapper.getDescriptor().getPluginId() : null,
                                 paramType.getAnnotation(PluginConfiguration.class).value()
                         );
-                    } else if (paramType.isAnnotationPresent(ExtensionConfiguration.class)) {
-                        return configFactory.createExtensionConfig(
-                                paramType,
-                                pluginWrapper != null ? pluginWrapper.getDescriptor().getPluginId() : null,
-                                paramType.getAnnotation(ExtensionConfiguration.class).value()
-                        );
                     } else {
                         throw new RuntimeException(
                                 "'" + clazz.getCanonicalName() + "' has unsupported " +
@@ -137,7 +130,7 @@ public enum Util {
         }
     }
 
-    public static enum ClassKind {
+    public enum ClassKind {
         PLUGIN, EXTENSION;
 
         @Override

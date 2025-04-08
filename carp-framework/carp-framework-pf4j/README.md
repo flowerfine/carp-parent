@@ -2,6 +2,35 @@
 
 plugin 模块，基于 [pf4j](https://github.com/pf4j/pf4j) 开发，copy [kork](https://github.com/spinnaker/kork) 项目。
 
+## 开发方式
+
+引用 kork 推荐的插件结构，保持 core 服务和插件可单独迭代：
+
+* API 模块。定义 `{service}-api`  模块，严格确保 API 模块依赖干净。如果 API、Core 和其他模块都需要的依赖，可以放入 API 模块
+  * 引入 [carp-framework-pf4j-api](./carp-framework-pf4j-api) 模块
+  * 定义插件接口和 POJO，插件接口继承 `CarpExtensionPoint` 接口
+  * 可以引入的公共依赖如 `slf4j-api`、`lombok`，避免引入 `spring` 和 `jackson` 模块，不可避免时设置依赖为 `provided`。
+* Core 模块。定义 `{service}-core` 模块。
+  * 引入 `{service}-api` 模块和 [carp-framework-pf4j-spring](./carp-framework-pf4j-spring) 模块
+  * 配置插件
+    * 假设插件名为 `cn.sliew.carp-plugin-test-1`和 `cn.sliew.carp-plugin-test-2`，添加配置，启用插件
+
+```yaml
+carp.framework:
+  pf4j.plugins:
+    cn.sliew.carp-plugin-test-1:
+      enabled: true
+    cn.sliew.carp-plugin-test-2:
+      enabled: true
+```
+
+详情参考 [carp](https://github.com/flowerfine/carp)：
+
+* API 模块。[carp-module-plugin-test-api](https://github.com/flowerfine/carp/tree/dev/carp-modules/carp-module-plugin/carp-module-plugin-test-api)
+* Plugins 模块。[carp-plugin-test](https://github.com/flowerfine/carp/tree/dev/carp-plugins/carp-plugin-test)
+* Core 模块。[carp-module-plugin-core](https://github.com/flowerfine/carp/tree/dev/carp-modules/carp-module-plugin/carp-module-plugin-core)
+* Application 模块。[carp-server](https://github.com/flowerfine/carp/tree/dev/carp-server)
+
 ## 核心概念
 
 ### Pf4j
@@ -53,6 +82,8 @@ pf4j 和 kork 都保证了 class 安全，kork 额外保证了 bean 安全。默
 
 todo 提供定义插件配置，定义配置，注入配置
 
+
+
 #### Spring
 
 kork 推荐的插件结构，保持 core 服务和插件可单独迭代：
@@ -84,19 +115,6 @@ kork 也提供 RemotePlugin。
 #### Update
 
 不支持。kork 并未支持应用不停机更新插件。
-
-## 开发方式
-
-* `ExtensionPoint`。定义接口，标记为 `ExtensionPoint`。提供 `ExtensionPoint` 标记接口实现
-* `@Extension`。定义接口，接口不标记为 `ExtensionPoint`。实现类添加 `@Extension` 注解和 `ExtensionPoint` 接口
-
-使用指南
-
-* 应用程序。
-  * 添加依赖。向应用程序中添加依赖启用插件功能
-  * 添加配置。在主应用程序中引入配置 `PluginsAutoConfiguration`
-* API 模块。保持最小依赖。可以包含接口、POJO，也可以包含 `api`、`core`、`implementation` 和 `runtime` 等模块都需要用到的依赖。
-  * 定义 `ExtensionPoint` 接口
 
 ## 参考资料
 

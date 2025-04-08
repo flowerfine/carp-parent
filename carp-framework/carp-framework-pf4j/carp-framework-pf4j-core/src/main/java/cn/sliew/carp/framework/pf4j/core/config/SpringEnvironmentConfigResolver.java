@@ -17,8 +17,8 @@
  */
 package cn.sliew.carp.framework.pf4j.core.config;
 
+import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -43,8 +43,7 @@ public class SpringEnvironmentConfigResolver implements ConfigResolver {
 
     private ConfigurableEnvironment environment;
 
-    private ObjectMapper mapper = new ObjectMapper()
-            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+    private ObjectMapper mapper = JacksonUtil.getMapper().copy()
             .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
 
     public SpringEnvironmentConfigResolver(ConfigurableEnvironment environment) {
@@ -96,7 +95,7 @@ public class SpringEnvironmentConfigResolver implements ConfigResolver {
         log.debug("Searching for config at '{}'", pointer);
         JsonNode tree = mapper.valueToTree(propertySourcesAsMap()).at(pointer);
         if (tree instanceof MissingNode) {
-            log.debug("Missing configuration for '{}': Loading default", coordinates);
+            log.debug("Missing configuration for '{}': Loading default", JacksonUtil.toJsonString(coordinates));
             return missingCallback.get();
         }
 
@@ -134,7 +133,7 @@ public class SpringEnvironmentConfigResolver implements ConfigResolver {
     private Map<String, Object> toRelevantProperties(EnumerablePropertySource<?> propertySource) {
         Map<String, Object> result = new HashMap<>();
         for (String propertyName : propertySource.getPropertyNames()) {
-            if (propertyName.startsWith("carp.extensibility")) {
+            if (propertyName.startsWith(ConfigCoordinates.CONFIG_NAMESPACE)) {
                 Object value = propertySource.getProperty(propertyName);
                 if (!(value instanceof Map) || !((Map<?, ?>) value).isEmpty()) {
                     result.put(propertyName, value);

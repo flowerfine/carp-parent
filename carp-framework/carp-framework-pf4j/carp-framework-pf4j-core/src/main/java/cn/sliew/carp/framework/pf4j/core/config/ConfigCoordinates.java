@@ -27,7 +27,12 @@ import java.util.List;
  */
 public abstract class ConfigCoordinates {
 
-    private static final String ROOT_PATH = "/carp/extensibility";
+    public static final String CONFIG_NAMESPACE = "carp.framework.pf4j";
+    public static final String CONFIG_NAMESPACE_PATH = "/" + CONFIG_NAMESPACE.replace(".", "/");
+
+    public static final String PLUGINS_CONFIG_PATH = "plugins";
+    public static final String EXTENSIONS_CONFIG_PATH = "extensions";
+    public static final String REPOSITORIES_CONFIG_PATH = "repositories";
 
     /**
      * Converts a coordinate class into a Jackson JsonNode pointer.
@@ -55,7 +60,10 @@ public abstract class ConfigCoordinates {
             } else {
                 coords = List.of(pluginId, extensionsNamespace, extensionConfigId);
             }
-            return String.format("%s/plugins/%s/config", ROOT_PATH, String.join("/", coords).replace(".", "/"));
+            return String.format("%s/%s/%s/config",
+                    CONFIG_NAMESPACE_PATH,
+                    PLUGINS_CONFIG_PATH,
+                    String.join("/", coords).replace(".", "/"));
         }
     }
 
@@ -76,7 +84,10 @@ public abstract class ConfigCoordinates {
                 coords = List.of(pluginId, pluginConfigId);
             }
 
-            return String.format("%s/plugins/%s/config", ROOT_PATH, String.join("/", coords).replace(".", "/"));
+            return String.format("%s/%s/%s/config",
+                    CONFIG_NAMESPACE_PATH,
+                    PLUGINS_CONFIG_PATH,
+                    String.join("/", coords).replace(".", "/"));
         }
     }
 
@@ -89,7 +100,10 @@ public abstract class ConfigCoordinates {
 
         @Override
         public String toPointer() {
-            return String.format("%s/extensions/%s/config", ROOT_PATH, extensionConfigId.replace(".", "/"));
+            return String.format("%s/%s/%s/config",
+                    CONFIG_NAMESPACE_PATH,
+                    EXTENSIONS_CONFIG_PATH,
+                    extensionConfigId.replace(".", "/"));
         }
     }
 
@@ -100,7 +114,7 @@ public abstract class ConfigCoordinates {
 
         @Override
         public String toPointer() {
-            return String.format("%s/repositories", ROOT_PATH);
+            return String.format("%s/%s", CONFIG_NAMESPACE_PATH, REPOSITORIES_CONFIG_PATH);
         }
     }
 

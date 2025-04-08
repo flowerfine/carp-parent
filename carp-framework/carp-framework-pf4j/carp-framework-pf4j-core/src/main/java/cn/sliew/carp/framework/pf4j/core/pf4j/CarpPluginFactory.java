@@ -19,6 +19,7 @@ package cn.sliew.carp.framework.pf4j.core.pf4j;
 
 import cn.sliew.carp.framework.pf4j.core.config.ConfigFactory;
 import cn.sliew.carp.framework.pf4j.core.sdks.SdkFactory;
+import cn.sliew.carp.framework.pf4j.core.spring.SpringPluginFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.pf4j.Plugin;
 import org.pf4j.PluginFactory;
@@ -31,8 +32,11 @@ import java.util.List;
  * Enables Plugin classes to be injected with SdkFactory and extension configuration.
  * <p>
  * TODO(rz): Add `@PluginConfiguration` annot?
+ *
+ * @deprecated use {@link SpringPluginFactory} instead.
  */
 @Slf4j
+@Deprecated
 public class CarpPluginFactory implements PluginFactory {
 
     private final ConfigFactory configFactory;

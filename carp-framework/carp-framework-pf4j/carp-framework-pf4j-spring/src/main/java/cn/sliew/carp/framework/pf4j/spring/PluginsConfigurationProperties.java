@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.framework.pf4j.spring;
 
+import cn.sliew.carp.framework.pf4j.core.config.ConfigCoordinates;
 import cn.sliew.carp.framework.pf4j.core.update.props.PluginRepositoryProperties;
 import lombok.Data;
 
@@ -36,8 +37,8 @@ import java.util.Map;
 @Data
 public class PluginsConfigurationProperties {
 
-    public static final String CONFIG_NAMESPACE = "carp.framework.pf4j";
-    public static final String DEFAULT_ROOT_PATH = "plugins";
+    public static final String CONFIG_NAMESPACE = ConfigCoordinates.CONFIG_NAMESPACE;
+    public static final String DEFAULT_ROOT_PATH = ConfigCoordinates.PLUGINS_CONFIG_PATH;
     public static final String PREFIX = CONFIG_NAMESPACE + "." + DEFAULT_ROOT_PATH;
 
     /**
