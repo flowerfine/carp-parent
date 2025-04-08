@@ -80,6 +80,16 @@ pf4j 和 kork 都保证了 class 安全，kork 额外保证了 bean 安全。默
 * 插件自带。插件打包时可包含自定义的配置文件如 `.yaml`
 * 应用配置。应用在添加插件时，可以在应用配置中添加插件配置，供插件读取
 
+kork 中的配置分为 2 类：Plugin 配置和 Extension 配置。
+
+Plugin 配置为 `Plugin` 配置，Extension 配置，为可注入 `SpinnakerExtensionPoint` 的配置。
+
+##### `@PluginConfiguration`
+
+定义配置类，标记 `@PluginConfiguration` 注解。
+
+
+
 todo 提供定义插件配置，定义配置，注入配置
 
 

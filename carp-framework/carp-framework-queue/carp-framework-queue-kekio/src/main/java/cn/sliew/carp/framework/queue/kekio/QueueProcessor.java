@@ -94,14 +94,14 @@ public class QueueProcessor implements InitializingBean, DisposableBean {
     public void afterPropertiesSet() throws Exception {
         scheduledExecutor = ThreadUtil.createScheduledExecutor(1);
         ThreadUtil.schedule(scheduledExecutor, () -> poll(), 0, 50L, false);
-        log.debug("Start process queue poll: {}", queue.getClass().getSimpleName());
+        log.debug("Start process queue poll: {}-{}", queue.getClass().getSimpleName(), queue.getName());
     }
 
     @Override
     public void destroy() throws Exception {
         if (Objects.nonNull(scheduledExecutor)) {
             scheduledExecutor.shutdown();
-            log.info("Stop process queue poll: {}", queue.getClass().getSimpleName());
+            log.info("Stop process queue poll: {}-{}", queue.getClass().getSimpleName(), queue.getName());
         }
     }
 

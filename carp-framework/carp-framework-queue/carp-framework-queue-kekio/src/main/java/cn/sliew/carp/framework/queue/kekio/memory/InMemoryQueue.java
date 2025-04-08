@@ -70,7 +70,7 @@ public class InMemoryQueue extends AbstractQueue implements MonitorableQueue, In
     public void destroy() throws Exception {
         if (Objects.nonNull(scheduledExecutor)) {
             scheduledExecutor.shutdown();
-            log.info("Stop process queue retry: {}", queue.getClass().getSimpleName());
+            log.info("Stop process queue poll: {}", queue.getClass().getSimpleName());
         }
     }
 
