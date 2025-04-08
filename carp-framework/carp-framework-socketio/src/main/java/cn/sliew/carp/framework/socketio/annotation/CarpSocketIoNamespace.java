@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.framework.socketio.annotation;
 
+import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.*;
@@ -27,5 +28,8 @@ import java.lang.annotation.*;
 @Component
 public @interface CarpSocketIoNamespace {
 
+    @AliasFor(annotation = Component.class, attribute = "value")
     String value();
+
+    String namespace() default "";
 }

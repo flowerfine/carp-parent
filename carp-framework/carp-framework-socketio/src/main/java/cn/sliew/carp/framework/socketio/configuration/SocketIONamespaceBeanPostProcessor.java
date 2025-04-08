@@ -75,16 +75,16 @@ public class SocketIONamespaceBeanPostProcessor implements BeanPostProcessor {
             socketIOServer.addListeners(bean, beanClass);
             log.debug("Socket.IO [{}] bean listeners added to [default] namespace", beanName);
         } else {
-            if (socketIOServer.getAllNamespaces().contains(annotation.value()) == false) {
-                socketIOServer.addNamespace(annotation.value());
+            if (socketIOServer.getAllNamespaces().contains(annotation.namespace()) == false) {
+                socketIOServer.addNamespace(annotation.namespace());
             }
-            SocketIONamespace namespace = socketIOServer.getNamespace(annotation.value());
+            SocketIONamespace namespace = socketIOServer.getNamespace(annotation.namespace());
             if (bean instanceof CarpConnectionListener listener) {
                 listener.setNamespace(namespace);
                 listener.setRepository(socketIORepository);
             }
             namespace.addListeners(bean, beanClass);
-            log.debug("Socket.IO [{}] bean listeners added to [{}] namespace", beanName, annotation.value());
+            log.debug("Socket.IO [{}] bean listeners added to [{}] namespace", beanName, annotation.namespace());
         }
     }
 
