@@ -72,7 +72,6 @@ public class SpringPluginFactory implements PluginFactory {
                 configFactory,
                 pluginWrapper
         );
-
-        return actualPlugin;
+        return new PluginContainer(actualPlugin, serviceApplicationContext);
     }
 }
