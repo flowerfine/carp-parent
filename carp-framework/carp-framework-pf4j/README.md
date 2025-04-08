@@ -24,7 +24,7 @@ carp.framework:
       enabled: true
 ```
 
-详情参考 [carp](https://github.com/flowerfine/carp)：
+使用 example 可参考 [carp](https://github.com/flowerfine/carp)：
 
 * API 模块。[carp-module-plugin-test-api](https://github.com/flowerfine/carp/tree/dev/carp-modules/carp-module-plugin/carp-module-plugin-test-api)
 * Plugins 模块。[carp-plugin-test](https://github.com/flowerfine/carp/tree/dev/carp-plugins/carp-plugin-test)
@@ -84,15 +84,117 @@ kork 中的配置分为 2 类：Plugin 配置和 Extension 配置。
 
 Plugin 配置为 `Plugin` 配置，Extension 配置，为可注入 `SpinnakerExtensionPoint` 的配置。
 
-##### `@PluginConfiguration`
+##### Plugin
+
+###### `@PluginConfiguration`
 
 定义配置类，标记 `@PluginConfiguration` 注解。
 
+```java
+@Data
+@PluginConfiguration
+public class HelloPluginProperties {
 
+    private String name;
+}
+```
 
-todo 提供定义插件配置，定义配置，注入配置
+###### `Plugin`
 
+`Plugin` 实现类，构造器增加 `@PluginConfiguration` 标记类，作为构造器参数。
 
+```java
+
+public class HelloPlugin extends DemoPlugin {
+
+    private PluginSdks pluginSdks;
+    private HelloPluginProperties properties;
+
+    public HelloPlugin(PluginWrapper wrapper, PluginSdks pluginSdks, HelloPluginProperties properties) {
+        super(wrapper);
+        this.pluginSdks = pluginSdks;
+        this.properties = properties;
+    }
+
+    @Override
+    public void start() {
+        log.info("HelloPlugin.start(), name: {}", properties.getName());
+    }
+}
+```
+
+###### `application.yaml`
+
+在 `application.yaml` 中新增属性配置，按照路径 `/carp/framework/pf4j/plugins/{pluginId}/config/` 添加
+
+```yaml
+carp.framework:
+  pf4j.plugins:
+    cn.sliew.carp-plugin-test-1:
+      enabled: true
+      config:
+        name: carp-plugin-test-1-name
+```
+
+`cn.sliew.carp-plugin-test-1` 为 `pluginId`。应用启动后即可通过日志验证参数配置。
+
+##### Extension
+
+Extension 指 `SpinnakerExtensionPoint` 实现类，在 kork 对 spring 的支持中所有实现 `SpinnakerExtensionPoint` 和标记 `PluginComponent` 类都会自动注册为 spring bean。如果 `SpinnakerExtensionPoint` 添加 `@Extension` 注解，则也会被 pf4j 的 `ExtensionFactory` 创建并实例化。注意这种情况下会被实例化 2 次：kork spring 和 pf4j。kork spring 实例化类可通过依赖注入获取使用，pf4j 实例化类可通过 `PluginManager#getExtension` 获取使用。
+
+###### pf4j
+
+`@Extension` 注解标注的类，也可以通过构造器参数注入配置类。但是在 `application.yaml` 中的配置参数路径需要做调整，改为 `/carp/framework/pf4j/plugins/{pluginId}/extensions/config`，其他的都与 `Plugin` 一致。
+
+```yaml
+carp.framework:
+  pf4j.plugins:
+    cn.sliew.carp-plugin-test-1:
+      enabled: true
+      config:
+        name: carp-plugin-test-1-name
+      extensions:
+        config:
+          name: carp-plugin-test-1-extension-name
+```
+
+因为 kork 对 spring 的支持，所有实现 `SpinnakerExtensionPoint` 和标记 `PluginComponent` 注解的类都会自动注册为 spring bean。可以在 `SpinnakerExtensionPoint` 实现类和标记 `PluginComponent` 注解的类中通过依赖注入，注入配置类。当然都是 spring bean，也不必只是注入配置类。
+
+```java
+/**
+ * 类似 spring bean
+ */
+@PluginComponent
+@RequiredArgsConstructor
+public class WelcomeService {
+  
+    // 自动注入
+    private final WelcomePluginWithNamespaceProperties properties;
+
+    public String getGreeting() {
+        return "Welcome, " + properties.getValue();
+    }
+}
+```
+
+```java
+/**
+ * 如果添加 @Extension 注解，pf4j 的 ExtensionFactory 会生成这个实例。
+ * 无论添不添加 @Extension，都会因为 CarpExtensionPoint 被实例化，注册到 spring 中。
+ * 这里不添加 @Extension 注解，避免 pf4j 的 ExtensionFactory 生成这个实例
+ */
+@RequiredArgsConstructor
+public static class WelcomeGreeting implements Greeting {
+
+    // 自动注入
+    private final WelcomeService welcomeService;
+
+    @Override
+    public String getGreeting() {
+        return welcomeService.getGreeting();
+    }
+}
+```
 
 #### Spring
 
@@ -124,7 +226,9 @@ kork 也提供 RemotePlugin。
 
 #### Update
 
-不支持。kork 并未支持应用不停机更新插件。
+不支持。kork 并未支持应用不停机更新插件，kork 推荐重启或重新部署应用重新加载插件达到更新插件目的。
+
+插件在线更新其实是件危险的事情。pf4j 和 kork 都不支持 replace 插件，pf4j 提供的是销毁旧插件，启动新插件。插件 ExtensionPoint 会被代码使用，销毁插件其实是释放 ClassLoader，可能导致应用在插件销毁后处理业务时遇到错误。
 
 ## 参考资料
 
