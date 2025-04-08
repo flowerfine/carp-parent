@@ -28,19 +28,6 @@
     </parent>
     <artifactId>carp-framework-pf4j-api</artifactId>
 
-    <properties>
-        <!-- Override below properties in each plugin's pom.xml -->
-        <plugin.class />
-        <plugin.requires />
-        <plugin.dependencies />
-        <plugin.unsafe />
-        <plugin.id>${project.groupId}.${project.artifactId}</plugin.id>
-        <plugin.version>${project.version}</plugin.version>
-        <plugin.description>${project.name}</plugin.description>
-        <plugin.provider>${project.groupId}</plugin.provider>
-        <plugin.license>Apache-2.0</plugin.license>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.pf4j</groupId>
@@ -59,57 +46,4 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
     </dependencies>
-
-    <build>
-        <resources>
-            <resource>
-                <!-- 如果采用 plugin.properties，需添加确保 plugin.properties 打进 jar -->
-                <!-- !!! VERY IMPORTANT -->
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
-        <plugins>
-            <!-- !!! VERY IMPORTANT -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <!-- !!! VERY IMPORTANT -->
-                    <finalName>${project.artifactId}-${project.version}-all</finalName>
-                    <appendAssemblyId>false</appendAssemblyId>
-                    <attach>false</attach>
-                    <archive>
-                        <manifest>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                        </manifest>
-                        <manifestEntries>
-                            <Plugin-Id>${plugin.id}</Plugin-Id>
-                            <Plugin-Class>${plugin.class}</Plugin-Class>
-                            <Plugin-Version>${plugin.version}</Plugin-Version>
-                            <Plugin-Description>${plugin.description}</Plugin-Description>
-                            <Plugin-Provider>${plugin.provider}</Plugin-Provider>
-                            <Plugin-Requires>${plugin.requires}</Plugin-Requires>
-                            <Plugin-Dependencies>${plugin.dependencies}</Plugin-Dependencies>
-                            <Plugin-License>${plugin.license}</Plugin-License>
-                            <Plugin-Unsafe>${plugin.unsafe}</Plugin-Unsafe>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>
