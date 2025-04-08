@@ -29,7 +29,7 @@ import java.lang.annotation.*;
 public @interface CarpSocketIoNamespace {
 
     @AliasFor(annotation = Component.class, attribute = "value")
-    String value();
+    String value() default "";;
 
-    String namespace() default "";
+    String namespace();
 }

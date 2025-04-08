@@ -95,7 +95,7 @@ public class SpringEnvironmentConfigResolver implements ConfigResolver {
         log.debug("Searching for config at '{}'", pointer);
         JsonNode tree = mapper.valueToTree(propertySourcesAsMap()).at(pointer);
         if (tree instanceof MissingNode) {
-            log.debug("Missing configuration for '{}': Loading default", JacksonUtil.toJsonString(coordinates));
+            log.debug("Missing configuration for '{}': Loading default", coordinates);
             return missingCallback.get();
         }
 
