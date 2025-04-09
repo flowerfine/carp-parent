@@ -38,5 +38,9 @@ public interface DagInstanceComplexService {
 
     DAG<DagStepDTO> getDagNew(Long dagInstanceId);
 
+    String toPlantUML(Long dagInstanceId);
+
+    String toMermaid(Long dagInstanceId);
+
     Long initialize(Long dagConfigId);
 }

@@ -42,6 +42,10 @@ public interface DagConfigComplexService {
 
     DAG<DagConfigStepDTO> getDagNew(Long dagId);
 
+    String toPlantUML(Long dagId);
+
+    String toMermaid(Long dagId);
+
     Long insert(DagConfigSimpleAddParam param);
 
     boolean update(DagConfigSimpleUpdateParam param);

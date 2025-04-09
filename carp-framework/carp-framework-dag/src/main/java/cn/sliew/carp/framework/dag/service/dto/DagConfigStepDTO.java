@@ -18,13 +18,27 @@
 package cn.sliew.carp.framework.dag.service.dto;
 
 import cn.sliew.carp.framework.common.model.BaseDTO;
+import cn.sliew.carp.framework.dag.algorithm.DagNode;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Nonnull;
 import lombok.Data;
 
 @Data
 @Schema(name = "DagConfigStep", description = "DAG 配置步骤")
-public class DagConfigStepDTO extends BaseDTO {
+public class DagConfigStepDTO extends BaseDTO implements DagNode {
+
+    @Nonnull
+    @Override
+    public String getKey() {
+        return getStepId();
+    }
+
+    @Nonnull
+    @Override
+    public String getName() {
+        return getStepName();
+    }
 
     @Schema(description = "namespace")
     private String namespace;

@@ -20,6 +20,8 @@ package cn.sliew.carp.framework.dag.service.impl;
 import cn.sliew.carp.framework.common.model.PageResult;
 import cn.sliew.carp.framework.dag.algorithm.DAG;
 import cn.sliew.carp.framework.dag.algorithm.DagUtil;
+import cn.sliew.carp.framework.dag.algorithm.MermaidVisvitor;
+import cn.sliew.carp.framework.dag.algorithm.PlantUMLVisitor;
 import cn.sliew.carp.framework.dag.service.DagConfigComplexService;
 import cn.sliew.carp.framework.dag.service.DagConfigLinkService;
 import cn.sliew.carp.framework.dag.service.DagConfigService;
@@ -88,6 +90,18 @@ public class DagConfigComplexServiceImpl implements DagConfigComplexService {
     public DAG<DagConfigStepDTO> getDagNew(Long dagId) {
         DagConfigComplexDTO dag = selectOne(dagId);
         return DagUtil.buildDag(dag);
+    }
+
+    @Override
+    public String toPlantUML(Long dagId) {
+        DAG<DagConfigStepDTO> dag = getDagNew(dagId);
+        return dag.accept(PlantUMLVisitor.INSTANCE);
+    }
+
+    @Override
+    public String toMermaid(Long dagId) {
+        DAG<DagConfigStepDTO> dag = getDagNew(dagId);
+        return dag.accept(MermaidVisvitor.INSTANCE);
     }
 
     @Override

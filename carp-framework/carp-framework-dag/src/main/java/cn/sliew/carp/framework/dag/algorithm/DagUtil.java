@@ -64,17 +64,17 @@ public enum DagUtil {
         return graph;
     }
 
-    public static <N> void execute(DAG<N> dag, Consumer<Set<N>> consumer) {
+    public static <N extends DagNode> void execute(DAG<N> dag, Consumer<Set<N>> consumer) {
         execute(dag, (dag1, node) -> true, (dag1, edge) -> true, consumer);
     }
 
-    public static <N> void execute(DAG<N> dag, BiPredicate<DAG<N>, N> nodeValidator, BiPredicate<DAG<N>, DefaultDagEdge<N>> edgeValidator, Consumer<Set<N>> consumer) {
+    public static <N extends DagNode> void execute(DAG<N> dag, BiPredicate<DAG<N>, N> nodeValidator, BiPredicate<DAG<N>, DefaultDagEdge<N>> edgeValidator, Consumer<Set<N>> consumer) {
         Set<N> sources = dag.getSources();
         DAG<N> state = dag.copy();
         doExecute(dag, state, sources, nodeValidator, edgeValidator, consumer);
     }
 
-    private static <N> void doExecute(DAG<N> dag, DAG<N> state, Set<N> set, BiPredicate<DAG<N>, N> nodeValidator, BiPredicate<DAG<N>, DefaultDagEdge<N>> edgeValidator, Consumer<Set<N>> consumer) {
+    private static <N extends DagNode> void doExecute(DAG<N> dag, DAG<N> state, Set<N> set, BiPredicate<DAG<N>, N> nodeValidator, BiPredicate<DAG<N>, DefaultDagEdge<N>> edgeValidator, Consumer<Set<N>> consumer) {
         if (CollectionUtils.isEmpty(set)) {
             return;
         }

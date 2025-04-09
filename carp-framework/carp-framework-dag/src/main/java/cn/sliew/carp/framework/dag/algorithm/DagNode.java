@@ -17,21 +17,18 @@
  */
 package cn.sliew.carp.framework.dag.algorithm;
 
-import lombok.Getter;
+import jakarta.annotation.Nonnull;
 
-@Getter
-public class DefaultDagEdge<N extends DagNode> implements Visitable {
+public interface DagNode extends Comparable<DagNode> {
 
-    private final N source;
-    private final N target;
+    @Nonnull
+    String getKey();
 
-    public DefaultDagEdge(N source, N target) {
-        this.source = source;
-        this.target = target;
-    }
+    @Nonnull
+    String getName();
 
     @Override
-    public String accept(Visitor visitor) {
-        return visitor.visit(this);
+    default int compareTo(DagNode o) {
+        return getKey().compareTo(o.getKey());
     }
 }

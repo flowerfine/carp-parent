@@ -30,7 +30,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class DAG<N> {
+public class DAG<N extends DagNode> implements Visitable {
 
     private Graph<N, DefaultDagEdge<N>> jgrapht = GraphTypeBuilder.<N, DefaultDagEdge<N>>directed()
             .allowingSelfLoops(false)
@@ -160,59 +160,14 @@ public class DAG<N> {
         return copy;
     }
 
-    /**
-     * https://magjac.com/graphviz-visual-editor/
-     * <p>
-     * digraph {
-     * A -> B;
-     * B -> C;
-     * B -> D;
-     * B -> E;
-     * A -> F;
-     * A -> K;
-     * C -> G;
-     * D -> G;
-     * E -> G;
-     * F -> H;
-     * G -> H;
-     * H -> I;
-     * H -> J;
-     * }
-     */
-    public static void main(String[] args) {
-        DAG<String> dag = new DAG<>();
-        dag.addNode("A");
-        dag.addNode("B");
-        dag.addNode("C");
-        dag.addNode("D");
-        dag.addNode("E");
-        dag.addNode("F");
-        dag.addNode("G");
-        dag.addNode("H");
-        dag.addNode("I");
-        dag.addNode("J");
-        dag.addNode("K");
-
-        dag.addEdge("A", "B");
-        dag.addEdge("B", "C");
-        dag.addEdge("B", "D");
-        dag.addEdge("B", "E");
-        dag.addEdge("A", "F");
-        dag.addEdge("A", "K");
-
-        dag.addEdge("C", "G");
-        dag.addEdge("D", "G");
-        dag.addEdge("E", "G");
-
-        dag.addEdge("F", "H");
-        dag.addEdge("G", "H");
-
-        dag.addEdge("H", "I");
-        dag.addEdge("H", "J");
-
-        System.out.println(dag.topologySort());
-        List<Set<String>> queue = Lists.newArrayList();
-        DagUtil.execute(dag, nodes -> queue.add(nodes));
-        System.out.println(queue);
+    @Override
+    public String accept(Visitor visitor) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(visitor.start((DAG<DagNode>) this));
+        for (DefaultDagEdge<N> edge : edges()) {
+            sb.append(edge.accept(visitor));
+        }
+        sb.append(visitor.end((DAG<DagNode>) this));
+        return sb.toString();
     }
 }

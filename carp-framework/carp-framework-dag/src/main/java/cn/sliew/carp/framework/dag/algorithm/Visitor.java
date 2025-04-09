@@ -17,21 +17,11 @@
  */
 package cn.sliew.carp.framework.dag.algorithm;
 
-import lombok.Getter;
+public interface Visitor {
 
-@Getter
-public class DefaultDagEdge<N extends DagNode> implements Visitable {
+    String start(DAG<DagNode> visitable);
 
-    private final N source;
-    private final N target;
+    String end(DAG<DagNode> visitable);
 
-    public DefaultDagEdge(N source, N target) {
-        this.source = source;
-        this.target = target;
-    }
-
-    @Override
-    public String accept(Visitor visitor) {
-        return visitor.visit(this);
-    }
+    String visit(DefaultDagEdge visitable);
 }
