@@ -17,27 +17,21 @@
  */
 package cn.sliew.carp.framework.dag.algorithm;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
-public class DefaultDagEdge<N extends DagNode> implements Visitable {
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class DefaultDagNode implements DagNode {
 
-    private final N source;
-    private final N target;
-    private final Object data;
+    @EqualsAndHashCode.Include
+    private final String key;
+    private final String name;
 
-    public DefaultDagEdge(N source, N target) {
-        this(source, target, null);
-    }
-
-    public DefaultDagEdge(N source, N target, Object data) {
-        this.source = source;
-        this.target = target;
-        this.data = data;
-    }
-
-    @Override
-    public String accept(Visitor visitor) {
-        return visitor.visit(this);
+    @JsonCreator
+    public DefaultDagNode(String key, String name) {
+        this.key = key;
+        this.name = name;
     }
 }

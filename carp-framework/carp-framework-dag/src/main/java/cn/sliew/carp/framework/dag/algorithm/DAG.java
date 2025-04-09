@@ -32,17 +32,37 @@ import java.util.stream.Collectors;
 
 public class DAG<N extends DagNode> implements Visitable {
 
-    private Graph<N, DefaultDagEdge<N>> jgrapht = GraphTypeBuilder.<N, DefaultDagEdge<N>>directed()
-            .allowingSelfLoops(false)
-            .weighted(false)
-            .buildGraph();
+    private boolean allowLoop;
+    private Graph<N, DefaultDagEdge<N>> jgrapht;
+
+    public DAG() {
+        this(false);
+    }
+
+    public DAG(boolean allowLoop) {
+        this.allowLoop = allowLoop;
+        jgrapht = GraphTypeBuilder.<N, DefaultDagEdge<N>>directed()
+                .allowingSelfLoops(allowLoop)
+                .weighted(false)
+                .buildGraph();
+    }
 
     public void addNode(N node) {
         jgrapht.addVertex(node);
     }
 
     public void addEdge(N source, N target) {
-        jgrapht.addEdge(source, target, new DefaultDagEdge<>(source, target));
+        addEdge(source, target, null);
+    }
+
+    public void addEdge(N source, N target, Object data) {
+        if (jgrapht.containsVertex(source) == false) {
+            jgrapht.addVertex(source);
+        }
+        if (jgrapht.containsVertex(target) == false) {
+            jgrapht.addVertex(target);
+        }
+        jgrapht.addEdge(source, target, new DefaultDagEdge<>(source, target, data));
     }
 
     public Set<N> nodes() {
@@ -79,13 +99,19 @@ public class DAG<N extends DagNode> implements Visitable {
 
     public Set<N> getSources() {
         return jgrapht.vertexSet().stream()
-                .filter(node -> jgrapht.inDegreeOf(node) == 0)
+                .filter(node -> {
+                    return jgrapht.inDegreeOf(node) == 0 ||
+                            (allowLoop && jgrapht.inDegreeOf(node) == 1 && inDegreeOf(node).contains(node));
+                })
                 .collect(Collectors.toSet());
     }
 
     public Set<N> getSinks() {
         return jgrapht.vertexSet().stream()
-                .filter(node -> jgrapht.outDegreeOf(node) == 0)
+                .filter(node -> {
+                    return jgrapht.outDegreeOf(node) == 0 ||
+                            (allowLoop && jgrapht.outDegreeOf(node) == 1 && outDegreeOf(node).contains(node));
+                })
                 .collect(Collectors.toSet());
     }
 

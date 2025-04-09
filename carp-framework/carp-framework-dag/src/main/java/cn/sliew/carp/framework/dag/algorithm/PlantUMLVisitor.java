@@ -17,6 +17,8 @@
  */
 package cn.sliew.carp.framework.dag.algorithm;
 
+import java.util.Objects;
+
 public class PlantUMLVisitor implements Visitor {
 
     public static final PlantUMLVisitor INSTANCE = new PlantUMLVisitor();
@@ -59,8 +61,11 @@ public class PlantUMLVisitor implements Visitor {
         StringBuilder sb = new StringBuilder();
         sb.append(edge.getSource().getName())
                 .append(SEPERATOR)
-                .append(edge.getTarget().getName())
-                .append(LF);
+                .append(edge.getTarget().getName());
+        if (Objects.nonNull(edge.getData()) && edge.getData() instanceof String string) {
+            sb.append(" : ").append(string);
+        }
+        sb.append(LF);
         return sb.toString();
     }
 }

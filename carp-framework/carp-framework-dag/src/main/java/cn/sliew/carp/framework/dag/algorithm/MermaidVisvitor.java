@@ -17,12 +17,14 @@
  */
 package cn.sliew.carp.framework.dag.algorithm;
 
+import java.util.Objects;
+
 public class MermaidVisvitor implements Visitor {
 
     public static final MermaidVisvitor INSTANCE = new MermaidVisvitor();
 
-    private String LF = ";\n";
-    private String SEPERATOR = " -----> ";
+    String LF = ";\n";
+    String SEPERATOR = " -----> ";
 
     private MermaidVisvitor() {
     }
@@ -30,7 +32,7 @@ public class MermaidVisvitor implements Visitor {
     @Override
     public String start(DAG<DagNode> visitable) {
         StringBuilder sb = new StringBuilder();
-        sb.append("flowchart TD;").append(LF);
+        sb.append("flowchart TD").append(LF);
         return sb.toString();
     }
 
@@ -42,9 +44,13 @@ public class MermaidVisvitor implements Visitor {
     @Override
     public String visit(DefaultDagEdge visitable) {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%s(%s)", visitable.getSource().getKey(), visitable.getSource().getName()))
-                .append(SEPERATOR)
-                .append(String.format("%s(%s)", visitable.getTarget().getKey(), visitable.getTarget().getName()))
+        sb.append(String.format("%s(%s)", visitable.getSource().getKey(), visitable.getSource().getName()));
+        if (Objects.nonNull(visitable.getData()) && visitable.getData() instanceof String string) {
+            sb.append(String.format(" -- %s --->", string));
+        } else {
+            sb.append(SEPERATOR);
+        }
+        sb.append(String.format("%s(%s)", visitable.getTarget().getKey(), visitable.getTarget().getName()))
                 .append(LF);
         return sb.toString();
     }
