@@ -17,11 +17,11 @@
  */
 package cn.sliew.carp.framework.log.realtime.storage.redis;
 
-import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.sliew.carp.framework.common.nio.FileUtil;
 import cn.sliew.carp.framework.log.realtime.service.dto.StreamLogLine;
 import cn.sliew.carp.framework.log.realtime.storage.StreamLogLines;
+import cn.sliew.carp.framework.log.realtime.util.StreamLogUtil;
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.google.common.collect.ImmutableMap;
 import lombok.RequiredArgsConstructor;
@@ -99,10 +99,8 @@ public class RedisStreamLogLines implements StreamLogLines {
     }
 
     private void writeLine(OutputStream outputStream, StreamLogLine line) throws IOException {
-        String lineStr = String.format("%s %s %s\n",
-                DateUtil.format(Date.from(line.getTimestamp()), DatePattern.ISO8601_PATTERN),
-                line.getLevel(),
-                line.getMessage());
+        String lineStr = StreamLogUtil.format(line);
         outputStream.write(lineStr.getBytes(StandardCharsets.UTF_8));
+        outputStream.write('\n');
     }
 }

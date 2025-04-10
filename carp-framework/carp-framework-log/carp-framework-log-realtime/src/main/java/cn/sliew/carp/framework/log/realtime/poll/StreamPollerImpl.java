@@ -59,6 +59,7 @@ public class StreamPollerImpl implements StreamPoller {
     public <T> List<T> poll(int limit, Duration timeout) {
         if (!isRunning()) {
             pollFuture = taskExecutor.submitCompletable(pollTask);
+            running.compareAndSet(false, true);
         }
 
         if (pollFuture.isCompletedExceptionally()) {

@@ -25,7 +25,6 @@ import org.slf4j.event.Level;
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MessageFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.log.LogFormatUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -74,7 +73,7 @@ public class StreamLogServiceImpl implements StreamLogService {
         logLines.log(streamKey,
                 StreamLogLine.builder()
                         .level(level)
-                        .message(LogFormatUtils.formatValue(formattingTuple.getMessage(), false))
+                        .message(formattingTuple.getMessage())
                         .timestamp(Instant.now())
                         .build()
         );

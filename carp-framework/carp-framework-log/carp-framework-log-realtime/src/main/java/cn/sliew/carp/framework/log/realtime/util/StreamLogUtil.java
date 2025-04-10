@@ -15,24 +15,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.log.realtime.service.dto;
+package cn.sliew.carp.framework.log.realtime.util;
 
 import cn.hutool.core.date.DatePattern;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.extern.jackson.Jacksonized;
-import org.slf4j.event.Level;
+import cn.hutool.core.date.DateUtil;
+import cn.sliew.carp.framework.log.realtime.service.dto.StreamLogLine;
 
-import java.time.Instant;
+import java.util.Date;
 
-@Getter
-@Builder
-@Jacksonized
-public class StreamLogLine {
+public enum StreamLogUtil {
+    ;
 
-    private Level level;
-    private String message;
-    @JsonFormat(pattern = DatePattern.ISO8601_PATTERN, timezone = "GMT+8")
-    private Instant timestamp;
+    public static String format(StreamLogLine line) {
+        return String.format("%s %s : %s",
+                DateUtil.format(Date.from(line.getTimestamp()), DatePattern.ISO8601_PATTERN),
+                line.getLevel(),
+                line.getMessage());
+    }
 }

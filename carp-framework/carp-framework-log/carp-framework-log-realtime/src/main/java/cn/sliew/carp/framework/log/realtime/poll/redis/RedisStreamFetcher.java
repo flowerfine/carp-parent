@@ -70,12 +70,17 @@ public class RedisStreamFetcher<T> {
                     }
                 }
             }
-        } while (true);
+        } while (isStreamExists());
+        return null;
     }
 
     public void close() {
         if (!closed) {
             closed = true;
         }
+    }
+
+    private boolean isStreamExists() {
+        return redisTemplate.hasKey(streamKey);
     }
 }

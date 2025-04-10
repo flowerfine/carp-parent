@@ -34,7 +34,9 @@ public class RedissionConfig implements RedissonAutoConfigurationCustomizer {
     @Override
     public void customize(Config config) {
         SingleServerConfig singleServerConfig = config.useSingleServer();
-        singleServerConfig.setAddress(NetUtil.replaceLocalhost(singleServerConfig.getAddress()));
+        singleServerConfig.setAddress(NetUtil.replaceLocalhost(singleServerConfig.getAddress()))
+                .setSubscriptionTimeout((int) Duration.ofSeconds(15L).toMillis())
+                .setSubscriptionsPerConnection(10);
         config.setLockWatchdogTimeout(Duration.ofSeconds(10L).toMillis());
     }
 }
