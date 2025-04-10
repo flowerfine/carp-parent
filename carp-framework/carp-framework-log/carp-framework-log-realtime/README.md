@@ -1,8 +1,12 @@
 # Log Framework Realtime
 
-实时日志
+实时日志。提供功能如下：
 
-实现思路：
+* 统一数据 poll 逻辑。
+  * poll 数据缓存在本地，等待推送给前端。参考 flink 实现：[CollectResultIterator](https://github.com/apache/flink/blob/master/flink-runtime/src/main/java/org/apache/flink/streaming/api/operators/collect/CollectResultIterator.java)、[CollectResultFetcher](https://github.com/apache/flink/blob/master/flink-runtime/src/main/java/org/apache/flink/streaming/api/operators/collect/CollectResultFetcher.java)
+  * 这里的 poll 和 poll 任务队列的数据处理还存在一定区别。poll 任务队列数据需支持重试、处理完成需确认数据被正确消费。
+
+## 实现思路
 
 * 服务端存储日志
   * 消息队列或 Redis。日志输出任务将日志写入消息队列或 Redis 中，服务端甚至客户端消费日志，实时展示日志。消息队列中消息无法主动查询、只能被动消费，消息队列或 Redis 也无法长时间存储日志。如需在任务结束后继续查看日志数据，需增加日志归档功能，将消息队列或 Redis 中日志数据存储到文件系统中供日后查询。参考：[sreworks#StreamLogServiceImpl](https://github.com/alibaba/SREWorks/blob/main/paas/appmanager/tesla-appmanager-common-service/src/main/java/com/alibaba/tesla/appmanager/common/service/impl/StreamLogServiceImpl.java#L48)
