@@ -24,15 +24,12 @@ import cn.sliew.carp.framework.pf4j.core.remote.RemotePluginsProvider;
 import cn.sliew.carp.framework.pf4j.core.remote.extension.RemoteExtensionPointDefinition;
 import cn.sliew.milky.common.util.JacksonUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -50,16 +47,6 @@ public class RemotePluginsConfiguration {
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = JacksonUtil.getMapper().copy();
         return mapper;
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(OkHttpClient.class)
-    public OkHttpClient okHttpClient(@Autowired(required = false) List<Interceptor> interceptors) {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        if (!CollectionUtils.isEmpty(interceptors)) {
-            interceptors.forEach(builder::addInterceptor);
-        }
-        return builder.build();
     }
 
     @Bean
