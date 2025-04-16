@@ -32,6 +32,7 @@
     <modules>
         <module>carp-framework-biz</module>
         <module>carp-framework-common</module>
+        <module>carp-framework-crud</module>
         <module>carp-framework-dag</module>
         <module>carp-framework-exception</module>
         <module>carp-framework-feign</module>

@@ -15,31 +15,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.common.convert;
+package cn.sliew.carp.framework.crud.service;
 
-import cn.sliew.milky.common.util.JacksonUtil;
-import com.fasterxml.jackson.databind.JsonNode;
-import org.mapstruct.Mapper;
-import org.mapstruct.Named;
+import cn.sliew.carp.framework.common.model.PageParam;
+import cn.sliew.carp.framework.common.model.PageResult;
 
-import java.util.Objects;
+import java.util.Collection;
+import java.util.List;
 
-@Mapper
-public interface ConvertMethodHelper {
+public interface CrudService<DTO, PAGEPARAM extends PageParam, ADDPARAM, UPDATEPARAM> {
 
-    @Named("toJsonNode")
-    default JsonNode toJsonNode(Object object) {
-        if (Objects.nonNull(object)) {
-            return JacksonUtil.toJsonNode(object);
-        }
-        return null;
-    }
+    PageResult<DTO> page(PAGEPARAM param);
 
-    @Named("toJsonString")
-    default String toJsonString(Object object) {
-        if (Objects.nonNull(object)) {
-            return JacksonUtil.toJsonString(object);
-        }
-        return null;
-    }
+    List<DTO> list(PAGEPARAM param);
+
+    DTO get(Long id);
+
+    boolean add(ADDPARAM param);
+
+    boolean update(UPDATEPARAM param);
+
+    boolean delete(Long id);
+
+    boolean deleteBatch(Collection<Long> ids);
 }
