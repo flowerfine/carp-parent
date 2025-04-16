@@ -17,15 +17,19 @@
  */
 package cn.sliew.carp.framework.common.convert;
 
-import java.util.List;
+import cn.sliew.milky.common.util.JacksonUtil;
+import com.fasterxml.jackson.databind.JsonNode;
+import org.mapstruct.Named;
 
-public interface BaseConvert<ENTITY, DTO> {
+public interface ConvertMethodHelper {
 
-    ENTITY toDo(DTO dto);
+    @Named("toJsonNode")
+    default JsonNode toJsonNode(Object object) {
+        return JacksonUtil.toJsonNode(object);
+    }
 
-    DTO toDto(ENTITY entity);
-
-    List<ENTITY> toDo(List<DTO> dtoList);
-
-    List<DTO> toDto(List<ENTITY> entityList);
+    @Named("toJsonString")
+    default String toJsonString(Object object) {
+        return JacksonUtil.toJsonString(object);
+    }
 }
