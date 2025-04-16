@@ -30,6 +30,9 @@ public interface ConvertMethodHelper {
     @Named("toJsonNode")
     default JsonNode toJsonNode(Object object) {
         if (Objects.nonNull(object)) {
+            if (object instanceof String string) {
+                return JacksonUtil.toJsonNode(string);
+            }
             return JacksonUtil.toJsonNode(object);
         }
         return null;
