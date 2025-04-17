@@ -76,12 +76,13 @@ carp
 │           └── config.sh
 ├── carp-modules
 │   └── carp-module-plugin
-│       ├── carp-module-plugin-core
-│       └── carp-module-plugin-test-api
+│       └── carp-module-plugin-core
 ├── carp-plugins
 │   └── carp-plugin-test
-│       ├── carp-plugin-test-1
-│       └── carp-plugin-test-2
+│       ├── carp-plugin-test-api
+│       └── carp-plugin-test-plugins
+│       	├── carp-plugin-test-1
+│       	└── carp-plugin-test-2
 ├── carp-server
 ├── plugins
 │   ├── test-plugin-1
