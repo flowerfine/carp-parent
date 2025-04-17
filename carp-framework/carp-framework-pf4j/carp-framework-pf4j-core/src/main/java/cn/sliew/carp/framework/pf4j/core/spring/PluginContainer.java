@@ -41,6 +41,9 @@ public class PluginContainer extends Plugin {
      */
     @Getter
     private final Plugin actual;
+    /**
+     * plugin 会 start、stop、delete 等，kork 并没有联动调用 pluginContext 相关操作。
+     */
     final GenericApplicationContext pluginContext;
 
     public PluginContainer(
@@ -75,15 +78,18 @@ public class PluginContainer extends Plugin {
     @Override
     public void start() {
         actual.start();
+//        pluginContext.start();
     }
 
     @Override
     public void stop() {
         actual.stop();
+//        pluginContext.stop();
     }
 
     @Override
     public void delete() {
         actual.delete();
+//        ApplicationContextGraph.pluginContexts.remove(getWrapper().getPluginId());
     }
 }

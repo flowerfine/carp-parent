@@ -58,6 +58,39 @@ kork 基于 pf4j 开发，着重增强了开发体验和使用体验。
 
 kork 提供了 `PluginRef` 功能，用户可定义 [test.plugin-ref](https://github.com/spinnaker/kork/blob/master/kork-plugins/src/test/resources/test.plugin-ref) 文件，指定插件 [testplugin/plugin.properties](https://github.com/spinnaker/kork/blob/master/kork-plugins/src/test/resources/testplugin/plugin.properties) 位置。应用只需提供 `.plugin-ref` 和 `.properties` 文件，无需重新打包插件 -> 将打包插件放入插件目录，可直接启动应用，测试插件。
 
+如 pf4j 默认的插件目录是 `plugins`。在打包项目的时候可以通过 `maven-assembly-plugin` 插件生成 `plugins` 目录，并将项目中的插件实现打包放入 `plugins` 目录。最后生成的 `xxx-bin.tar.gz` 包解压后就可以看到 `plugins` 目录和项目内置的插件。用户也随时可以像 `plugins` 目录新增新的插件实现，重启使插件生效。
+
+开发阶段，通过 `PluginRef` 功能，用户可以项目代码中创建一个 `plugins` 目录，内部放入 `test.plugin-ref` 文件，并在 `plugins` 目录下创建 `testplugin/plugin.properties` 文件。之后无需经过打包、启动项目、测试插件的流程，直接启动 IDEA，就可以看到项目成功加载插件。
+
+示例项目结构如下，开发阶段 `carp-plugin-test-1` 和 `carp-plugin-test-2` 只需在项目根目录创建 `plugins`，添加 `.plugin-ref` 文件。但是需将 `carp-plugin-test-1` 和 `carp-plugin-test-2` 放入项目启动模块的 `pom.xml` 中，release 阶段需移除，正式环境下通过插件方式加载。
+
+```
+├── carp-dist
+│   ├── pom.xml
+│   └── src
+│       ├── assembly
+│       │   └── carp-dist.xml
+│       └── bin
+│           ├── carp.sh
+│           └── config.sh
+├── carp-modules
+│   └── carp-module-plugin
+│       ├── carp-module-plugin-core
+│       └── carp-module-plugin-test-api
+├── carp-plugins
+│   ├── carp-plugin-test
+│   │   ├── carp-plugin-test-1
+│   │   └── carp-plugin-test-2
+│   └── pom.xml
+├── plugins
+│   ├── test-plugin-1
+│   │   └── plugin.properties
+│   └── test-plugin-1.plugin-ref
+└── pom.xml
+```
+
+release 阶段，依然通过 `maven-assembly-plugin` 生成 `plugins` 目录。
+
 #### Unsafe
 
 kork 提供了 `unsafe` 概念。在 pf4j 和 kork 中均对 class 隔离做了支持，避免 class 冲突。
