@@ -75,8 +75,8 @@ carp
 │           ├── carp.sh
 │           └── config.sh
 ├── carp-modules
+│   ├── ...
 │   └── carp-module-plugin
-│       └── carp-module-plugin-core
 ├── carp-plugins
 │   └── carp-plugin-test
 │       ├── carp-plugin-test-api
