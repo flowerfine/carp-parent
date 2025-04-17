@@ -65,6 +65,7 @@ kork 提供了 `PluginRef` 功能，用户可定义 [test.plugin-ref](https://gi
 示例项目结构如下，开发阶段 `carp-plugin-test-1` 和 `carp-plugin-test-2` 只需在项目根目录创建 `plugins`，添加 `.plugin-ref` 文件。但是需将 `carp-plugin-test-1` 和 `carp-plugin-test-2` 放入项目启动模块的 `pom.xml` 中，release 阶段需移除，正式环境下通过插件方式加载。
 
 ```
+carp
 ├── carp-dist
 │   ├── pom.xml
 │   └── src
@@ -78,10 +79,10 @@ kork 提供了 `PluginRef` 功能，用户可定义 [test.plugin-ref](https://gi
 │       ├── carp-module-plugin-core
 │       └── carp-module-plugin-test-api
 ├── carp-plugins
-│   ├── carp-plugin-test
-│   │   ├── carp-plugin-test-1
-│   │   └── carp-plugin-test-2
-│   └── pom.xml
+│   └── carp-plugin-test
+│       ├── carp-plugin-test-1
+│       └── carp-plugin-test-2
+├── carp-server
 ├── plugins
 │   ├── test-plugin-1
 │   │   └── plugin.properties
