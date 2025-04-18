@@ -62,6 +62,7 @@ framework 提供常见功能模块以满足快速开发需求
   * 权限审计日志。账号（开通、关闭、注销），权限（授权、取消授权），鉴权（认证成功、失败），登录登出等
   * 实时日志。调度系统实时展示运行日志，Flink 实时数据查询等
 * [carp-framework-dag](./carp-framework/carp-framework-dag)
+* [carp-framework-workflow](./carp-framework/carp-framework-workflow)。workflow 如 [temporal](https://github.com/temporalio/temporal) 集成
 * [carp-framework-license](./carp-framework/carp-framework-license)
 * [carp-framework-pekko](./carp-framework/carp-framework-pekko)
 * [carp-framework-pf4j](./carp-framework/carp-framework-pf4j)。基于 [pf4j](https://github.com/pf4j/pf4j) 和 [kork](https://github.com/spinnaker/kork) 的插件模块
