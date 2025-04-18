@@ -251,7 +251,8 @@ kork 的插件框架也经过迭代，有过变更。在 kork v2 版本插件中
 将 `SpinnakerExtensionPoint` 和 `@PluginComponent`注册为 spring bean 后，Extension 也可以使用 spring 的依赖注入功能：
 
 * 插件可自由注入插件实现中定义的 bean
-* 插件可自由注入 core 实现的 bean。需在 `{service}-api` 中定义接口，方便插件定义注入
+* 插件可自由注入 core 实现的 bean。需在 `{service}-api` 中定义接口，方便插件定义注入，并提供对应的 bean。
+* 插件只扫描了 `SpinnakerExtensionPoint` 和 `@PluginComponent`，对于 spring 常见的 `@Component` 和 `@Configuration` 等没有扫描，插件开发时无法像正常 springboot 项目享受所有便利
 
 #### Rmote vs. JVM
 

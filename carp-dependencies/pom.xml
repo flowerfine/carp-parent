@@ -96,6 +96,7 @@
         <shedlock.version>6.3.0</shedlock.version>
         <socketio.version>2.0.13</socketio.version>
         <jedis.version>5.2.0</jedis.version>
+        <temporal.version>1.25.2</temporal.version>
     </properties>
 
     <dependencyManagement>
@@ -271,6 +272,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>carp-framework-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-framework-workflow-temporal</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -680,6 +686,12 @@
                 <groupId>redis.clients</groupId>
                 <artifactId>jedis</artifactId>
                 <version>${jedis.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.temporal</groupId>
+                <artifactId>temporal-spring-boot-starter</artifactId>
+                <version>${temporal.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
