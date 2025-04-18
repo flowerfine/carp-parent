@@ -252,7 +252,7 @@ kork 的插件框架也经过迭代，有过变更。在 kork v2 版本插件中
 
 * 插件可自由注入插件实现中定义的 bean
 * 插件可自由注入 core 实现的 bean。需在 `{service}-api` 中定义接口，方便插件定义注入，并提供对应的 bean。
-* 插件只扫描了 `SpinnakerExtensionPoint` 和 `@PluginComponent`，对于 spring 常见的 `@Component` 和 `@Configuration` 等没有扫描，插件开发时无法像正常 springboot 项目享受所有便利
+* 插件只扫描了 `SpinnakerExtensionPoint` 和 `@PluginComponent`，对于 spring 常见的 `@Component` 和 `@Configuration` 等没有扫描，插件开发时无法像正常 springboot 项目享受所有便利。`@PluginComponent` 无法像 spring 那样，定义接口，在实现类上添加 `@Component` 注解，注入时根据接口注入。
 
 #### Rmote vs. JVM
 
