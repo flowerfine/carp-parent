@@ -83,7 +83,7 @@ public enum TemporalUtil {
 
     public static WorkflowClient getWorkflowClient(String host, String namespace) {
         try {
-            return workflowClientCache.get(namespace);
+            return workflowClientCache.get(host + "-" + namespace);
         } catch (ExecutionException e) {
             log.error("Get Temporal WorkflowClient error, host: {}, namespace: {}",
                     host, namespace);
@@ -94,7 +94,7 @@ public enum TemporalUtil {
 
     public static ScheduleClient getScheduleClient(String host, String namespace) {
         try {
-            return scheduleClientCache.get(namespace);
+            return scheduleClientCache.get(host + "-" + namespace);
         } catch (ExecutionException e) {
             log.error("Get Temporal ScheduleClient error, host: {}, namespace: {}",
                     host, namespace);
