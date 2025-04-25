@@ -91,6 +91,18 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build-info</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
                 <executions>
@@ -135,6 +147,37 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>io.github.git-commit-id</groupId>
+                <artifactId>git-commit-id-maven-plugin</artifactId>
+                <version>9.0.1</version>
+                <executions>
+                    <execution>
+                        <id>get-the-git-infos</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+                    <dateFormat>yyyy-MM-dd HH:mm:ss</dateFormat>
+                    <prefix>git</prefix>
+                    <!-- 生成git属性文件，默认false：不生成 -->
+                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                    <!-- 生成git属性文件路径及文件名，默认${project.build.outputDirectory}/git.properties -->
+                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+                    <gitDescribe>
+                        <skip>false</skip>
+                        <always>false</always>
+                        <abbrev>7</abbrev>
+                        <dirty>-dirty</dirty>
+                        <forceLongFormat>false</forceLongFormat>
+                    </gitDescribe>
+                </configuration>
             </plugin>
         </plugins>
     </build>
