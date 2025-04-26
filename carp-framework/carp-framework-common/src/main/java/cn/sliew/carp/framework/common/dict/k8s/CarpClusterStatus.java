@@ -21,9 +21,13 @@ import cn.sliew.carp.framework.common.dict.DictInstance;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 
+@Getter
+@RequiredArgsConstructor
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum CarpClusterStatus implements DictInstance {
 
@@ -39,21 +43,6 @@ public enum CarpClusterStatus implements DictInstance {
     }
 
     @EnumValue
-    private String value;
-    private String label;
-
-    CarpClusterStatus(String value, String label) {
-        this.value = value;
-        this.label = label;
-    }
-
-    @Override
-    public String getValue() {
-        return value;
-    }
-
-    @Override
-    public String getLabel() {
-        return label;
-    }
+    private final String value;
+    private final String label;
 }

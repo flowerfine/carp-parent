@@ -29,16 +29,18 @@ import java.util.Arrays;
 @Getter
 @RequiredArgsConstructor
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum CarpClusterType implements DictInstance {
+public enum CarpK8sImagePullPolicy implements DictInstance {
 
-    LOCAL("0", "local"),
+    IF_NOT_PRESENT("IfNotPresent", "IfNotPresent"),
+    ALWAYS("Always", "Always"),
+    NEVER("Never", "Never"),
     ;
 
     @JsonCreator
-    public static CarpClusterType of(String value) {
+    public static CarpK8sImagePullPolicy of(String value) {
         return Arrays.stream(values())
                 .filter(instance -> instance.getValue().equals(value))
-                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(CarpClusterType.class, value));
+                .findAny().orElseThrow(() -> new EnumConstantNotPresentException(CarpK8sImagePullPolicy.class, value));
     }
 
     @EnumValue
