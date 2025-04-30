@@ -28,7 +28,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * forked from <a href="https://github.com/apache/flink/blob/master/flink-connectors/flink-hadoop-compatibility/src/main/java/org/apache/flink/api/java/hadoop/mapred/utils/HadoopUtils.java">HadoopUtils</>
+ * forked from https://github.com/apache/flink/blob/master/flink-connectors/flink-hadoop-compatibility/src/main/java/org/apache/flink/api/java/hadoop/mapred/utils/HadoopUtils.java
  */
 @Slf4j
 public enum HadoopUtil {
