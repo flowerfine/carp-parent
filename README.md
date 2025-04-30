@@ -46,6 +46,7 @@ framework 提供常见功能模块以满足快速开发需求
   * [carp-framework-mongo](./carp-framework/carp-framework-mongo)
   * [carp-framework-mybatis](./carp-framework/carp-framework-mybatis)
   * [carp-framework-redis](./carp-framework/carp-framework-redis)
+  * [carp-framework-storage](./carp-framework/carp-framework-storage)。文件存储
 * 微服务
   * [carp-framework-id](./carp-framework/carp-framework-id)。唯一id
   * [carp-framework-lock](./carp-framework/carp-framework-lock)。提供基于 [ShedLock](https://github.com/lukas-krecan/ShedLock) 和 [redisson](https://github.com/redisson/redisson) 锁实现
