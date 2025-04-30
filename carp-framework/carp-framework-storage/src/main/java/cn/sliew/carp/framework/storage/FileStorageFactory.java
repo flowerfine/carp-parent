@@ -15,28 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.storage.config;
+package cn.sliew.carp.framework.storage;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+public interface FileStorageFactory {
 
-@Data
-@Valid
-@ConfigurationProperties(prefix = StorageConfigProperties.DEFAULT_STORAGE_CONFIG_PREFIX)
-public class StorageConfigProperties {
-
-    public static final String DEFAULT_STORAGE_CONFIG_PREFIX = "cn.sliew.carp.framework.storage";
-
-    @NotBlank
-    private String type = "local";
-    @NotBlank
-    private String env = "default";
-    @NotBlank
-    private String namespace = "default";
-    private S3ConfigProperties s3;
-    private OSSConfigProperties oss;
-    private HdfsConfigProperties hdfs;
-    private LocalConfigProperties local;
+    FileStorage getFileStorage();
 }
