@@ -25,6 +25,7 @@ import org.apache.hadoop.io.IOUtils;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -58,7 +59,7 @@ public class FileSystemStorage implements FileStorage {
         FileStatus[] fileStatuses = fs.listStatus(toFileSystemPath(path));
         return Arrays.stream(fileStatuses)
                 .map(this::toFileInfo)
-                .sorted(Comparator.comparing(FileInfo::getFilename))
+                .sorted(Comparator.comparing(FileInfo::getName))
                 .collect(Collectors.toList());
     }
 
@@ -73,10 +74,11 @@ public class FileSystemStorage implements FileStorage {
 
     @Override
     public Optional<byte[]> getData(String path) throws IOException {
-        if (exists(path) == false) {
+        Optional<InputStream> stream = getStream(path);
+        if (!stream.isPresent()) {
             return Optional.empty();
         }
-        try (FSDataInputStream inputStream = fs.open(toFileSystemPath(path));
+        try (InputStream inputStream = stream.get();
              ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             IOUtils.copyBytes(inputStream, outputStream, 1024);
             return Optional.of(outputStream.toByteArray());
@@ -87,11 +89,11 @@ public class FileSystemStorage implements FileStorage {
 
     @Override
     public Optional<byte[]> getData(URI uri) throws IOException {
-        Path path = new Path(uri);
-        if (fs.exists(path)) {
+        Optional<InputStream> stream = getStream(uri);
+        if (!stream.isPresent()) {
             return Optional.empty();
         }
-        try (FSDataInputStream inputStream = fs.open(path);
+        try (InputStream inputStream = stream.get();
              ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             IOUtils.copyBytes(inputStream, outputStream, 1024);
             return Optional.of(outputStream.toByteArray());
@@ -101,7 +103,33 @@ public class FileSystemStorage implements FileStorage {
     }
 
     @Override
+    public Optional<InputStream> getStream(String path) throws IOException {
+        if (exists(path) == false) {
+            return Optional.empty();
+        }
+        return Optional.of(fs.open(toFileSystemPath(path)));
+    }
+
+    @Override
+    public Optional<InputStream> getStream(URI uri) throws IOException {
+        Path path = new Path(uri);
+        if (fs.exists(path)) {
+            return Optional.empty();
+        }
+        return Optional.of(fs.open(path));
+    }
+
+    @Override
     public FileInfo putData(String path, byte[] data) throws IOException {
+        try (ByteArrayInputStream inputStream = new ByteArrayInputStream(data)) {
+            return putInputStream(path, inputStream);
+        } catch (IOException e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public FileInfo putInputStream(String path, InputStream inputStream) throws IOException {
         if (exists(path)) {
             throw new FileAlreadyExistsException(path);
         }
@@ -109,9 +137,10 @@ public class FileSystemStorage implements FileStorage {
         if (fs.exists(filePath.getParent()) == false) {
             fs.mkdirs(filePath.getParent());
         }
-        try (ByteArrayInputStream inputStream = new ByteArrayInputStream(data);
-             FSDataOutputStream outputStream = fs.create(filePath, false)) {
+        try (FSDataOutputStream outputStream = fs.create(filePath, false)) {
             IOUtils.copyBytes(inputStream, outputStream, 1024);
+        } catch (IOException e) {
+            throw e;
         }
         return get(path).orElseThrow();
     }
@@ -131,15 +160,26 @@ public class FileSystemStorage implements FileStorage {
     }
 
     private Path toFileSystemPath(String path) {
-        return new Path(fs.getWorkingDirectory(), path);
+        return new Path(fs.getWorkingDirectory(), formatPath(path));
     }
 
     private FileInfo toFileInfo(FileStatus fileStatus) {
         FileInfo fileInfo = new FileInfo();
         fileInfo.setUri(fileStatus.getPath().toUri());
         fileInfo.setPath(fileStatus.getPath().toString());
-        fileInfo.setFilename(fileStatus.getPath().getName());
+        fileInfo.setName(fileStatus.getPath().getName());
+        fileInfo.setDir(fileInfo.isDir());
         fileInfo.setUpdateTime(new Date(fileStatus.getModificationTime()));
         return fileInfo;
+    }
+
+    private String formatPath(String path) {
+        if (StringUtils.isEmpty(path)) {
+            return path;
+        }
+        if (path.charAt(0) != '/') {
+            return '/' + path;
+        }
+        return path;
     }
 }

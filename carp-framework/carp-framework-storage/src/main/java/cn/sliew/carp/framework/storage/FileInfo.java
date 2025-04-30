@@ -27,7 +27,7 @@ public class FileInfo {
 
     private URI uri;
     private String path;
-    private String filename;
-    private byte[] content;
+    private String name;
+    private boolean dir;
     private Date updateTime;
 }

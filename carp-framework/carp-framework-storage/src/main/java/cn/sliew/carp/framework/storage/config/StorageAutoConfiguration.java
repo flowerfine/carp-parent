@@ -24,7 +24,6 @@ import cn.sliew.carp.framework.storage.FileSystemStorageProvider;
 import lombok.RequiredArgsConstructor;
 import org.apache.hadoop.fs.FileSystem;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -33,14 +32,12 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 @Configuration
-@ConditionalOnBean(StorageConfigProperties.class)
 @EnableConfigurationProperties(StorageConfigProperties.class)
 @AutoConfigureAfter(FileSystemAutoConfiguration.class)
 @RequiredArgsConstructor
 public class StorageAutoConfiguration {
 
     private final StorageConfigProperties properties;
-    private final List<FileStorageProvider> providers;
 
     @Bean
     @ConditionalOnMissingBean(FileSystemStorageProvider.class)
@@ -49,7 +46,7 @@ public class StorageAutoConfiguration {
     }
 
     @Bean
-    public FileStorageFactory fileStorageFactory() {
+    public FileStorageFactory fileStorageFactory(List<FileStorageProvider> providers) {
         return new DefaultFileStorageFactory(properties, providers);
     }
 }

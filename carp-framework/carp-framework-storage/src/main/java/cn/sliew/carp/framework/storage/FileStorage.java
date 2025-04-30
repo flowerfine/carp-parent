@@ -18,6 +18,7 @@
 package cn.sliew.carp.framework.storage;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +39,13 @@ public interface FileStorage {
 
     Optional<byte[]> getData(URI uri) throws IOException;
 
+    Optional<InputStream> getStream(String path) throws IOException;
+
+    Optional<InputStream> getStream(URI uri) throws IOException;
+
     FileInfo putData(String path, byte[] data) throws IOException;
+
+    FileInfo putInputStream(String path, InputStream inputStream) throws IOException;
 
     boolean delete(String path) throws IOException;
 

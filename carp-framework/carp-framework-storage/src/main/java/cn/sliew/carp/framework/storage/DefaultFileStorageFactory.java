@@ -21,11 +21,9 @@ import cn.sliew.carp.framework.storage.config.StorageConfigProperties;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
 @RequiredArgsConstructor
 public class DefaultFileStorageFactory implements FileStorageFactory {
 
