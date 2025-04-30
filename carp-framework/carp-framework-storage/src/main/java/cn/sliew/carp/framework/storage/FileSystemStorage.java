@@ -17,7 +17,6 @@
  */
 package cn.sliew.carp.framework.storage;
 
-import cn.sliew.carp.framework.storage.config.StorageConfigProperties;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hadoop.fs.*;
