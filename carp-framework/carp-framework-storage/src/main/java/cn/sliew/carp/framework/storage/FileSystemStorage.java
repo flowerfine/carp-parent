@@ -168,7 +168,7 @@ public class FileSystemStorage implements FileStorage {
         fileInfo.setUri(fileStatus.getPath().toUri());
         fileInfo.setPath(fileStatus.getPath().toString());
         fileInfo.setName(fileStatus.getPath().getName());
-        fileInfo.setDir(fileInfo.isDir());
+        fileInfo.setDir(fileStatus.isDirectory());
         fileInfo.setUpdateTime(new Date(fileStatus.getModificationTime()));
         return fileInfo;
     }
