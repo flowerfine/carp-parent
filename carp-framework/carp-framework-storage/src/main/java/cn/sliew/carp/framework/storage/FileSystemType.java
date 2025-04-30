@@ -17,30 +17,33 @@
  */
 package cn.sliew.carp.framework.storage;
 
-import java.io.IOException;
-import java.net.URI;
-import java.util.List;
-import java.util.Optional;
+import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.Getter;
 
-public interface FileStorage {
+@Getter
+public enum FileSystemType {
 
-    boolean support(URI uri);
+    LOCAL("local", "file://"),
+    HDFS("hdfs", "hdfs://"),
+    S3("s3", "s3a://"),
+    OSS("oss", "oss://"),
+    ;
 
-    URI getUri(String path) throws IOException;
+    @JsonValue
+    private String type;
+    private String schema;
 
-    boolean exists(String path) throws IOException;
+    FileSystemType(String type, String schema) {
+        this.type = type;
+        this.schema = schema;
+    }
 
-    List<FileInfo> list(String path) throws IOException;
-
-    Optional<FileInfo> get(String path) throws IOException;
-
-    Optional<byte[]> getData(String path) throws IOException;
-
-    Optional<byte[]> getData(URI uri) throws IOException;
-
-    FileInfo putData(String path, byte[] data) throws IOException;
-
-    boolean delete(String path) throws IOException;
-
-    boolean delete(URI uri) throws IOException;
+    public static FileSystemType of(String type) {
+        for (FileSystemType fileSystemType : values()) {
+            if (fileSystemType.type.equals(type)) {
+                return fileSystemType;
+            }
+        }
+        throw new IllegalStateException("unknown file-system type for " + type);
+    }
 }

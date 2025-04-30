@@ -32,6 +32,8 @@ public class HdfsConfigProperties {
     public static final String HADOOP_HOME_ENV = "HADOOP_HOME";
     public static final String HADOOP_CONF_DIR_ENV = "HADOOP_CONF_DIR";
 
+    private String defaultFS;
+
     private String coreSiteXml;
     private String coreSiteXmlPath;
 

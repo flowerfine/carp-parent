@@ -19,20 +19,15 @@ package cn.sliew.carp.framework.storage;
 
 import lombok.Data;
 
+import java.net.URI;
 import java.util.Date;
 
 @Data
 public class FileInfo {
 
-    private String uri;
+    private URI uri;
     private String path;
-
     private String filename;
-    private String originalFilename;
-
     private byte[] content;
-
-    private Date createTime;
-
-    private String storageType;
+    private Date updateTime;
 }

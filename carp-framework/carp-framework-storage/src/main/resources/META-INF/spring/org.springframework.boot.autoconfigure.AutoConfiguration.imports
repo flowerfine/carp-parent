@@ -1,1 +1,2 @@
 cn.sliew.carp.framework.storage.config.StorageAutoConfiguration
+cn.sliew.carp.framework.storage.config.FileSystemAutoConfiguration

@@ -15,20 +15,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.storage.config;
+package cn.sliew.carp.framework.storage;
 
-import lombok.extern.slf4j.Slf4j;
+import cn.sliew.carp.framework.storage.config.StorageConfigProperties;
+import lombok.RequiredArgsConstructor;
+import org.apache.hadoop.fs.FileSystem;
 
-@Slf4j
-public class HdfsFileSystemFactory {
+@RequiredArgsConstructor
+public class FileSystemStorageProvider implements FileStorageProvider {
 
-    static final String CORE_SITE_XML = "core-site.xml";
-    static final String HDFS_SITE_XML = "hdfs-site.xml";
+    private final StorageConfigProperties properties;
+    private final FileSystem fileSystem;
 
-    private static final String HDFS_PROVIDER = "hdfs";
+    @Override
+    public String getType() {
+        return properties.getType();
+    }
 
-    static final String KERBEROS_CONF = "krb5.conf";
-    static final String KERBEROS_KEYTAB = "keytab";
-    static final String KERBEROS_KEYTAB_PRINCIPAL = "keytab-principal";
-    private static final String SYS_PROP_JAVA_SECURITY_KRB5_CONF = "java.security.krb5.conf";
+    @Override
+    public FileStorage create() {
+        return new FileSystemStorage(fileSystem);
+    }
 }
