@@ -41,7 +41,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Configuration
-public class WebMvcConfig implements WebMvcConfigurer {
+public class CarpWebMvcConfig implements WebMvcConfigurer {
 
     @Autowired
     private ObjectMapper mapper;

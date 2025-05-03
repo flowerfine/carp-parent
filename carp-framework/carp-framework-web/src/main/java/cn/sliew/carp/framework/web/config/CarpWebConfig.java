@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Configuration;
 import org.zalando.logbook.BodyFilter;
 
 @Configuration
-public class WebConfig {
+public class CarpWebConfig {
 
     @Bean
     public BodyFilter bodyFilter() {
