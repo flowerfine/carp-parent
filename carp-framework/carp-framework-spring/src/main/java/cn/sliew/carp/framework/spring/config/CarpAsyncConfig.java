@@ -31,7 +31,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.util.Collections;
 
 @Configuration
-public class AsyncConfig implements AsyncConfigurer {
+public class CarpAsyncConfig implements AsyncConfigurer {
 
     private static final String NAME = "carpApplicationEventTaskExecutor";
 
