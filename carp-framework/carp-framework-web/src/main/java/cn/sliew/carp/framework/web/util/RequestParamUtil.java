@@ -161,30 +161,35 @@ public class RequestParamUtil {
         return contextPath;
     }
 
-    public static HandlerMethod getHandlerMethod() {
-        RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
-        if (Objects.nonNull(requestAttributes)) {
-            if (requestAttributes instanceof ServletRequestAttributes) {
-                ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
-                HttpServletRequest httpServletRequest = servletRequestAttributes.getRequest();
-                Optional<Object> optional = Optional.ofNullable(httpServletRequest).map(object -> {
-                    try {
-                        RequestMappingInfoHandlerMapping handlerMapping = SpringUtil.getBean("requestMappingHandlerMapping", RequestMappingInfoHandlerMapping.class);
-                        return handlerMapping.getHandler(httpServletRequest);
-                    } catch (Exception e) {
-                        log.error(e.getMessage(), e);
-                        return null;
-                    }
-                }).map(chain -> chain.getHandler());
-                if (optional.isPresent()) {
-                    Object handler = optional.get();
-                    if (handler instanceof HandlerMethod) {
-                        return (HandlerMethod) handler;
+    public static Optional<HandlerMethod> getHandlerMethod() {
+        try {
+            RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
+            if (Objects.nonNull(requestAttributes)) {
+                if (requestAttributes instanceof ServletRequestAttributes) {
+                    ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
+                    HttpServletRequest httpServletRequest = servletRequestAttributes.getRequest();
+                    Optional<Object> optional = Optional.ofNullable(httpServletRequest).map(object -> {
+                        try {
+                            RequestMappingInfoHandlerMapping handlerMapping = SpringUtil.getBean("requestMappingHandlerMapping", RequestMappingInfoHandlerMapping.class);
+                            return handlerMapping.getHandler(httpServletRequest);
+                        } catch (Exception e) {
+                            log.error(e.getMessage(), e);
+                            return null;
+                        }
+                    }).map(chain -> chain.getHandler());
+                    if (optional.isPresent()) {
+                        Object handler = optional.get();
+                        if (handler instanceof HandlerMethod handlerMethod) {
+                            return Optional.of(handlerMethod);
+                        }
                     }
                 }
             }
+            return Optional.empty();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return Optional.empty();
         }
-        return null;
     }
 
     public static Set<LogEntity> findLogEntry(HandlerMethod handlerMethod) {

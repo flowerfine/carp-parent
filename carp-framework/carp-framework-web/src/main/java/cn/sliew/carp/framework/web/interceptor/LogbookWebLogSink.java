@@ -39,6 +39,7 @@ import org.zalando.logbook.*;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
@@ -63,10 +64,13 @@ public class LogbookWebLogSink implements Sink {
     }
 
     public void printLog(final Correlation correlation, final HttpRequest request, final HttpResponse response) throws IOException {
-        HandlerMethod handlerMethod = RequestParamUtil.getHandlerMethod();
-        if (Objects.isNull(handlerMethod)) {
+        Optional<HandlerMethod> optional = RequestParamUtil.getHandlerMethod();
+
+        if (optional.isEmpty()) {
             return;
         }
+
+        HandlerMethod handlerMethod = optional.get();
 
         LogRecord record = new LogRecord();
         Pair<String, String> pair = RequestParamUtil.findModuleAndDesc(handlerMethod);
