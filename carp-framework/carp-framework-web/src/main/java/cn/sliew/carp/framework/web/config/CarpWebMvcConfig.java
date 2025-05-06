@@ -17,6 +17,7 @@
  */
 package cn.sliew.carp.framework.web.config;
 
+import cn.sliew.carp.framework.common.security.SecurityConstants;
 import cn.sliew.carp.framework.web.converter.JacksonEnumConverter;
 import cn.sliew.carp.framework.web.interceptor.AsyncWebLogInterceptor;
 import cn.sliew.carp.framework.web.util.RequestParamUtil;
@@ -29,12 +30,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.CacheControl;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -108,6 +113,23 @@ public class CarpWebMvcConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("redirect:/ui/");
         registry.addViewController("/ui/").setViewName("forward:/ui/index.html");
+    }
+
+
+    /**
+     * fix When allowCredentials is true, allowedOrigins cannot contain the special value "*" since that cannot be set on the "Access-Control-Allow-Origin" response header.
+     * To allow credentials to a set of origins, list them explicitly or consider using "allowedOriginPatterns" instead
+     */
+    @Bean
+    public CorsFilter corsFilter() {
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOriginPattern("*");
+        config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "responseType", SecurityConstants.AUTHORIZATION_TOKEN_KEY));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 
 }
