@@ -35,6 +35,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping;
 import org.springframework.web.util.ContentCachingRequestWrapper;
+import org.springframework.web.util.ServletRequestPathUtils;
 import org.springframework.web.util.WebUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -165,12 +166,16 @@ public class RequestParamUtil {
         try {
             RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
             if (Objects.nonNull(requestAttributes)) {
-                if (requestAttributes instanceof ServletRequestAttributes) {
-                    ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
+                if (requestAttributes instanceof ServletRequestAttributes servletRequestAttributes) {
                     HttpServletRequest httpServletRequest = servletRequestAttributes.getRequest();
                     Optional<Object> optional = Optional.ofNullable(httpServletRequest).map(object -> {
                         try {
+                            if (!ServletRequestPathUtils.hasParsedRequestPath(httpServletRequest)) {
+                                ServletRequestPathUtils.parseAndCache(httpServletRequest);
+                            }
                             RequestMappingInfoHandlerMapping handlerMapping = SpringUtil.getBean("requestMappingHandlerMapping", RequestMappingInfoHandlerMapping.class);
+//                            Map<String, RequestMappingInfoHandlerMapping> handlerMappingMap = SpringUtil.getBeansOfType(RequestMappingInfoHandlerMapping.class);
+//                            RequestMappingInfoHandlerMapping handlerMapping = handlerMappingMap.get("requestMappingHandlerMapping");
                             return handlerMapping.getHandler(httpServletRequest);
                         } catch (Exception e) {
                             log.error(e.getMessage(), e);
