@@ -15,22 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.sliew.carp.framework.kubernetes.model;
+package cn.sliew.carp.framework.kubernetes.definition;
 
-import cn.sliew.carp.framework.common.dict.k8s.CarpK8sImagePullPolicy;
-import lombok.Builder;
-import lombok.Data;
-import lombok.With;
-import lombok.extern.jackson.Jacksonized;
+import java.util.UUID;
 
-@Data
-@With
-@Builder(toBuilder = true)
-@Jacksonized
-public class ContainerImage {
+public interface ResourceParameter {
 
-    private final CarpK8sImagePullPolicy imagePullPolicy;
-    private final String registry;
-    private final String repository;
-    private final String tag;
+    UUID getId();
+
+    String getName();
+
+    String getNamespace();
+
+    String getInternalNamespace();
 }
