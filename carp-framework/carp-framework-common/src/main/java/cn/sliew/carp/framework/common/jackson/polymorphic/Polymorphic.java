@@ -39,7 +39,7 @@ public interface Polymorphic<S> {
 
     @JsonIgnore
     default <T> T as(Class<T> klass) {
-        checkArgument(!klass.isInstance(this), () -> "Wrong type " + getType());
+        checkArgument(klass.isInstance(this), () -> "Wrong type " + getType());
         return klass.cast(this);
     }
 

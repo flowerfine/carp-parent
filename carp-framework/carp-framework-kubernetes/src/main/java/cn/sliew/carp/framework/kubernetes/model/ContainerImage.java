@@ -22,6 +22,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.With;
 import lombok.extern.jackson.Jacksonized;
+import org.apache.commons.lang3.StringUtils;
 
 @Data
 @With
@@ -33,4 +34,11 @@ public class ContainerImage {
     private final String registry;
     private final String repository;
     private final String tag;
+
+    public String getImage() {
+        if (StringUtils.isNotBlank(registry)) {
+            return String.format("%s/%s:%s", registry, repository, tag);
+        }
+        return String.format("%s:%s", repository, tag);
+    }
 }
