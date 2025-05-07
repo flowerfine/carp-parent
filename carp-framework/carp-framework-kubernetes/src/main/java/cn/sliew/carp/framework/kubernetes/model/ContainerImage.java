@@ -34,8 +34,12 @@ public class ContainerImage {
     private final String registry;
     private final String repository;
     private final String tag;
+    private final String image;
 
     public String getImage() {
+        if (StringUtils.isNotBlank(image)) {
+            return image;
+        }
         if (StringUtils.isNotBlank(registry)) {
             return String.format("%s/%s:%s", registry, repository, tag);
         }
