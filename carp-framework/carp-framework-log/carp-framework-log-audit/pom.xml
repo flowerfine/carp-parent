@@ -22,17 +22,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.sliew</groupId>
-        <artifactId>carp-framework</artifactId>
-        <version>${revision}</version>
+        <artifactId>carp-framework-log</artifactId>
+        <version>0.0.78</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>carp-framework-log</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>carp-framework-log-audit</artifactId>
 
-    <modules>
-        <module>carp-framework-log-audit</module>
-        <module>carp-framework-log-realtime</module>
-        <module>carp-framework-log-web</module>
-    </modules>
 
 </project>

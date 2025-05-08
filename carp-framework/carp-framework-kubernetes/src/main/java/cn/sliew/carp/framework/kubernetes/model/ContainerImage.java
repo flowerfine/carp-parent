@@ -41,8 +41,16 @@ public class ContainerImage {
             return image;
         }
         if (StringUtils.isNotBlank(registry)) {
-            return String.format("%s/%s:%s", registry, repository, tag);
+            if (StringUtils.startsWithIgnoreCase(tag, "sha256")) {
+                return String.format("%s/%s@%s", registry, repository, tag);
+            } else {
+                return String.format("%s/%s:%s", registry, repository, tag);
+            }
         }
-        return String.format("%s:%s", repository, tag);
+        if (StringUtils.startsWithIgnoreCase(tag, "sha256")) {
+            return String.format("%s@%s", repository, tag);
+        } else {
+            return String.format("%s:%s", repository, tag);
+        }
     }
 }
