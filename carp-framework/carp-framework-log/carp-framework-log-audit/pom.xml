@@ -23,10 +23,9 @@
     <parent>
         <groupId>cn.sliew</groupId>
         <artifactId>carp-framework-log</artifactId>
-        <version>0.0.78</version>
+        <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-log-audit</artifactId>
-
 
 </project>
