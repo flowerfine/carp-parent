@@ -189,7 +189,7 @@
 
     <profiles>
         <profile>
-            <id>oss-release</id>
+            <id>build-git</id>
             <build>
                 <plugins>
                     <plugin>
@@ -222,6 +222,14 @@
                             <commitIdGenerationMode>full</commitIdGenerationMode>
                         </configuration>
                     </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>oss-release</id>
+            <build>
+                <plugins>
+
 
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>

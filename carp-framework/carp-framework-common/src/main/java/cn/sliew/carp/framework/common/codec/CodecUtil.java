@@ -32,8 +32,16 @@ public enum CodecUtil {
         return encoder.encodeToString(text.getBytes(StandardCharsets.UTF_8));
     }
 
+    public static byte[] encodeToBase64(byte[] bytes) {
+        return encoder.encode(bytes);
+    }
+
     public static String decodeFromBase64(String text) {
         return new String(decoder.decode(text), StandardCharsets.UTF_8);
+    }
+
+    public static byte[] decodeFromBase64(byte[] bytes) {
+        return decoder.decode(bytes);
     }
 
     public static String encrypt(String str) {
