@@ -42,6 +42,7 @@ framework 提供常见功能模块以满足快速开发需求
   * [carp-framework-common](./carp-framework/carp-framework-common)。通用模块、工具类
   * [carp-framework-biz](./carp-framework/carp-framework-biz)。jackson、mapstruct、mybatis、validation、fastexcel 等常用框架扩展
   * [carp-framework-spring](./carp-framework/carp-framework-spring)
+  * [carp-framework-template](./carp-framework/carp-framework-template)。模板引擎
 * 存储
   * [carp-framework-mongo](./carp-framework/carp-framework-mongo)
   * [carp-framework-mybatis](./carp-framework/carp-framework-mybatis)

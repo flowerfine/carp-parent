@@ -84,6 +84,7 @@
         <jedis.version>5.2.0</jedis.version>
         <temporal.version>1.25.2</temporal.version>
         <hibernate.validator.version>8.0.1.Final</hibernate.validator.version>
+        <jinjava.version>2.8.0</jinjava.version>
     </properties>
 
     <dependencyManagement>
@@ -264,6 +265,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>carp-framework-task</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>carp-framework-template-jinja</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -700,6 +706,12 @@
                 <groupId>org.hibernate.validator</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate.validator.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.hubspot.jinjava</groupId>
+                <artifactId>jinjava</artifactId>
+                <version>${jinjava.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
