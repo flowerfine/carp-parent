@@ -17,7 +17,23 @@
  */
 package cn.sliew.carp.framework.kubernetes.resources;
 
-public interface KubernetesResourceCollection<T> {
+import io.fabric8.kubernetes.api.model.Pod;
+import io.fabric8.kubernetes.client.KubernetesClient;
 
-    Iterable<T> listResources();
+import java.util.List;
+import java.util.Map;
+
+public class PodResourceList extends AbstractKubernetesResourceList<Pod> {
+
+    public PodResourceList(KubernetesClient client, String namespace, Map<String, String> labels) {
+        super(client, namespace, labels);
+    }
+
+    @Override
+    public List<Pod> listResources() {
+        return client.pods()
+                .inNamespace(namespace)
+                .withLabels(labels)
+                .list().getItems();
+    }
 }
