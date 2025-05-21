@@ -30,9 +30,9 @@ import java.util.function.UnaryOperator;
 
 public class GenericKubernetesResourceKubernetesResource implements KubernetesResource<GenericKubernetesResource> {
 
-    private final KubernetesClient client;
-    private final GenericKubernetesResource origin;
-    private final VersionGroupKind versionAndGroup;
+    protected final KubernetesClient client;
+    protected final GenericKubernetesResource origin;
+    protected final VersionGroupKind versionAndGroup;
 
     public GenericKubernetesResourceKubernetesResource(KubernetesClient client, GenericKubernetesResource origin) {
         this.client = client;

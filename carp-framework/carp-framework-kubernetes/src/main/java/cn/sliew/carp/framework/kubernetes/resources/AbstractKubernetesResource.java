@@ -27,8 +27,8 @@ import java.util.function.UnaryOperator;
 @RequiredArgsConstructor
 public class AbstractKubernetesResource<T extends HasMetadata> implements KubernetesResource<T> {
 
-    private final KubernetesClient client;
-    private final T origin;
+    protected final KubernetesClient client;
+    protected final T origin;
 
     @Override
     public T getOrigin() {

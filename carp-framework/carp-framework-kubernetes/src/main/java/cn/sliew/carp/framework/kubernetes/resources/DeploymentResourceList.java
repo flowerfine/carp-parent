@@ -19,24 +19,27 @@ package cn.sliew.carp.framework.kubernetes.resources;
 
 import io.fabric8.kubernetes.api.model.apps.Deployment;
 import io.fabric8.kubernetes.client.KubernetesClient;
-import org.apache.commons.collections4.MapUtils;
 
-import java.util.Map;
+import java.util.List;
 
-import static com.google.common.base.Preconditions.checkState;
+public class DeploymentResourceList implements KubernetesResourceList<Deployment> {
 
-public class DeploymentResource extends AbstractKubernetesResource<Deployment> implements KubernetesResourceWithChild<Deployment, PodResourceList> {
+    private final KubernetesClient client;
+    private final String namespace;
+    private final String name;
 
-    private final Map<String, String> podLabels;
-
-    public DeploymentResource(KubernetesClient client, Deployment origin, Map<String, String> podLabels) {
-        super(client, origin);
-        this.podLabels = podLabels;
+    public DeploymentResourceList(KubernetesClient client, String namespace, String name) {
+        this.client = client;
+        this.namespace = namespace;
+        this.name = name;
     }
 
     @Override
-    public PodResourceList getChild() {
-        checkState(MapUtils.isNotEmpty(podLabels), "podLabels must not be empty");
-        return new PodResourceList(client, origin.getMetadata().getName(), podLabels);
+    public List<Deployment> listResources() {
+        return List.of(client.apps()
+                .deployments()
+                .inNamespace(namespace)
+                .withName(name)
+                .get());
     }
 }
