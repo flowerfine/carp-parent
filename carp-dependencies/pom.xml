@@ -61,7 +61,7 @@
         <pekko-persistence.version>1.1.0</pekko-persistence.version>
         <ttl.version>2.14.5</ttl.version>
         <minio.version>8.3.8</minio.version>
-        <kubernetes-client.version>6.9.2</kubernetes-client.version>
+        <kubernetes-client.version>6.13.5</kubernetes-client.version>
         <redisson.version>3.27.2</redisson.version>
         <cola.version>5.0.0</cola.version>
         <jgrapht.version>1.5.2</jgrapht.version>
@@ -480,6 +480,19 @@
                 <groupId>org.apache.hadoop</groupId>
                 <artifactId>hadoop-aws</artifactId>
                 <version>${hadoop.version}</version>
+                <!-- 3.4.1 依赖的 awssdk 内包含了一些三方依赖的代码，直接打进去了，升级版本以移除-->
+                <!-- 后续升级 hadoop，检验 awssdk 后可移除-->
+                <exclusions>
+                    <exclusion>
+                        <groupId>software.amazon.awssdk</groupId>
+                        <artifactId>bundle</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bundle</artifactId>
+                <version>2.25.70</version>
             </dependency>
 
             <dependency>
