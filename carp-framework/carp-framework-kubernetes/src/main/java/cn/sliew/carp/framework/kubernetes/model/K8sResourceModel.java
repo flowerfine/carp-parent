@@ -18,21 +18,16 @@
 package cn.sliew.carp.framework.kubernetes.model;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.Builder;
 import lombok.Data;
-import lombok.experimental.SuperBuilder;
 
 @Data
-@SuperBuilder(toBuilder = true)
 @JsonPropertyOrder({"kind", "apiVersion", "metadata", "spec", "status"})
 public abstract class K8sResourceModel<SPEC, STATUS> {
 
     private final String kind;
     private final String apiVersion;
     private final K8sMetadataModel metadata;
-    @Builder.Default
     private final SPEC spec = initSpec();
-    @Builder.Default
     private final STATUS status = initStatus();
 
     public abstract SPEC initSpec();
