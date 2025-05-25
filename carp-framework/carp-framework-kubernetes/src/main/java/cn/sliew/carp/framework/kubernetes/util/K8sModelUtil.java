@@ -19,6 +19,7 @@ package cn.sliew.carp.framework.kubernetes.util;
 
 import cn.sliew.carp.framework.kubernetes.model.K8sResourceList;
 import cn.sliew.carp.framework.kubernetes.model.K8sResourceModel;
+import cn.sliew.carp.framework.kubernetes.model.K8sResourcePage;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import jakarta.annotation.Nonnull;
 import org.apache.commons.collections4.CollectionUtils;
@@ -29,13 +30,8 @@ import java.util.function.Function;
 public enum K8sModelUtil {
     ;
 
-    public <S, T extends K8sResourceModel> K8sResourceList<T> wrap(@Nonnull IPage<S> page, @Nonnull Function<List<S>, List<T>> mapper, @Nonnull Class<T> modelClass) {
-        K8sResourceList.K8sResourceListMetadata metadata = K8sResourceList.K8sResourceListMetadata.builder()
-                .current(page.getCurrent())
-                .size(page.getSize())
-                .total(page.getTotal())
-                .build();
-        List<T> items = mapper.apply(page.getRecords());
+    public <S, T extends K8sResourceModel> K8sResourceList<T> wrapList(@Nonnull List<S> records, @Nonnull Function<List<S>, List<T>> mapper, @Nonnull Class<T> modelClass) {
+        List<T> items = mapper.apply(records);
         String kind = String.format("%sList", modelClass.getSimpleName());
         // fixme unknown is not good
         String apiVersion = "unknown";
@@ -47,8 +43,27 @@ public enum K8sModelUtil {
         return K8sResourceList.<T>builder()
                 .kind(kind)
                 .apiVersion(apiVersion)
-                .metadata(metadata)
                 .items(items)
+                .build();
+    }
+
+    public <S, T extends K8sResourceModel> K8sResourcePage<T> wrapPage(@Nonnull IPage<S> page, @Nonnull Function<List<S>, List<T>> mapper, @Nonnull Class<T> modelClass) {
+        List<T> items = mapper.apply(page.getRecords());
+        String kind = String.format("%sList", modelClass.getSimpleName());
+        // fixme unknown is not good
+        String apiVersion = "unknown";
+        if (CollectionUtils.isNotEmpty(items)) {
+            T item = items.get(0);
+            kind = String.format("%sList", item.getKind());
+            apiVersion = item.getApiVersion();
+        }
+        return K8sResourcePage.<T>builder()
+                .kind(kind)
+                .apiVersion(apiVersion)
+                .items(items)
+                .current(page.getCurrent())
+                .size(page.getSize())
+                .total(page.getTotal())
                 .build();
     }
 }

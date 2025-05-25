@@ -17,20 +17,16 @@
  */
 package cn.sliew.carp.framework.kubernetes.model;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 
-import java.util.List;
-
 @Data
 @SuperBuilder(toBuilder = true)
 @Jacksonized
-@JsonPropertyOrder({"kind", "apiVersion", "items"})
-public class K8sResourceList<T> {
+public class K8sResourcePage<T> extends K8sResourceList<T> {
 
-    private final String kind;
-    private final String apiVersion;
-    private final List<T> items;
+    private final Long current;
+    private final Long size;
+    private final Long total;
 }
