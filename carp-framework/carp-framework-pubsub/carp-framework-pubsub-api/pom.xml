@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-pubsub-api</artifactId>
+    <name>carp framework pubsub api</name>
 
     <dependencies>
         <dependency>

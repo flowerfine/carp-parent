@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-lock-shedlock</artifactId>
+    <name>carp framework lock shedlock</name>
 
     <dependencies>
         <dependency>

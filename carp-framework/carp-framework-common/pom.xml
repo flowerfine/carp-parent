@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-common</artifactId>
+    <name>carp framework common</name>
 
     <dependencies>
         <dependency>

@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-lock-redis</artifactId>
+    <name>carp framework lock redis</name>
 
     <dependencies>
         <dependency>

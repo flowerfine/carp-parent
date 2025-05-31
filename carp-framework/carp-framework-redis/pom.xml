@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-redis</artifactId>
+    <name>carp framework redis</name>
 
     <dependencies>
         <dependency>

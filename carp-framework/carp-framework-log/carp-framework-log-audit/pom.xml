@@ -27,5 +27,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-log-audit</artifactId>
+    <name>carp framework log audit</name>
 
 </project>

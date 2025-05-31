@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-socketio</artifactId>
+    <name>carp framework socketio</name>
 
     <dependencies>
         <dependency>

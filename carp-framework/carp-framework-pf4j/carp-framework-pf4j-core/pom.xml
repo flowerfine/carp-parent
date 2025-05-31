@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-pf4j-core</artifactId>
+    <name>carp framework pf4j core</name>
 
     <dependencies>
         <dependency>

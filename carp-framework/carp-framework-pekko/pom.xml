@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-pekko</artifactId>
+    <name>carp framework pekko</name>
 
     <dependencies>
         <dependency>

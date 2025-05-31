@@ -170,3 +170,6 @@ getNamespace().getBroadcastOperations()
         .sendEvent(name, client -> !sessionIds.contains(client.getSessionId()), data);
 ```
 
+## TODO
+
+增加心跳机制，维护连接数量，及时关闭连接

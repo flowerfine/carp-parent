@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-exception</artifactId>
+    <name>carp framework exception</name>
 
     <dependencies>
         <dependency>

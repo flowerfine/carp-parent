@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-log-realtime</artifactId>
+    <name>carp framework log realtime</name>
 
     <dependencies>
         <dependency>

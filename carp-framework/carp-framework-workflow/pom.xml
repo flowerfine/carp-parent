@@ -27,7 +27,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-workflow</artifactId>
+    <name>carp framework workflow</name>
     <packaging>pom</packaging>
+
     <modules>
         <module>carp-framework-workflow-temporal</module>
     </modules>

@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-log-web</artifactId>
+    <name>carp framework log web</name>
 
     <dependencies>
         <dependency>

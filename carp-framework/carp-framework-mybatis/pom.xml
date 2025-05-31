@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-mybatis</artifactId>
+    <name>carp framework mybatis</name>
 
     <dependencies>
         <dependency>

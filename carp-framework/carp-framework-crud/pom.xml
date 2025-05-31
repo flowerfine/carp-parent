@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-crud</artifactId>
+    <name>carp framework crud</name>
 
     <dependencies>
         <dependency>

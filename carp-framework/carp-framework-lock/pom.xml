@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-lock</artifactId>
+    <name>carp framework lock</name>
     <packaging>pom</packaging>
 
     <modules>

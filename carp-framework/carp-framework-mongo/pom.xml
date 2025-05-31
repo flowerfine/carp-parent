@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-mongo</artifactId>
+    <name>carp framework mongo</name>
 
     <dependencies>
         <dependency>

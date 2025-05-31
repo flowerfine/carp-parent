@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-queue-kekio</artifactId>
+    <name>carp framework queue kekio</name>
 
     <dependencies>
         <dependency>

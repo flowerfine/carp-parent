@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-log</artifactId>
+    <name>carp framework log</name>
     <packaging>pom</packaging>
 
     <modules>

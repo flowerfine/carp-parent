@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-spring-boot-parent</artifactId>
+    <name>carp spring boot parent</name>
     <packaging>pom</packaging>
 
     <dependencyManagement>

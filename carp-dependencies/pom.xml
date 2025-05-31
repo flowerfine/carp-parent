@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-dependencies</artifactId>
+    <name>carp dependencies</name>
     <packaging>pom</packaging>
 
     <properties>

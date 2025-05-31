@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-feign</artifactId>
+    <name>carp framework feign</name>
 
     <dependencies>
         <dependency>

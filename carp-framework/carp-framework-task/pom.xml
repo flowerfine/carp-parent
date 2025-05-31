@@ -27,6 +27,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>carp-framework-task</artifactId>
+    <name>carp framework task</name>
 
     <dependencies>
         <dependency>
