@@ -30,8 +30,8 @@
     <packaging>pom</packaging>
 
     <properties>
-        <spring.cloud.version>2023.0.5</spring.cloud.version>
-        <spring.boot.version>3.3.9</spring.boot.version>
+        <spring.cloud.version>2024.0.1</spring.cloud.version>
+        <spring.boot.version>3.4.5</spring.boot.version>
         <mapstruct-extensions-spring.version>0.1.1</mapstruct-extensions-spring.version>
         <hutool.version>5.8.38</hutool.version>
         <commons.lang3.version>3.14.0</commons.lang3.version>
