@@ -417,7 +417,7 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.gravitino</groupId>
-                <artifactId>client-java-runtime</artifactId>
+                <artifactId>gravitino-client-java-runtime</artifactId>
                 <version>${gravitino.version}</version>
             </dependency>
 
