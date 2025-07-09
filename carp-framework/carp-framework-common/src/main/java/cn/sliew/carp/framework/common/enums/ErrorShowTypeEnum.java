@@ -29,7 +29,7 @@ public enum ErrorShowTypeEnum {
 
     WARN_MESSAGE(1,"WARN_MESSAGE"),
     ERROR_MESSAGE(2, "ERROR_MESSAGE"),
-    NOTIFICATION(4, "NOTIFICATION"),
+    NOTIFICATION(3, "NOTIFICATION"),
     REDIRECT(9, "REDIRECT");
 
     private Integer code;
