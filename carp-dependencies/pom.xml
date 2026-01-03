@@ -79,7 +79,7 @@
         <javapoet.version>0.5.0</javapoet.version>
         <cosid.version>2.10.2</cosid.version>
         <uuid-creator.version>6.0.0</uuid-creator.version>
-        <serverlessworkflow.version>7.0.0.Final</serverlessworkflow.version>
+        <serverlessworkflow.version>7.6.0.Final</serverlessworkflow.version>
         <shedlock.version>6.3.0</shedlock.version>
         <socketio.version>2.0.13</socketio.version>
         <jedis.version>5.2.0</jedis.version>
@@ -690,6 +690,11 @@
             <dependency>
                 <groupId>io.serverlessworkflow</groupId>
                 <artifactId>serverlessworkflow-impl-http</artifactId>
+                <version>${serverlessworkflow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.serverlessworkflow</groupId>
+                <artifactId>serverlessworkflow-impl-jackson</artifactId>
                 <version>${serverlessworkflow.version}</version>
             </dependency>
 
