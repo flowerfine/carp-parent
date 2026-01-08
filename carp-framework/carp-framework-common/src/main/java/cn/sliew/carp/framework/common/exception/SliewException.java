@@ -24,7 +24,7 @@ public class SliewException extends RuntimeException implements HasAdditionalAtt
 
     @Setter
     @Getter
-    private Boolean retryable;
+    private Boolean retryable = false;
     @Getter
     private String code;
 
